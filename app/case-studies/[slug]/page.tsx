@@ -104,7 +104,7 @@ export default function CaseStudyPage({ params }: Props) {
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               {study.title}
             </h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
+            <p className="text-xl text-white/90 leading-relaxed">
               {study.description}
             </p>
           </div>
@@ -203,10 +203,10 @@ export default function CaseStudyPage({ params }: Props) {
               <div className="font-semibold text-xl mb-1">
                 {study.testimonial.author}
               </div>
-              <div className="text-blue-100">
+              <div className="text-white/90">
                 {study.testimonial.position}
               </div>
-              <div className="text-blue-100">
+              <div className="text-white/90">
                 {study.client}
               </div>
             </div>

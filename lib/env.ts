@@ -29,6 +29,9 @@ if (!env.success) {
 
 export const validatedEnv = env.data
 
+export const getNodeEnvironment = () => process.env.NODE_ENV || validatedEnv.NODE_ENV
+
 // Helper to check if we're in production
-export const isProduction = validatedEnv.NODE_ENV === 'production'
-export const isDevelopment = validatedEnv.NODE_ENV === 'development'
+export const isProduction = () => getNodeEnvironment() === 'production'
+export const isDevelopment = () => getNodeEnvironment() === 'development'
+export const isTest = () => getNodeEnvironment() === 'test'
