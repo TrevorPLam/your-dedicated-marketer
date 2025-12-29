@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
 import Container from '@/components/ui/Container'
 
@@ -13,7 +14,7 @@ export default function Hero() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-charcoal mb-6 leading-tight">
               Growth-Focused Marketing for Small Businesses
             </h1>
-            <p className="text-lg md:text-xl text-slate mb-8 leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-800 mb-8 leading-relaxed">
               Strategic marketing services that drive real results - without the agency overhead
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -32,11 +33,15 @@ export default function Hero() {
 
           {/* Right Column - Hero Image/Illustration */}
           <div className="hidden lg:block">
-            <div className="bg-gradient-to-br from-teal/20 to-teal/5 rounded-2xl p-12 aspect-square flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-6xl mb-4">📈</div>
-                <p className="text-slate font-medium">Professional marketing illustration</p>
-              </div>
+            <div className="bg-gradient-to-br from-charcoal to-teal/20 rounded-2xl p-4 aspect-square flex items-center justify-center shadow-lg">
+              <Image
+                src="/images/hero-growth.svg"
+                alt="Stylized bar chart climbing upward to represent marketing growth"
+                width={640}
+                height={640}
+                priority
+                className="h-full w-full object-contain"
+              />
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ export default function BlogPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Marketing Insights & Strategies
             </h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
+            <p className="text-xl text-white/90 leading-relaxed">
               Expert advice, industry trends, and actionable strategies to help your business thrive online.
             </p>
           </div>

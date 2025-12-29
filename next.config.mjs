@@ -3,6 +3,16 @@ import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypePrettyCode from 'rehype-pretty-code'
 import withPWA from 'next-pwa'
+  let withBundleAnalyzer = (config) => config
+  if (process.env.ANALYZE === 'true') {
+    try {
+      // @ts-ignore optional dependency for bundle analysis
+      const bundleAnalyzer = (await import('@next/bundle-analyzer')).default
+      withBundleAnalyzer = bundleAnalyzer({ enabled: true })
+    } catch (error) {
+      console.warn('Bundle analyzer unavailable, skipping analysis', error)
+    }
+}
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -11,6 +21,11 @@ const nextConfig = {
   images: {
     formats: ['image/webp'],
     remotePatterns: [],
+  },
+  productionBrowserSourceMaps: true,
+  sentry: {
+    hideSourceMaps: false,
+    disableLogger: true,
   },
 }
 
@@ -119,4 +134,4 @@ const pwaConfig = withPWA({
   ],
 })
 
-export default pwaConfig(withMDX(nextConfig))
+export default withBundleAnalyzer(pwaConfig(withMDX(nextConfig)))

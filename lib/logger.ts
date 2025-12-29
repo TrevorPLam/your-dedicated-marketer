@@ -3,7 +3,7 @@
  * Integrates with Sentry for production error tracking and monitoring
  */
 
-import { isDevelopment } from './env'
+import { isDevelopment, isTest } from './env'
 
 type LogLevel = 'info' | 'warn' | 'error'
 
@@ -29,7 +29,7 @@ if (typeof window !== 'undefined') {
  * In production, sends to Sentry
  */
 export function logInfo(message: string, context?: LogContext) {
-  if (isDevelopment) {
+  if (isDevelopment() || isTest()) {
     console.info('[INFO]', message, context || '')
   } else if (Sentry && process.env.NEXT_PUBLIC_SENTRY_DSN) {
     Sentry.captureMessage(message, { level: 'info', extra: context })
@@ -41,7 +41,7 @@ export function logInfo(message: string, context?: LogContext) {
  * In production, sends to Sentry
  */
 export function logWarn(message: string, context?: LogContext) {
-  if (isDevelopment) {
+  if (isDevelopment() || isTest()) {
     console.warn('[WARN]', message, context || '')
   } else if (Sentry && process.env.NEXT_PUBLIC_SENTRY_DSN) {
     Sentry.captureMessage(message, { level: 'warning', extra: context })
@@ -53,7 +53,7 @@ export function logWarn(message: string, context?: LogContext) {
  * In production, sends to Sentry with full error details
  */
 export function logError(message: string, error?: Error | unknown, context?: LogContext) {
-  if (isDevelopment) {
+  if (isDevelopment() || isTest()) {
     console.error('[ERROR]', message, error, context || '')
   } else if (Sentry && process.env.NEXT_PUBLIC_SENTRY_DSN) {
     if (error instanceof Error) {

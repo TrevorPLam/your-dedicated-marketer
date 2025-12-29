@@ -7,7 +7,9 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: ['./vitest.setup.ts'],
+    setupFiles: ['./vitest.setup.tsx'],
+    include: ['__tests__/**/*.test.{ts,tsx}'],
+    exclude: ['node_modules/**', '**/tests/e2e/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -15,7 +17,7 @@ export default defineConfig({
         'node_modules/',
         '.next/',
         'vitest.config.ts',
-        'vitest.setup.ts',
+        'vitest.setup.tsx',
         '**/*.d.ts',
         '**/*.config.*',
         '**/mockData/*',

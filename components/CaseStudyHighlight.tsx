@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Link from 'next/link'
 import { TrendingUp, Users, DollarSign } from 'lucide-react'
 import Container from '@/components/ui/Container'
@@ -23,7 +23,7 @@ const metrics = [
   },
 ]
 
-export default function CaseStudyHighlight() {
+function CaseStudyHighlight() {
   return (
     <Section className="bg-gradient-to-br from-teal/10 to-teal/5">
       <Container>
@@ -69,3 +69,5 @@ export default function CaseStudyHighlight() {
     </Section>
   )
 }
+
+export default memo(CaseStudyHighlight)

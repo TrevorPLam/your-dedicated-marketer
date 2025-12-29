@@ -17,7 +17,8 @@
   }
 
   body {
-    @apply bg-off-white text-slate;
+    @apply bg-off-white text-charcoal;
+    font-family: var(--font-inter), var(--font-plex), 'Inter', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 
