@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
 import Card from '@/components/ui/Card'
@@ -30,7 +30,7 @@ const metrics = [
   { value: '95%', label: 'Client Retention' },
 ]
 
-export default function SocialProof() {
+function SocialProof() {
   return (
     <Section className="bg-white">
       <Container>
@@ -69,3 +69,5 @@ export default function SocialProof() {
     </Section>
   )
 }
+
+export default memo(SocialProof)

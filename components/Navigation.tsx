@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import Button from '@/components/ui/Button'
@@ -17,11 +17,22 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
+    setIsMobileMenuOpen((prev) => !prev)
   }
 
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
   return (
-    <nav className="bg-charcoal shadow-sm sticky top-0 z-50">
+    <nav className="bg-charcoal shadow-sm sticky top-0 z-50" role="navigation" aria-label="Primary">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -35,7 +46,7 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-white/80 hover:text-white font-medium transition-colors"
+                className="text-white hover:text-white font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 {link.label}
               </Link>
@@ -50,8 +61,10 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMobileMenu}
-            className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             aria-label="Toggle mobile menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -60,14 +73,20 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-charcoal border-t border-white/10">
+        <div
+          id="mobile-menu"
+          className="md:hidden bg-charcoal border-t border-white/10"
+          role="menu"
+          aria-label="Mobile navigation"
+        >
           <div className="px-6 py-4 space-y-4">
             {navLinks.map(link => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-white/80 hover:text-white font-medium py-2 transition-colors"
+                className="block text-white hover:text-white font-semibold py-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 onClick={() => setIsMobileMenuOpen(false)}
+                role="menuitem"
               >
                 {link.label}
               </Link>

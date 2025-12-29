@@ -17,7 +17,7 @@ interface AnalyticsEvent {
  * Supports Google Analytics, Plausible, or custom analytics
  */
 export function trackEvent({ action, category, label, value }: AnalyticsEvent) {
-  if (isDevelopment) {
+  if (isDevelopment()) {
     console.log('[Analytics]', { action, category, label, value })
     return
   }
@@ -51,7 +51,7 @@ export function trackEvent({ action, category, label, value }: AnalyticsEvent) {
  * Track page view
  */
 export function trackPageView(url: string) {
-  if (isDevelopment) {
+  if (isDevelopment()) {
     console.log('[Analytics] Page view:', url)
     return
   }
@@ -73,11 +73,12 @@ export function trackPageView(url: string) {
 /**
  * Track form submission
  */
-export function trackFormSubmission(formName: string, success: boolean) {
+export function trackFormSubmission(formName: string, success = true) {
   trackEvent({
-    action: success ? 'form_submit_success' : 'form_submit_error',
-    category: 'engagement',
+    action: 'form_submission',
+    category: 'form',
     label: formName,
+    value: success ? undefined : 0,
   })
 }
 
@@ -88,7 +89,7 @@ export function trackButtonClick(buttonName: string, location: string) {
   trackEvent({
     action: 'button_click',
     category: 'engagement',
-    label: `${location}: ${buttonName}`,
+    label: buttonName,
   })
 }
 
@@ -98,8 +99,8 @@ export function trackButtonClick(buttonName: string, location: string) {
 export function trackCTAClick(ctaText: string, destination: string) {
   trackEvent({
     action: 'cta_click',
-    category: 'conversion',
-    label: `${ctaText} -> ${destination}`,
+    category: 'engagement',
+    label: ctaText,
   })
 }
 
@@ -109,7 +110,7 @@ export function trackCTAClick(ctaText: string, destination: string) {
 export function trackOutboundLink(url: string) {
   trackEvent({
     action: 'outbound_link',
-    category: 'engagement',
+    category: 'navigation',
     label: url,
   })
 }

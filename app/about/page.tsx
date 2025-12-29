@@ -17,7 +17,7 @@ export default function AboutPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Your Partner in Digital Marketing Success
             </h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
+            <p className="text-xl text-white/90 leading-relaxed">
               We're not just another marketing agency. We're your dedicated team, committed to understanding your business and driving real, measurable growth.
             </p>
           </div>
@@ -229,19 +229,19 @@ export default function AboutPage() {
             <div className="grid md:grid-cols-4 gap-8 text-center">
               <div>
                 <div className="text-4xl md:text-5xl font-bold mb-2">500+</div>
-                <div className="text-blue-100">Clients Served</div>
+                <div className="text-white/90">Clients Served</div>
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-bold mb-2">250%</div>
-                <div className="text-blue-100">Avg. ROI Increase</div>
+                <div className="text-white/90">Avg. ROI Increase</div>
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-bold mb-2">10M+</div>
-                <div className="text-blue-100">Leads Generated</div>
+                <div className="text-white/90">Leads Generated</div>
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-bold mb-2">98%</div>
-                <div className="text-blue-100">Client Retention</div>
+                <div className="text-white/90">Client Retention</div>
               </div>
             </div>
           </div>
