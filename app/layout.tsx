@@ -3,6 +3,7 @@ import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import SkipToContent from '@/components/SkipToContent'
+import InstallPrompt from '@/components/InstallPrompt'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://yourdedicatedmarketer.com'),
@@ -113,6 +114,7 @@ export default function RootLayout({
         <Navigation />
         <main id="main-content">{children}</main>
         <Footer />
+        <InstallPrompt />
       </body>
     </html>
   )
