@@ -1,9 +1,21 @@
 import type { Metadata } from 'next'
+import { IBM_Plex_Sans, Inter } from 'next/font/google'
+import dynamic from 'next/dynamic'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import SkipToContent from '@/components/SkipToContent'
 import InstallPrompt from '@/components/InstallPrompt'
+
+const Providers = dynamic(() => import('@/app/providers'), { ssr: false })
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+const plexSans = IBM_Plex_Sans({
+  subsets: ['latin'],
+  variable: '--font-plex',
+  display: 'swap',
+  weight: ['400', '600', '700'],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://yourdedicatedmarketer.com'),
@@ -55,6 +67,34 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://yourdedicatedmarketer.com',
+    siteName: 'Your Dedicated Marketer',
+    title: 'Your Dedicated Marketer | Digital Marketing Services That Drive Results',
+    description:
+      'Expert digital marketing services for businesses that want to grow. We specialize in SEO, content marketing, social media, and email marketing that delivers real ROI.',
+    images: [
+      {
+        url: '/api/og?title=Your%20Dedicated%20Marketer',
+        width: 1200,
+        height: 630,
+        alt: 'Your Dedicated Marketer brand preview image',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Your Dedicated Marketer | Digital Marketing Services That Drive Results',
+    description:
+      'Expert digital marketing services for businesses that want to grow. SEO, content, social media, and email marketing that delivers ROI.',
+    images: ['/api/og?title=Your%20Dedicated%20Marketer'],
+    creator: '@yourdedicatedmarketer',
+  },
 }
 
 export default function RootLayout({
@@ -63,7 +103,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${plexSans.variable}`}>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0ea5e9" />
@@ -108,11 +148,31 @@ export default function RootLayout({
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Your Dedicated Marketer',
+              url: 'https://yourdedicatedmarketer.com',
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: 'https://yourdedicatedmarketer.com/search?q={search_term_string}',
+                'query-input': 'required name=search_term_string',
+              },
+            }),
+          }}
+        />
       </head>
-      <body className="font-sans">
+      <body className="font-sans bg-off-white text-charcoal">
         <SkipToContent />
         <Navigation />
-        <main id="main-content">{children}</main>
+        <Providers>
+          <main id="main-content" tabIndex={-1} className="focus-visible:outline-none">
+            {children}
+          </main>
+        </Providers>
         <Footer />
         <InstallPrompt />
       </body>

@@ -8,6 +8,8 @@ afterEach(() => {
 })
 
 // Mock Next.js router
+const usePathnameMock = vi.fn(() => '/')
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
@@ -15,9 +17,11 @@ vi.mock('next/navigation', () => ({
     prefetch: vi.fn(),
     back: vi.fn(),
   }),
-  usePathname: () => '/',
+  usePathname: usePathnameMock,
   useSearchParams: () => new URLSearchParams(),
 }))
+
+export { usePathnameMock }
 
 // Mock Next.js Image
 vi.mock('next/image', () => ({

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { cn } from '@/lib/utils'
 import { CheckCircle2 } from 'lucide-react'
 
@@ -9,11 +9,14 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, isValid, type = 'text', ...props }, ref) => {
+  ({ className, label, error, isValid, type = 'text', id, ...props }, ref) => {
+    const generatedId = useId()
+    const inputId = id || props.name || generatedId
+
     return (
       <div className="mb-4">
         {label && (
-          <label className="block text-slate font-semibold mb-2">
+          <label className="block text-slate font-semibold mb-2" htmlFor={inputId}>
             {label}
             {props.required && <span className="text-error ml-1">*</span>}
           </label>
@@ -22,6 +25,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             type={type}
+            id={inputId}
             className={cn(
               'w-full px-4 py-3 rounded-lg border bg-off-white text-charcoal transition-all placeholder:text-slate',
               'focus:border-teal focus:ring-2 focus:ring-teal/20 focus:outline-none',

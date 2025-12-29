@@ -4,13 +4,14 @@ import userEvent from '@testing-library/user-event'
 import ContactForm from '@/components/ContactForm'
 import { submitContactForm } from '@/lib/actions'
 
-// Mock the submitContactForm action
-vi.mock('@/lib/actions', () => ({
-  submitContactForm: vi.fn(),
-  contactFormSchema: {
-    parse: vi.fn((data) => data),
-  },
-}))
+// Mock the submitContactForm action while keeping the real schema
+vi.mock('@/lib/actions', async () => {
+  const actual = await vi.importActual<typeof import('@/lib/actions')>('@/lib/actions')
+  return {
+    ...actual,
+    submitContactForm: vi.fn(),
+  }
+})
 
 describe('ContactForm', () => {
   beforeEach(() => {
@@ -20,11 +21,11 @@ describe('ContactForm', () => {
   it('renders all form fields', () => {
     render(<ContactForm />)
 
-    expect(screen.getByLabelText(/name/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/company name/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/phone/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/message/i)).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /name/i })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /company/i })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /phone/i })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /message/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /send message/i })).toBeInTheDocument()
   })
 
@@ -32,12 +33,13 @@ describe('ContactForm', () => {
     const user = userEvent.setup()
     render(<ContactForm />)
 
+    const nameInput = screen.getByRole('textbox', { name: /name/i })
     const submitButton = screen.getByRole('button', { name: /send message/i })
+
+    await user.click(nameInput)
     await user.click(submitButton)
 
-    await waitFor(() => {
-      expect(screen.getByText(/name must be at least 2 characters/i)).toBeInTheDocument()
-    })
+    expect(await screen.findByText(/name must be at least 2 characters/i)).toBeInTheDocument()
   })
 
   it('shows validation error for invalid email', async () => {
@@ -67,7 +69,7 @@ describe('ContactForm', () => {
     await user.type(screen.getByLabelText(/name/i), 'John Smith')
     await user.type(screen.getByLabelText(/email/i), 'john@example.com')
     await user.type(
-      screen.getByLabelText(/message/i),
+      screen.getByRole('textbox', { name: /message/i }),
       'I would like to learn more about your services'
     )
 
@@ -97,7 +99,7 @@ describe('ContactForm', () => {
 
     await user.type(screen.getByLabelText(/name/i), 'John Smith')
     await user.type(screen.getByLabelText(/email/i), 'john@example.com')
-    await user.type(screen.getByLabelText(/message/i), 'Test message with enough characters')
+    await user.type(screen.getByRole('textbox', { name: /message/i }), 'Test message with enough characters')
 
     await user.click(screen.getByRole('button', { name: /send message/i }))
 
@@ -118,7 +120,7 @@ describe('ContactForm', () => {
 
     await user.type(screen.getByLabelText(/name/i), 'John Smith')
     await user.type(screen.getByLabelText(/email/i), 'john@example.com')
-    await user.type(screen.getByLabelText(/message/i), 'Test message with enough characters')
+    await user.type(screen.getByRole('textbox', { name: /message/i }), 'Test message with enough characters')
 
     await user.click(screen.getByRole('button', { name: /send message/i }))
 
@@ -138,7 +140,7 @@ describe('ContactForm', () => {
 
     await user.type(screen.getByLabelText(/name/i), 'John Smith')
     await user.type(screen.getByLabelText(/email/i), 'john@example.com')
-    await user.type(screen.getByLabelText(/message/i), 'Test message with enough characters')
+    await user.type(screen.getByRole('textbox', { name: /message/i }), 'Test message with enough characters')
 
     const submitButton = screen.getByRole('button', { name: /send message/i })
     await user.click(submitButton)
@@ -163,7 +165,7 @@ describe('ContactForm', () => {
 
     const nameInput = screen.getByLabelText(/name/i) as HTMLInputElement
     const emailInput = screen.getByLabelText(/email/i) as HTMLInputElement
-    const messageInput = screen.getByLabelText(/message/i) as HTMLTextAreaElement
+    const messageInput = screen.getByRole('textbox', { name: /message/i }) as HTMLTextAreaElement
 
     await user.type(nameInput, 'John Smith')
     await user.type(emailInput, 'john@example.com')

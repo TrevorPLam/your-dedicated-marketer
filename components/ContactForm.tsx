@@ -9,6 +9,7 @@ import Select from '@/components/ui/Select'
 import Textarea from '@/components/ui/Textarea'
 import Button from '@/components/ui/Button'
 import { Loader2 } from 'lucide-react'
+import { setSentryContext, setSentryUser } from '@/lib/sentry-client'
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -37,6 +38,11 @@ export default function ContactForm() {
       const result = await submitContactForm(data)
 
       if (result.success) {
+        await setSentryUser({ email: data.email, name: data.name })
+        await setSentryContext('contact_form', {
+          marketingSpend: data.marketingSpend,
+          heardFrom: data.hearAboutUs,
+        })
         setSubmitStatus({
           type: 'success',
           message: result.message,
@@ -81,7 +87,7 @@ export default function ContactForm() {
       />
 
       <Input
-        label="Company Name"
+        label="Company"
         type="text"
         placeholder="Your Company"
         error={errors.company?.message}

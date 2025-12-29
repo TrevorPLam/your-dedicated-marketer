@@ -18,7 +18,7 @@ export default function CaseStudiesPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Real Results from Real Clients
             </h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
+            <p className="text-xl text-white/90 leading-relaxed">
               Don't just take our word for it. See how we've helped businesses across industries
               achieve measurable growth through strategic digital marketing.
             </p>

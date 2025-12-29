@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Target, DollarSign, Settings } from 'lucide-react'
 import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
@@ -22,7 +22,7 @@ const valueProps = [
   },
 ]
 
-export default function ValueProps() {
+function ValueProps() {
   return (
     <Section className="bg-white">
       <Container>
@@ -44,3 +44,5 @@ export default function ValueProps() {
     </Section>
   )
 }
+
+export default memo(ValueProps)
