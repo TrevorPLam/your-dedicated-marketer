@@ -118,6 +118,77 @@ Use custom theme extending Tailwind defaults for brand colors and spacing.
 
 ---
 
+## ADR-004: Use Dual MDX Approach for Content
+
+**Status**: Accepted  
+**Date**: 2026-01-03 (Documented)
+
+### Context
+The site needs to process MDX content in two different ways:
+1. Static MDX pages that are part of the app structure (compiled at build time)
+2. Dynamic blog content stored in `/content` directory (processed at runtime)
+
+### Decision
+Use both @next/mdx and next-mdx-remote in parallel for their respective use cases.
+
+### Alternatives Considered
+1. **Only @next/mdx**: Would require all content to be in app directory, limiting content management flexibility
+2. **Only next-mdx-remote**: Would work but less performant for static pages that could be compiled at build time
+3. **Custom MDX processing**: More control but requires significant maintenance overhead
+
+### Consequences
+
+#### Positive
+- Optimal performance: build-time compilation for static pages
+- Content flexibility: runtime processing for dynamic blog posts
+- Best of both worlds: each tool used for its strengths
+- Standard tooling: both are official/well-maintained solutions
+
+#### Negative
+- Two MDX dependencies to maintain
+- Slightly larger bundle size
+- Need to remember which approach to use for different content types
+
+### Implementation Notes
+- @next/mdx configured in next.config.mjs for app-level MDX files
+- next-mdx-remote used in blog/[slug]/page.tsx for dynamic content
+- Both share the same rehype/remark plugins for consistency
+
+---
+
+## ADR-005: Use clsx + tailwind-merge Utility Pattern
+
+**Status**: Accepted  
+**Date**: 2026-01-03 (Documented)
+
+### Context
+Need utility for managing conditional CSS classes and handling Tailwind CSS class conflicts.
+
+### Decision
+Implement `cn()` utility function combining clsx and tailwind-merge.
+
+### Alternatives Considered
+1. **Only clsx**: Handles conditionals but doesn't resolve Tailwind conflicts
+2. **Only tailwind-merge**: Resolves conflicts but less elegant conditional syntax
+3. **Custom implementation**: Reinventing the wheel
+
+### Consequences
+
+#### Positive
+- Clean conditional class syntax from clsx
+- Automatic Tailwind class conflict resolution from tailwind-merge
+- Industry-standard pattern used across many projects
+- Small bundle size for both libraries
+
+#### Negative
+- Two dependencies instead of one
+- Developers need to understand both libraries
+
+### Implementation Notes
+Defined in lib/utils.ts as `cn()` helper function. Used throughout components for className management.
+
+---
+
 ## Template for New ADRs
 
 ```markdown
@@ -156,3 +227,5 @@ Technical details
 | 001 | Use Next.js 14 App Router | Accepted | 2024-12-26 |
 | 002 | Deploy to Cloudflare Pages | Accepted | 2024-12-26 |
 | 003 | Use Tailwind CSS | Accepted | 2024-12-26 |
+| 004 | Use Dual MDX Approach | Accepted | 2026-01-03 |
+| 005 | Use clsx + tailwind-merge Utility | Accepted | 2026-01-03 |
