@@ -41,10 +41,24 @@ Your-Dedicated-Marketer/
 │
 └── docs/                   # Documentation (organized by category)
     ├── architecture/       # Architecture and design docs
+    │   ├── ARCHITECTURE.md
+    │   ├── CONTEXT.md
+    │   ├── CODEBASE-ANALYSIS.md
+    │   ├── COMPONENT-SPECS.md
+    │   └── DESIGN-SYSTEM.md
     ├── product/            # Product and planning docs
+    │   ├── SERVICES.md
+    │   ├── CONTENT-STRATEGY.md
+    │   └── DEVELOPMENT-ROADMAP.md
     ├── ops/                # Operations and deployment docs
+    │   ├── DEPLOYMENT.md
+    │   └── IMPROVEMENTS-SUMMARY.md
     ├── workflows/          # Workflow and process docs
+    │   ├── USERTODO.md
+    │   ├── CONTRIBUTING.md
+    │   └── SETUP.md
     ├── ARCHIVE/            # Deprecated documentation
+    │   └── README-OLD.md
     ├── DOCS_INDEX.md       # Documentation navigation hub
     ├── REPO_MAP.md         # This file
     ├── GAME-PLAN-100.md    # Strategic planning
@@ -71,6 +85,8 @@ Control plane and essential operator docs (see [DOCS_ROOT.md](../DOCS_ROOT.md) f
 
 ### `/docs/architecture/`
 Technical architecture, system design, and component specifications:
+- ARCHITECTURE.md - System architecture overview
+- CONTEXT.md - Development context and constraints
 - CODEBASE-ANALYSIS.md - Technical architecture overview
 - COMPONENT-SPECS.md - Component specifications
 - DESIGN-SYSTEM.md - Design system documentation
@@ -89,6 +105,8 @@ Operations, deployment, and maintenance:
 ### `/docs/workflows/`
 Process documentation and workflow guides:
 - USERTODO.md - User workflow tasks
+- CONTRIBUTING.md - Contribution guidelines
+- SETUP.md - Local development setup
 
 ## 🏗️ Key Technical Directories
 
