@@ -35,6 +35,8 @@ New to the project? Start with these essential documents:
 - [CODEBASE-ANALYSIS.md](./architecture/CODEBASE-ANALYSIS.md) - Technical architecture
 - [COMPONENT-SPECS.md](./architecture/COMPONENT-SPECS.md) - Component specifications
 - [DESIGN-SYSTEM.md](./architecture/DESIGN-SYSTEM.md) - Design system documentation
+- [ARCHITECTURE.md](./architecture/ARCHITECTURE.md) - System architecture overview
+- [CONTEXT.md](./architecture/CONTEXT.md) - Development context and constraints
 
 ### Product & Planning
 - [SERVICES.md](./product/SERVICES.md) - Service definitions
@@ -53,14 +55,19 @@ New to the project? Start with these essential documents:
 
 ### Workflows & Processes
 - [USERTODO.md](./workflows/USERTODO.md) - User workflow tasks
+- [CONTRIBUTING.md](./workflows/CONTRIBUTING.md) - Contribution guidelines
+- [SETUP.md](./workflows/SETUP.md) - Local development setup
 
 ## 👥 By Role
 
 ### For Developers
 - [README.md](../README.md) - Getting started
+- [SETUP.md](./workflows/SETUP.md) - Local development setup
+- [CONTRIBUTING.md](./workflows/CONTRIBUTING.md) - Development workflow
 - [CODEBASE-ANALYSIS.md](./architecture/CODEBASE-ANALYSIS.md) - Code structure
 - [COMPONENT-SPECS.md](./architecture/COMPONENT-SPECS.md) - Component APIs
 - [CODE_AUDIT.md](../CODE_AUDIT.md) - Code quality tools
+- [CONTEXT.md](./architecture/CONTEXT.md) - Project constraints and decisions
 
 ### For Operators / Founders
 - [TODO.md](../TODO.md) - Current priorities
@@ -86,8 +93,10 @@ These are the single source of truth for their respective topics:
 
 ### Architecture
 - **[CODEBASE-ANALYSIS.md](./architecture/CODEBASE-ANALYSIS.md)** - System architecture
+- **[ARCHITECTURE.md](./architecture/ARCHITECTURE.md)** - Architecture overview
 - **[COMPONENT-SPECS.md](./architecture/COMPONENT-SPECS.md)** - Component specifications
 - **[DESIGN-SYSTEM.md](./architecture/DESIGN-SYSTEM.md)** - Design standards
+- **[CONTEXT.md](./architecture/CONTEXT.md)** - Development context
 
 ### Product
 - **[SERVICES.md](./product/SERVICES.md)** - Service catalog
@@ -100,10 +109,13 @@ These are the single source of truth for their respective topics:
 
 ### Workflows
 - **[USERTODO.md](./workflows/USERTODO.md)** - User workflows
+- **[CONTRIBUTING.md](./workflows/CONTRIBUTING.md)** - Contribution guidelines
+- **[SETUP.md](./workflows/SETUP.md)** - Development setup
 
 ## 📦 Archive
 
-No archived documents currently. Deprecated documentation will be moved to `docs/ARCHIVE/`.
+Deprecated documentation is stored in `docs/ARCHIVE/`:
+- [README-OLD.md](./ARCHIVE/README-OLD.md) - Deprecated: Replaced by current README.md
 
 ---
 
