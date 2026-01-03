@@ -19,6 +19,12 @@ export default function Footer() {
     { href: '/contact', label: 'Contact' },
   ]
 
+  const monetization = [
+    { href: '/gift-cards', label: 'Gift Cards' },
+    { href: '/membership', label: 'Membership' },
+    { href: '/rewards', label: 'Rewards' },
+  ]
+
   const legal = [
     { href: '/privacy', label: 'Privacy Policy' },
     { href: '/terms', label: 'Terms of Service' },
@@ -35,7 +41,7 @@ export default function Footer() {
   return (
     <footer className="bg-charcoal text-white/80">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Column */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-4">YD Marketer</h3>
@@ -81,6 +87,23 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Company</h4>
             <ul className="space-y-2">
               {company.map(item => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-white/70 hover:text-white transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Monetization Column */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Programs</h4>
+            <ul className="space-y-2">
+              {monetization.map(item => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
