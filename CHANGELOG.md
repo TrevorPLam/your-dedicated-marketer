@@ -7,12 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2026.01.03] - 2026-01-03
+
 ### Documentation
-- Completed dependency health review (2026-01-03)
-- Added dependency update policy to DEPENDENCY_HEALTH.md.md
+- Completed comprehensive dependency health review
+- Added dependency update policy to DEPENDENCY_HEALTH.md
 - Documented MDX architecture decision (ADR-004)
 - Documented clsx + tailwind-merge utility pattern (ADR-005)
-- Created T-DEP-001 task for next-pwa evaluation
+- Created comprehensive security review framework in SECURITY_REVIEW.md
+- Added 10 security enhancement tasks to TODO.md (T-001 through T-010)
+- Added dependency evaluation task for next-pwa (T-DEP-001)
+- Created TODO_COMPLETED.md to track completed tasks
+- Enhanced CODE_AUDIT.md with audit execution framework
+- Created DOCS_ROOT.md as documentation index
+- Created RELEASE_CHECKLIST.md for safe, repeatable releases
+
+### Quality
+- Established Architecture Decision Records (ADR) system in DECISIONS.md
+- Documented dependency health policies and review process
+- Added security hardening tasks covering PII redaction, logging, rate limiting, and CSRF protection
 
 ## [0.1.0] - 2024-12-26
 
@@ -53,7 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dependencies** - Significant dependency updates
 
 ### Dependency Changes
-Per DEPENDENCY_HEALTH.md.md:
+Per DEPENDENCY_HEALTH.md:
 - Document dependency additions with justification
 - Note dependency removals and what replaced them
 - Record major version upgrades with impact summary
