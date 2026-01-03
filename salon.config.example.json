@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Salon Monetization Configuration",
+  "description": "Configuration file for salon monetization programs (gift cards, rewards, membership)",
+  
+  "platform": "square",
+  
+  "links": {
+    "giftCards": {
+      "purchaseUrl": "https://square.site/book/YOUR_SALON_ID/gift-cards",
+      "displayName": "Buy Gift Card"
+    },
+    "membership": {
+      "purchaseUrl": "https://square.site/book/YOUR_SALON_ID/membership",
+      "displayName": "Join Membership"
+    },
+    "rewards": {
+      "purchaseUrl": null,
+      "trackAtCheckout": true,
+      "displayName": "Rewards Program"
+    }
+  },
+  
+  "utm": {
+    "defaults": {
+      "source": "website",
+      "medium": "referral",
+      "campaign": "monetization"
+    },
+    "overrides": {
+      "giftCards": {
+        "campaign": "gift-cards-2026"
+      },
+      "membership": {
+        "campaign": "membership-signup"
+      }
+    }
+  },
+  
+  "security": {
+    "allowedDomains": [
+      "square.site",
+      "squareup.com",
+      "vagaro.com",
+      "joinblvd.com"
+    ]
+  },
+  
+  "branding": {
+    "giftCardDisplayName": "Gift Cards",
+    "membershipDisplayName": "VIP Membership",
+    "rewardsDisplayName": "Loyalty Rewards"
+  },
+  
+  "metadata": {
+    "salonName": "Your Salon Name",
+    "contactPhone": "(555) 123-4567",
+    "contactEmail": "info@yoursalon.com"
+  },
+  
+  "_comments": {
+    "platform": "Options: 'square', 'vagaro', 'boulevard', 'other'",
+    "purchaseUrl": "Set to null if not available. Platform-hosted checkout URL.",
+    "trackAtCheckout": "For rewards programs typically tracked at POS",
+    "utm": "Default UTM parameters for all links. Can override per-program.",
+    "allowedDomains": "Security: Only these domains allowed for link-outs",
+    "branding": "Optional: Customize display names for your brand"
+  },
+  
+  "_examples": {
+    "square": {
+      "giftCards": "https://square.site/book/ABC123/gift-cards",
+      "membership": "https://square.site/book/ABC123/membership"
+    },
+    "vagaro": {
+      "giftCards": "https://www.vagaro.com/yoursalon/gift-certificates",
+      "membership": "https://www.vagaro.com/yoursalon/memberships"
+    },
+    "boulevard": {
+      "giftCards": "https://www.joinblvd.com/book/yoursalon/gift-cards",
+      "membership": "https://www.joinblvd.com/book/yoursalon/memberships"
+    },
+    "other": {
+      "note": "Provide direct URLs from your platform"
+    }
+  },
+  
+  "_required_fields": [
+    "platform",
+    "links.giftCards",
+    "links.membership",
+    "utm.defaults.source",
+    "utm.defaults.medium",
+    "security.allowedDomains"
+  ],
+  
+  "_setup_instructions": {
+    "1": "Copy this file to your project root or config directory",
+    "2": "Rename to 'salon.config.json' (remove .example)",
+    "3": "Update 'platform' with your salon management system",
+    "4": "Replace 'YOUR_SALON_ID' with your actual salon identifier",
+    "5": "Update all URLs with your platform-specific URLs",
+    "6": "Configure UTM parameters for your analytics",
+    "7": "Add your platform's domains to allowedDomains",
+    "8": "Customize branding display names (optional)",
+    "9": "Add salon metadata (optional but recommended)",
+    "10": "Validate using validateConfiguration() before deployment"
+  }
+}
