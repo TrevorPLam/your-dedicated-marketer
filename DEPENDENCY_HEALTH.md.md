@@ -228,23 +228,112 @@ This prevents future churn and re-arguing.
 
 ## Dependency Health Summary (Append Below Each Review)
 
-## Dependency Health Summary — YYYY-MM-DD
+---
 
-Inventory:
+## Dependency Health Summary — 2026-01-03
 
-* Ecosystem(s):
-* Critical dependencies:
-* Duplicates/overlap suspected:
+### Inventory:
 
-Findings:
+**Ecosystem(s):** JavaScript/TypeScript (npm/pnpm)
 
-* (P1) …
-* (P2) …
+**Total Dependencies:**
+- Production: 22 packages
+- Development: 19 packages
+- Total: 41 packages
 
-Tasks created:
+**Critical Dependencies:**
+- **Framework:** next@^14.2.18, react@^18.3.1, react-dom@^18.3.1
+- **External Services:** @sentry/nextjs@^10.32.1 (error tracking), resend@^6.6.0 (email)
+- **Validation:** zod@^4.2.1, react-hook-form@^7.54.2
+- **Content Processing:** MDX ecosystem (@next/mdx, next-mdx-remote, gray-matter, shiki)
+- **Styling:** tailwindcss@^3.4.17, postcss@^8.4.49
 
-* T-### …
+**Duplicates/Overlap Suspected:**
+- None identified. Both clsx and tailwind-merge work together (not redundant).
+- Both @next/mdx and next-mdx-remote serve different purposes (build-time vs runtime MDX).
 
-## Notes / assumptions:
+### Findings:
+
+**(P2) Outdated PWA Library**
+- **Issue:** next-pwa@^5.6.0 is outdated and no longer actively maintained. Last significant update was in 2022. May have compatibility issues with Next.js 14.
+- **Risk:** Medium - PWA features may break with future Next.js updates
+- **Recommendation:** Evaluate if PWA features are critical. If yes, consider migration to @ducanh2912/next-pwa (maintained fork) or remove if not actively used.
+
+**(P2) Dependency Version Pinning Strategy**
+- **Issue:** All dependencies use caret (^) ranges, which allows automatic minor/patch updates. This is generally safe but can introduce unexpected breaking changes, especially for security-critical dependencies.
+- **Risk:** Low-Medium - Potential for unexpected behavior changes
+- **Recommendation:** Consider exact version pinning for security-critical deps (Sentry, zod, resend, next) as mentioned in TODO.md T-008.
+
+**(P2) Missing Dependency Update Documentation**
+- **Issue:** No documented cadence or process for dependency updates beyond what's already in TODO.md T-008.
+- **Risk:** Low - May lead to dependency drift over time
+- **Recommendation:** Document dependency update policy in this file.
+
+### Positive Findings:
+
+- **Minimal & Well-Justified:** All dependencies serve clear purposes with no obvious redundancies
+- **Well-Maintained:** Critical dependencies (Next.js, React, Sentry, zod) are actively maintained
+- **No Obvious Security Risks:** No abandoned or suspicious packages identified
+- **Clear Architecture:** Dependencies are organized by function (testing, styling, content, forms)
+- **Modern Versions:** Most packages are on recent stable versions
+- **Testing Coverage:** Good testing infrastructure with Vitest and Playwright
+
+### Tasks Created:
+
+**T-DEP-001:** Evaluate and potentially replace next-pwa (documented below in TODO.md)
+**Priority:** P2  
+**Type:** QUALITY  
+
+**T-008:** Review and Update Dependencies (already exists in TODO.md)  
+**Priority:** P2  
+**Type:** QUALITY (SEC)  
+**Status:** Already tracked
+
+### Recommended Actions:
+
+1. **Immediate (P1):** None - no critical issues found
+2. **Short-term (P2):**
+   - Evaluate next-pwa usage and migration path (T-DEP-001)
+   - Continue with existing dependency security review (T-008)
+3. **Long-term:**
+   - Establish quarterly dependency review cadence
+   - Consider setting up automated dependency update tool (Dependabot/Renovate) for security patches
+
+### Dependency Update Policy:
+
+**Patch Updates (x.y.Z):** 
+- Safe to apply periodically (monthly or as-needed)
+- Review changelog for any unexpected behavior changes
+- Test critical flows after update
+
+**Minor Updates (x.Y.0):**
+- Review selectively
+- Group by functional area (e.g., all MDX plugins together)
+- Test thoroughly before production
+
+**Major Updates (X.0.0):**
+- Treat as mini-projects with dedicated time
+- Read migration guides
+- Test all affected features
+- Update CHANGELOG.md if behavior changes
+- Consider creating a separate branch for testing
+
+**Never upgrade just because "it's old"** - Only upgrade with:
+- Clear reason (security fix, needed feature, bug fix)
+- Understanding of changes
+- Validation plan
+- Rollback strategy
+
+### Notes / Assumptions:
+
+- Analysis performed without installing dependencies (based on package.json and code inspection)
+- Repository uses pnpm as package manager (pnpm-lock.yaml present)
+- PWA functionality configured but may not be actively tested/used
+- Both @next/mdx and next-mdx-remote are intentionally used for different purposes:
+  - @next/mdx: Local .mdx files in pages (build-time compilation)
+  - next-mdx-remote: Dynamic blog content from /content directory (runtime)
+- clsx + tailwind-merge combination is intentional (common pattern for className utilities)
+- Testing infrastructure is comprehensive (unit + E2E)
+- All security-critical operations (Sentry, Resend) use official SDKs from trusted vendors
 
 ---

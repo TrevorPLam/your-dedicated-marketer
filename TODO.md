@@ -157,6 +157,35 @@ The contact form uses in-memory rate limiting (3 submissions per hour per email)
 
 ---
 
+### T-DEP-001: Evaluate and Replace next-pwa [P2] [DEP]
+**Type:** QUALITY  
+**Priority:** P2  
+**Category:** DEP (Dependency Health)  
+**Status:** Open
+
+**Description:**  
+The next-pwa@^5.6.0 package is outdated and no longer actively maintained. The last significant update was in 2022, and it may have compatibility issues with Next.js 14. PWA functionality is configured in next.config.mjs but may not be actively tested or used in production.
+
+**Acceptance Criteria:**
+- [ ] Evaluate if PWA features are actively used and needed
+- [ ] If PWA is needed: migrate to @ducanh2912/next-pwa (maintained fork) or alternative
+- [ ] If PWA is not needed: remove next-pwa and related configuration from next.config.mjs
+- [ ] Test PWA functionality if keeping it (service worker registration, offline caching)
+- [ ] Update documentation to reflect PWA status
+- [ ] Document decision in DECISIONS.md
+
+**Files:**
+- `package.json`
+- `next.config.mjs`
+- `DECISIONS.md`
+
+**References:**
+- Identified in Dependency Health Review (2026-01-03)
+- Original next-pwa: https://github.com/shadowwalker/next-pwa (archived)
+- Maintained fork: https://github.com/DuCanh2k/next-pwa
+
+---
+
 ### T-008: Review and Update Dependencies [P2] [SEC]
 **Type:** QUALITY  
 **Priority:** P2  
@@ -169,13 +198,16 @@ Some dependencies are using caret (^) version ranges which could auto-update to 
 **Acceptance Criteria:**
 - [ ] Review security-critical dependencies: zod, @sentry/nextjs, resend, next
 - [ ] Consider exact version pinning (no ^ or ~) for security-critical deps
-- [ ] Document dependency update cadence in DEPENDENCY_HEALTH.md
+- [ ] Document dependency update cadence in DEPENDENCY_HEALTH.md.md (COMPLETED 2026-01-03)
 - [ ] Set up Dependabot or Renovate for automated security updates
 - [ ] Add "npm audit" to CI/CD or pre-deployment checklist
 
 **Files:**
 - `package.json`
-- `DEPENDENCY_HEALTH.md.md`
+- `DEPENDENCY_HEALTH.md.md` (policy now documented)
+
+**Updates:**
+- 2026-01-03: Dependency health review completed. Update policy now documented in DEPENDENCY_HEALTH.md.md
 
 ---
 
