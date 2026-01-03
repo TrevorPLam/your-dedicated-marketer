@@ -47,13 +47,7 @@ const PLATFORM_INFO: Record<PlatformType, Omit<PlatformRegistryEntry, 'adapter'>
  * @returns Platform adapter instance
  */
 export function getPlatformAdapter(platform: PlatformType): PlatformAdapter {
-  const adapter = ADAPTERS[platform];
-  
-  if (!adapter) {
-    throw new Error(`Unknown platform: ${platform}`);
-  }
-  
-  return adapter;
+  return ADAPTERS[platform];
 }
 
 /**
@@ -64,10 +58,6 @@ export function getPlatformAdapter(platform: PlatformType): PlatformAdapter {
 export function getPlatformInfo(platform: PlatformType): PlatformRegistryEntry {
   const info = PLATFORM_INFO[platform];
   const adapter = getPlatformAdapter(platform);
-  
-  if (!info) {
-    throw new Error(`Unknown platform: ${platform}`);
-  }
   
   return {
     adapter,

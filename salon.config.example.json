@@ -29,7 +29,7 @@
     },
     "overrides": {
       "giftCards": {
-        "campaign": "gift-cards-2026"
+        "campaign": "gift-cards-promo"
       },
       "membership": {
         "campaign": "membership-signup"
