@@ -123,15 +123,15 @@ export function buildAttributionUrl(options: AttributionOptions): string {
     throw new Error('Program type is required when using redirect endpoint');
   }
 
-  // Determine base URL for redirect endpoint
+  // Determine site origin for redirect endpoint
   // In server-side contexts, this would typically be constructed from request headers
   // In client-side contexts, use window.location.origin
   // For build-time/SSR, the full URL will be constructed at runtime
-  const baseUrl = typeof window !== 'undefined' 
+  const siteOrigin = typeof window !== 'undefined' 
     ? window.location.origin 
     : process.env.NEXT_PUBLIC_SITE_URL || '';
   
-  const redirectUrl = new URL('/api/redirect', baseUrl || 'http://localhost:3000');
+  const redirectUrl = new URL('/api/redirect', siteOrigin || 'http://localhost:3000');
   
   redirectUrl.searchParams.set('to', encodeURIComponent(urlWithUTM));
   redirectUrl.searchParams.set('program', program);
