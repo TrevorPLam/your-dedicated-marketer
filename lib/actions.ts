@@ -18,11 +18,60 @@ export const contactFormSchema = z.object({
 
 export type ContactFormData = z.infer<typeof contactFormSchema>
 
-// Simple in-memory rate limiting (for demo purposes)
-// In production, use Redis or a proper rate limiting service
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+// Rate limiting configuration
+const RATE_LIMIT_MAX_REQUESTS = 3
+const RATE_LIMIT_WINDOW = '1 h' // 1 hour
 
-function checkRateLimit(email: string): boolean {
+// Distributed rate limiting with Upstash Redis (production)
+// Falls back to in-memory rate limiting if Upstash is not configured
+type RateLimiter = {
+  limit: (identifier: string) => Promise<{ success: boolean }>
+}
+let rateLimiter: RateLimiter | null | false = null
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>() // Fallback
+
+// Initialize rate limiter
+async function getRateLimiter() {
+  if (rateLimiter !== null) {
+    return rateLimiter
+  }
+
+  // Check if Upstash credentials are configured
+  if (validatedEnv.UPSTASH_REDIS_REST_URL && validatedEnv.UPSTASH_REDIS_REST_TOKEN) {
+    try {
+      const { Ratelimit } = await import('@upstash/ratelimit')
+      const { Redis } = await import('@upstash/redis')
+
+      const redis = new Redis({
+        url: validatedEnv.UPSTASH_REDIS_REST_URL,
+        token: validatedEnv.UPSTASH_REDIS_REST_TOKEN,
+      })
+
+      rateLimiter = new Ratelimit({
+        redis,
+        limiter: Ratelimit.slidingWindow(RATE_LIMIT_MAX_REQUESTS, RATE_LIMIT_WINDOW),
+        analytics: true,
+        prefix: 'contact_form',
+      })
+
+      logInfo('Initialized distributed rate limiting with Upstash Redis')
+      return rateLimiter
+    } catch (error) {
+      logError('Failed to initialize Upstash rate limiter, falling back to in-memory', error)
+    }
+  } else {
+    logWarn(
+      'Upstash Redis not configured, using in-memory rate limiting (not suitable for production)'
+    )
+  }
+
+  // Return null to indicate fallback to in-memory
+  rateLimiter = false // Sentinel value to prevent re-initialization attempts
+  return null
+}
+
+// In-memory rate limiting fallback
+function checkRateLimitInMemory(email: string): boolean {
   const now = Date.now()
   const limit = rateLimitMap.get(email)
 
@@ -38,13 +87,27 @@ function checkRateLimit(email: string): boolean {
     return true
   }
 
-  if (existing.count >= 3) {
-    // Max 3 submissions per hour
+  if (existing.count >= RATE_LIMIT_MAX_REQUESTS) {
     return false
   }
 
   existing.count++
   return true
+}
+
+// Unified rate limiting check
+async function checkRateLimit(email: string): Promise<boolean> {
+  const limiter = await getRateLimiter()
+
+  if (limiter) {
+    // Use Upstash distributed rate limiting
+    const identifier = email
+    const { success } = await limiter.limit(identifier)
+    return success
+  } else {
+    // Fall back to in-memory rate limiting
+    return checkRateLimitInMemory(email)
+  }
 }
 
 export async function submitContactForm(data: ContactFormData) {
@@ -53,7 +116,8 @@ export async function submitContactForm(data: ContactFormData) {
     const validatedData = contactFormSchema.parse(data)
 
     // Rate limiting check
-    if (!checkRateLimit(validatedData.email)) {
+    const rateLimitPassed = await checkRateLimit(validatedData.email)
+    if (!rateLimitPassed) {
       logWarn('Rate limit exceeded for contact form', { email: validatedData.email })
       return {
         success: false,
