@@ -10,6 +10,7 @@ const navLinks = [
   { href: '/pricing', label: 'Pricing' },
   { href: '/case-studies', label: 'Case Studies' },
   { href: '/blog', label: 'Blog' },
+  { href: '/feed.xml', label: 'RSS' },
   { href: '/about', label: 'About' },
 ]
 
