@@ -1,8 +1,8 @@
 import { getAllPosts } from '@/lib/blog'
 import { validatedEnv } from '@/lib/env'
 
-const escapeXml = (value: string) =>
-  value
+const escapeXml = (value: string | null | undefined) =>
+  (value ?? '')
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
