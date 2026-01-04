@@ -55,6 +55,29 @@ This project uses:
 
 ## Security Features
 
+### Environment Variable Exposure Prevention
+
+**Status:** Enforced via naming conventions + build checks
+
+To prevent server-only secrets from leaking into the client bundle:
+
+- **Public variables must use the `NEXT_PUBLIC_` prefix.**
+- **Server-only variables must never use `NEXT_PUBLIC_`.**
+- A post-build check scans client bundles for server-only env tokens.
+
+#### Build-time Verification
+The `postbuild` script runs `scripts/check-client-secrets.mjs`, which fails the build if any of the following server-only tokens appear in client chunks:
+- `RESEND_API_KEY`
+- `CONTACT_EMAIL`
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+
+If new secrets are added, update the script and this documentation to include them.
+
+**References:**
+- Env schema: `lib/env.ts`
+- Build check: `scripts/check-client-secrets.mjs`
+
 ### CSRF Protection
 
 **Status:** Protected via Next.js Server Actions
