@@ -36,10 +36,10 @@ export async function GET() {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${escapeXml(siteName)}</title>
-    <link>${siteUrl}</link>
-    <description>${escapeXml('Insights, guides, and updates from Your Dedicated Marketer.')}</description>
-    <language>en-us</language>
-    <atom:link href="${feedUrl}" rel="self" type="application/rss+xml" />
+      <link>${escapeXml(siteUrl)}</link>
+      <description>${escapeXml('Insights, guides, and updates from Your Dedicated Marketer.')}</description>
+      <language>en-us</language>
+      <atom:link href="${escapeXml(feedUrl)}" rel="self" type="application/rss+xml" />
     ${items}
   </channel>
 </rss>`
