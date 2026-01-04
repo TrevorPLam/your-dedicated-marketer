@@ -130,6 +130,69 @@ The logger utility needed explicit sanitization of sensitive fields to prevent a
 
 ---
 
+## Completed - 2026-01-05
+
+### T-010: Verify Environment Variable Leakage Prevention [P2] [SEC]
+**Type:** QUALITY  
+**Priority:** P2  
+**Category:** SEC (Security Verification)  
+**Completed:** 2026-01-05
+
+**Description:**  
+Added documentation for environment variable naming and enforced a post-build scan to detect server-only secrets in client bundles.
+
+**Completed Actions:**
+- Documented `NEXT_PUBLIC_` naming conventions in SECURITY.md
+- Added `scripts/check-client-secrets.mjs` and wired it to `postbuild`
+- Defined server-only tokens to scan for in client chunks
+
+**Files:**
+- `SECURITY.md`
+- `scripts/check-client-secrets.mjs`
+- `package.json`
+
+---
+
+### T-020: Add Lighthouse Performance Budgets [P2] [ENHANCE]
+**Type:** ENHANCE  
+**Priority:** P2  
+**Category:** PERF (Performance)  
+**Completed:** 2026-01-05
+
+**Description:**  
+Added Lighthouse budgets and hooked them into LHCI assertions.
+
+**Completed Actions:**
+- Created `.github/lighthouse/budget.json` with performance budgets
+- Added `.lighthouserc.json` to apply budgets in CI
+
+**Files:**
+- `.github/lighthouse/budget.json`
+- `.lighthouserc.json`
+
+---
+
+### T-022: Add RSS Feed for Blog [P2] [ENHANCE]
+**Type:** ENHANCE  
+**Priority:** P2  
+**Category:** UX (User Experience)  
+**Completed:** 2026-01-05
+
+**Description:**  
+Implemented an RSS feed for blog posts, surfaced it in the header, and added it to the sitemap.
+
+**Completed Actions:**
+- Added `/feed.xml` route to generate RSS from blog posts
+- Linked the feed in the primary navigation
+- Added feed URL to sitemap
+
+**Files:**
+- `app/feed.xml/route.ts`
+- `components/Navigation.tsx`
+- `app/sitemap.ts`
+
+---
+
 ## Completed - 2026-01-03 (P0 Critical Fixes)
 
 ### T-011: Fix Zod v4 API Error in Contact Form [P0] [QUALITY]
