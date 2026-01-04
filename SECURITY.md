@@ -72,7 +72,7 @@ The `postbuild` script runs `scripts/check-client-secrets.mjs`, which fails the 
 - `UPSTASH_REDIS_REST_URL`
 - `UPSTASH_REDIS_REST_TOKEN`
 
-If new secrets are added, update the script to include them.
+If new secrets are added, update the script and this documentation to include them.
 
 **References:**
 - Env schema: `lib/env.ts`
