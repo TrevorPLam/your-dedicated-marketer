@@ -6,6 +6,99 @@
 
 ---
 
+## Completed - 2026-01-06
+
+### T-035: Add Quick Command Cheatsheet to READMEAI [P2] [DX]
+**Type:** QUALITY
+**Priority:** P2
+**Category:** DX (Developer Experience)
+**Completed:** 2026-01-06
+
+**Description:**
+Added a concise block of common npm commands to the repository entrypoint so contributors can quickly find install, lint, type-check, and testing commands.
+
+**Completed Actions:**
+- Updated READMEAI Quick Start with install, dev server, lint, type-check, unit, and e2e test commands plus the registry connectivity check.
+- Refreshed the Last Updated date to reflect the latest guidance.
+
+**Files:**
+- `READMEAI.md`
+
+---
+
+### T-036: Document Environment Setup Checklist in docs/start-here/README [P2] [DX]
+**Type:** COMPLETE
+**Priority:** P2
+**Category:** DX (Developer Experience)
+**Completed:** 2026-01-06
+
+**Description:**
+Added an explicit environment setup checklist to the getting started guide so contributors confirm Node 20 usage and required env vars.
+
+**Completed Actions:**
+- Documented running `nvm use` to align with the repository `.nvmrc`.
+- Added a checklist for copying `env.example`, filling required variables, and restarting the dev server after updates.
+
+**Files:**
+- `docs/start-here/README.md`
+
+---
+
+### T-037: Add npm Registry Troubleshooting Steps to docs/workflows/SETUP [P2] [DX]
+**Type:** QUALITY
+**Priority:** P2
+**Category:** DX (Developer Experience)
+**Completed:** 2026-01-06
+
+**Description:**
+Expanded the setup troubleshooting guidance with explicit registry diagnostics and next steps for offline or blocked environments.
+
+**Completed Actions:**
+- Added step-by-step instructions for running `npm run check:npm-registry` and capturing output.
+- Documented proxy adjustments, rerun instructions, and guidance for regenerating lockfiles in a networked environment.
+- Pointed contributors to DEPENDENCY_HEALTH.md for recording unresolved registry issues.
+
+**Files:**
+- `docs/workflows/SETUP.md`
+
+---
+
+### T-038: Clarify E2E Test Setup Requirements in docs/workflows/CONTRIBUTING [P2] [DX]
+**Type:** QUALITY
+**Priority:** P2
+**Category:** DX (Developer Experience)
+**Completed:** 2026-01-06
+
+**Description:**
+Clarified Playwright browser installation so contributors can run the e2e suite without guessing prerequisites.
+
+**Completed Actions:**
+- Added preferred and minimal Playwright install commands ahead of `npm run test:e2e`.
+- Noted the need to rerun installation when network access is restored if downloads are blocked initially.
+
+**Files:**
+- `docs/workflows/CONTRIBUTING.md`
+
+---
+
+### T-039: Update docs/DOCS_INDEX with Fresh Links to Testing and Setup Docs [P2] [DX]
+**Type:** QUALITY
+**Priority:** P2
+**Category:** DX (Developer Experience)
+**Completed:** 2026-01-06
+
+**Description:**
+Aligned the documentation index with the refreshed quick commands and setup guidance so navigation stays in sync.
+
+**Completed Actions:**
+- Added READMEAI quick command reference and setup/troubleshooting links to the Setting Up section.
+- Updated last reviewed metadata.
+
+**Files:**
+- `docs/DOCS_INDEX.md`
+
+---
+
 ## Completed - 2026-01-05
 
 ### T-030: Regenerate package-lock.json for @next/mdx Alignment [P2] [QUALITY]

@@ -62,7 +62,11 @@ npm run dev
 **Solution**: Verify RESEND_API_KEY is set correctly in .env
 
 **Problem**: `npm install` returns 403 or registry access errors
-**Solution**: Run `npm run check:npm-registry` to confirm registry reachability and detect proxy variables. Ensure proxy variables are unset (`HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`) or pointed at a working proxy, set registry explicitly (`npm config set registry https://registry.npmjs.org/`), and retry. The current sandbox returns HTTP 403 for `npm ping`, indicating blocked egress; rerun dependency commands where the npm registry is reachable (see `DEPENDENCY_HEALTH.md` for details) and record status codes for follow-ups.
+**Solution**:
+- Run `npm run check:npm-registry` to capture the current status (HTTP code, proxy variables) and attach the output to any follow-ups.
+- If proxies are set (`HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`), temporarily unset them or point them to a working proxy, then retry `npm install --legacy-peer-deps`.
+- If the check still reports HTTP 403/ENETUNREACH (the current sandbox does), move installs to an environment with outbound npm access, regenerate `package-lock.json` there, and commit the change.
+- Document any remaining registry errors in `DEPENDENCY_HEALTH.md` and rerun dependency-related scripts once network access is restored.
 
 ## Additional Tools
 - **Formatting (write)**: `npm run format`
