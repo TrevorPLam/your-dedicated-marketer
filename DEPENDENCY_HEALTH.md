@@ -455,7 +455,7 @@ This prevents future churn and re-arguing.
 ### Findings:
 
 **(P1) React/React DOM Version Mismatch**
-- **Issue:** `react` is on 18.x while `react-dom` is on 19.x. Next.js 14 expects React 18.x, so mismatched majors can cause runtime or build issues.
+- **Issue:** `react` and `@types/react` are on 18.x while `react-dom` and `@types/react-dom` are on 19.x. Next.js 14 expects React 18.x, so mismatched majors can cause runtime, build, or type-checking issues.
 - **Risk:** Medium-High - potential runtime warnings or incompatibilities in rendering behavior.
 - **Recommendation:** Align `react-dom` to the same supported major as `react` (18.x) and validate builds.
 - **Status:** Not started (see T-050 in TODO.md)
