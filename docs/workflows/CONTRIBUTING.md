@@ -74,6 +74,12 @@ npm run format:check
 npm run format
 ```
 
+**E2E prerequisites**
+- Install Playwright browsers once before running `npm run test:e2e`:
+  - Preferred: `npx playwright install --with-deps`
+  - Minimal (if system deps already present): `npx playwright install`
+- If registry or network access is restricted, rerun the install when connectivity is available so the browsers download correctly.
+
 **Coverage guidance**
 - Requires the dev dependency `@vitest/coverage-v8`
 - If missing, install with `npm install -D @vitest/coverage-v8` before running coverage
