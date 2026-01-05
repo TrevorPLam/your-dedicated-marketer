@@ -1,6 +1,6 @@
 # READMEAI - Repository Entrypoint
 
-> **Last Updated:** 2026-01-05  
+> **Last Updated:** 2026-01-06
 > **Status:** Canonical  
 > **Purpose:** Primary navigation hub for developers and operators working in this repository
 
@@ -16,6 +16,27 @@
 4. **[TODO.md](TODO.md)** - Current task backlog and priorities
 5. **Node version:** Use Node.js 20.x (`.nvmrc` provided; run `nvm use`)
 6. **Registry check (if installs fail):** `npm run check:npm-registry` (current environment returns HTTP 403 to npm ping; see `DEPENDENCY_HEALTH.md` for details)
+
+**Quick command cheatsheet**
+
+```bash
+# Install dependencies
+npm install --legacy-peer-deps
+
+# Start development server
+npm run dev
+
+# Lint, format, and type-check
+npm run lint
+npm run format:check
+npm run type-check
+# Run tests
+npm test
+npm run test:e2e
+
+# Validate npm registry connectivity (useful if installs fail)
+npm run check:npm-registry
+```
 
 **Package manager:** npm (use `package-lock.json` as the canonical lockfile)
 
