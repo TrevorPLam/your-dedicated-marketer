@@ -15,13 +15,13 @@ Task truth source: TODO.md
 ### T-050: Align React DOM with React/Next.js Versions
 **Priority:** P1
 **Type:** QUALITY
-**Context:** `react-dom` is on 19.x while `react` and `next` are pinned to 18/14. This mismatch can introduce runtime warnings or incompatibilities in Next.js 14 builds.
+**Description:**  
+`react-dom` and `@types/react-dom` are on 19.x while `react` and `@types/react` are on 18.x, which can introduce runtime and type-checking mismatches. Align the React DOM version and its types with the supported React major for Next.js 14.
+
 **Acceptance Criteria:**
-- `react` and `react-dom` use the same supported major version for Next.js 14 (18.x).
-- `package.json` and `package-lock.json` are updated to reflect the aligned versions.
-- `npm run build` completes without React version mismatch warnings.
-**References:**
-- `package.json`
+- `react`, `react-dom`, `@types/react`, and `@types/react-dom` use the same supported major version for Next.js 14 (18.x).
+- `package.json` and `package-lock.json` are updated accordingly.
+- `npm run build` (or equivalent build validation) completes without React version warnings or type errors.
 - `package-lock.json`
 **Dependencies:** None
 **Effort:** S
