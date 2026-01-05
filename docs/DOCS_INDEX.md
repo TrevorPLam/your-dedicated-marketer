@@ -1,6 +1,6 @@
 # Documentation Index
 
-> Last Updated: 2026-01-05  
+> Last Updated: 2026-01-06
 > Canonical Status: Canonical  
 > Purpose: Central navigation hub for all repository documentation
 
@@ -18,6 +18,8 @@ New to the project? Start with these essential documents:
 
 ### Setting Up & Running
 - [Project README](./start-here/README.md) - Installation and setup instructions
+- [READMEAI.md](../READMEAI.md#-quick-start) - Quick command cheatsheet for installs, linting, and tests
+- [SETUP.md](./workflows/SETUP.md) - Local development setup and npm registry troubleshooting
 - [DEPLOYMENT.md](./ops/DEPLOYMENT.md) - Deployment procedures
 
 ### Development
@@ -145,4 +147,4 @@ This index should be updated whenever:
 - Documentation is deprecated or archived
 - New categories are created
 
-Last reviewed: 2026-01-05
+Last reviewed: 2026-01-06

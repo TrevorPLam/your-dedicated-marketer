@@ -71,6 +71,12 @@ A modern, SEO-optimized marketing website built with Next.js 14, featuring a blo
    NODE_ENV=development
    ```
 
+### Environment setup checklist
+- Run `nvm use` in the repository root to adopt the Node.js 20.x version specified in `.nvmrc`.
+- Copy `env.example` to `.env.local` and fill in required values for `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SITE_NAME`, `RESEND_API_KEY`, and `CONTACT_EMAIL`.
+- Confirm optional analytics settings (`NEXT_PUBLIC_ANALYTICS_ID`) or leave blank during development.
+- Restart the dev server after editing `.env.local` to ensure changes load.
+
 4. **Run the development server**
    ```bash
    npm run dev
