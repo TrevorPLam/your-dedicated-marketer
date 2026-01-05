@@ -382,7 +382,7 @@ This prevents future churn and re-arguing.
 - **Issue:** `npm run test:coverage` prompts for `@vitest/coverage-v8`, which is not yet installed.
 - **Risk:** Low-Medium - coverage runs fail locally and in CI until the provider is added.
 - **Recommendation:** Add `@vitest/coverage-v8` as a dev dependency and regenerate `package-lock.json` with registry access.
-- **Status:** Pending (registry access returns `ENETUNREACH` on 2026-01-05 even after clearing HTTP(S)_PROXY/NO_PROXY and forcing the registry via `npm install --package-lock-only` and `npm ping`; use `npm run check:npm-registry` before the next install attempt; tracked in T-031)
+- **Status:** Pending (tracked in T-031). Registry access returned `ENETUNREACH` on 2026-01-05, even after clearing HTTP(S)_PROXY/NO_PROXY and forcing the registry via `npm install --package-lock-only` and `npm ping`. Use `npm run check:npm-registry` before the next install attempt.
 
 ### Positive Findings:
 
