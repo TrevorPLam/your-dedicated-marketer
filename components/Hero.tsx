@@ -1,9 +1,40 @@
+/**
+ * Homepage hero section component.
+ * 
+ * **Purpose:**
+ * Primary above-the-fold content on the homepage.
+ * Introduces the brand value proposition with CTAs.
+ * 
+ * **Layout:**
+ * - Two-column grid on desktop (text + image)
+ * - Single column on mobile (text only, image hidden)
+ * 
+ * **CTAs:**
+ * - Primary: "Schedule Free Consultation" → /contact
+ * - Secondary: "View Services" → /services
+ * 
+ * **Image:**
+ * - Location: /public/images/hero-growth.svg
+ * - Priority loaded (LCP optimization)
+ * - Hidden on mobile for faster load
+ * 
+ * **Styling:**
+ * - Background: Gradient from off-white to white
+ * - Text: charcoal (dark) headings, slate body
+ * 
+ * @component
+ */
+
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
 import Container from '@/components/ui/Container'
 
+/**
+ * Homepage hero section.
+ * Renders the main value proposition and CTAs.
+ */
 export default function Hero() {
   return (
     <section className="bg-gradient-to-b from-off-white to-white py-20 md:py-32">

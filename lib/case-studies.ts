@@ -1,3 +1,57 @@
+/**
+ * Case study data module.
+ * 
+ * **Purpose:**
+ * - Provide case study content for /case-studies pages
+ * - Structured data for testimonials and results
+ * 
+ * **Data Model:**
+ * - Currently: Hardcoded array in this file
+ * - Future: Could migrate to CMS or MDX files
+ * 
+ * **Why Hardcoded?**
+ * - Small dataset (3 case studies)
+ * - Type-safe structured data
+ * - No CMS overhead for infrequent updates
+ * - Easy to version control changes
+ * 
+ * **Usage:**
+ * ```typescript
+ * import { caseStudies, getCaseStudyBySlug } from '@/lib/case-studies'
+ * 
+ * // All case studies
+ * caseStudies.map(study => ...)
+ * 
+ * // Single by slug
+ * const study = getCaseStudyBySlug('b2b-saas-lead-generation')
+ * ```
+ * 
+ * **Adding a Case Study:**
+ * 1. Add new object to `caseStudies` array below
+ * 2. Follow CaseStudy interface structure
+ * 3. Set `featured: true` to show on homepage
+ * 
+ * @module lib/case-studies
+ */
+
+/**
+ * Case study data structure.
+ * 
+ * @property id - Unique numeric ID
+ * @property slug - URL-safe identifier
+ * @property title - Display title
+ * @property client - Client/company name
+ * @property industry - Industry category
+ * @property description - Short summary for cards
+ * @property challenge - Problem statement (full detail)
+ * @property solution - What we did (full detail)
+ * @property results - Array of metrics with values
+ * @property testimonial - Client quote with attribution
+ * @property services - Services used (for filtering)
+ * @property duration - Project length
+ * @property image - Optional hero image path
+ * @property featured - Show on homepage
+ */
 export interface CaseStudy {
   id: string
   slug: string
@@ -146,10 +200,28 @@ export const caseStudies: CaseStudy[] = [
   },
 ]
 
+/**
+ * Get a case study by its URL slug.
+ * 
+ * @param slug - URL slug to look up
+ * @returns CaseStudy object or undefined if not found
+ * 
+ * @example
+ * const study = getCaseStudyBySlug('b2b-saas-lead-generation')
+ * if (!study) {
+ *   notFound()
+ * }
+ */
 export function getCaseStudyBySlug(slug: string): CaseStudy | undefined {
   return caseStudies.find((study) => study.slug === slug)
 }
 
+/**
+ * Get case studies marked as featured.
+ * Used for homepage CaseStudyHighlight component.
+ * 
+ * @returns Array of case studies where featured === true
+ */
 export function getFeaturedCaseStudies(): CaseStudy[] {
   return caseStudies.filter((study) => study.featured)
 }

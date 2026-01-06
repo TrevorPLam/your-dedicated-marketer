@@ -1,3 +1,35 @@
+/**
+ * Site navigation component with responsive mobile menu.
+ * 
+ * **Features:**
+ * - Sticky header with dark charcoal background
+ * - Desktop: Horizontal nav links with search and CTA
+ * - Mobile: Hamburger menu with slide-down panel
+ * - Keyboard accessible (Escape closes mobile menu)
+ * 
+ * **Behavior:**
+ * - Mobile menu closes on link click
+ * - Mobile menu closes on Escape key
+ * - Search dialog integrated for both desktop and mobile
+ * 
+ * **Usage:**
+ * ```tsx
+ * // In layout.tsx
+ * import Navigation from '@/components/Navigation'
+ * import { getSearchIndex } from '@/lib/search'
+ * 
+ * const searchItems = getSearchIndex()
+ * <Navigation searchItems={searchItems} />
+ * ```
+ * 
+ * **Modifying Navigation Links:**
+ * Edit the `navLinks` array below. Changes apply to both
+ * desktop and mobile menus automatically.
+ * 
+ * @component
+ * @see components/SearchDialog for search functionality
+ */
+
 'use client'
 
 import React, { useEffect, useState } from 'react'
@@ -7,6 +39,10 @@ import Button from '@/components/ui/Button'
 import SearchDialog from '@/components/SearchDialog'
 import type { SearchItem } from '@/lib/search'
 
+/**
+ * Navigation link configuration.
+ * Add/remove items here to update both desktop and mobile menus.
+ */
 const navLinks = [
   { href: '/services', label: 'Services' },
   { href: '/pricing', label: 'Pricing' },
@@ -16,10 +52,19 @@ const navLinks = [
   { href: '/about', label: 'About' },
 ]
 
+/**
+ * Navigation component props.
+ * 
+ * @property searchItems - Search index from lib/search.ts
+ */
 interface NavigationProps {
   searchItems: SearchItem[]
 }
 
+/**
+ * Main navigation component.
+ * Renders in root layout - appears on all pages.
+ */
 export default function Navigation({ searchItems }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 

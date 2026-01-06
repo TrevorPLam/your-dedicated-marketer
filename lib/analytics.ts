@@ -1,10 +1,53 @@
 /**
- * Analytics utilities
- * Centralized analytics tracking for consistent event monitoring
+ * Analytics event tracking abstraction layer.
+ * 
+ * **Purpose:**
+ * - Provide unified API for analytics tracking
+ * - Support multiple providers (GA4, Plausible) transparently
+ * - Console logging in development for debugging
+ * 
+ * **Supported Providers:**
+ * - Google Analytics 4 (via gtag.js)
+ * - Plausible Analytics
+ * - Extensible for others
+ * 
+ * **Configuration:**
+ * - GA4: Set NEXT_PUBLIC_ANALYTICS_ID in env
+ * - Plausible: Include script in layout
+ * - No config needed for dev logging
+ * 
+ * **Usage:**
+ * ```typescript
+ * import { trackEvent, trackFormSubmission } from '@/lib/analytics'
+ * 
+ * // Track custom event
+ * trackEvent({
+ *   action: 'signup_click',
+ *   category: 'conversion',
+ *   label: 'homepage_hero'
+ * })
+ * 
+ * // Track form submission
+ * trackFormSubmission('contact', true)
+ * ```
+ * 
+ * **Development Behavior:**
+ * - Events logged to console instead of sent to providers
+ * - Prefix: [Analytics]
+ * 
+ * @module lib/analytics
  */
 
 import { isDevelopment, isTest } from './env'
 
+/**
+ * Analytics event structure following GA4 conventions.
+ * 
+ * @property action - Event name (e.g., 'button_click')
+ * @property category - Event category (e.g., 'engagement')
+ * @property label - Optional label for additional context
+ * @property value - Optional numeric value
+ */
 interface AnalyticsEvent {
   action: string
   category: string

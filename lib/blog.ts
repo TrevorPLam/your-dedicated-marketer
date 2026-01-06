@@ -1,10 +1,65 @@
+/**
+ * Blog post management module.
+ * 
+ * **Purpose:**
+ * - Parse MDX blog posts from the filesystem
+ * - Extract frontmatter metadata
+ * - Calculate reading time
+ * - Provide sorted, filtered access to posts
+ * 
+ * **Data Source:**
+ * - Location: `content/blog/*.mdx`
+ * - Format: MDX files with YAML frontmatter
+ * - Parsed at: Build time (SSG)
+ * 
+ * **Frontmatter Schema:**
+ * ```yaml
+ * ---
+ * title: string        # Required: Post title
+ * description: string  # Required: SEO description
+ * date: string         # Required: YYYY-MM-DD format
+ * author: string       # Optional: Defaults to "Your Dedicated Marketer Team"
+ * category: string     # Optional: Defaults to "Marketing"
+ * featured: boolean    # Optional: Defaults to false
+ * ---
+ * ```
+ * 
+ * **Usage:**
+ * ```typescript
+ * import { getAllPosts, getPostBySlug } from '@/lib/blog'
+ * 
+ * // Get all posts sorted by date
+ * const posts = getAllPosts()
+ * 
+ * // Get single post
+ * const post = getPostBySlug('my-post-slug')
+ * ```
+ * 
+ * @module lib/blog
+ * @see content/AGENTS.md for content authoring guidelines
+ */
+
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import readingTime from 'reading-time'
 
+/** Absolute path to blog content directory */
 const postsDirectory = path.join(process.cwd(), 'content/blog')
 
+/**
+ * Blog post data structure.
+ * 
+ * @property slug - URL-safe identifier (derived from filename)
+ * @property title - Post title from frontmatter
+ * @property description - SEO description from frontmatter
+ * @property date - Publication date (YYYY-MM-DD)
+ * @property author - Author name (defaults to team name)
+ * @property category - Post category for filtering
+ * @property readingTime - Calculated reading time (e.g., "5 min read")
+ * @property content - Raw MDX content (without frontmatter)
+ * @property featured - Whether to show on homepage
+ */
 export interface BlogPost {
   slug: string
   title: string
@@ -17,6 +72,25 @@ export interface BlogPost {
   featured?: boolean
 }
 
+/**
+ * Get all blog posts sorted by date (newest first).
+ * 
+ * **Behavior:**
+ * - Reads all .mdx files from content/blog/
+ * - Parses frontmatter with gray-matter
+ * - Calculates reading time
+ * - Returns empty array if directory doesn't exist
+ * 
+ * **Performance:**
+ * - Called at build time for SSG
+ * - Results are cached by Next.js during build
+ * 
+ * @returns Array of blog posts sorted by date descending
+ * 
+ * @example
+ * const posts = getAllPosts()
+ * // Use in getStaticProps or generateStaticParams
+ */
 export function getAllPosts(): BlogPost[] {
   // Create directory if it doesn't exist
   if (!fs.existsSync(postsDirectory)) {
@@ -49,6 +123,18 @@ export function getAllPosts(): BlogPost[] {
   return allPosts.sort((a, b) => (a.date > b.date ? -1 : 1))
 }
 
+/**
+ * Get a single blog post by its slug.
+ * 
+ * @param slug - URL slug (filename without .mdx extension)
+ * @returns BlogPost object or undefined if not found
+ * 
+ * @example
+ * const post = getPostBySlug('seo-basics-small-business')
+ * if (!post) {
+ *   notFound() // Next.js 404
+ * }
+ */
 export function getPostBySlug(slug: string): BlogPost | undefined {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.mdx`)
@@ -71,14 +157,32 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
   }
 }
 
+/**
+ * Get posts marked as featured.
+ * Used for homepage highlights.
+ * 
+ * @returns Array of posts where featured === true
+ */
 export function getFeaturedPosts(): BlogPost[] {
   return getAllPosts().filter((post) => post.featured)
 }
 
+/**
+ * Get posts by category.
+ * 
+ * @param category - Category name to filter by (case-sensitive)
+ * @returns Array of posts in the specified category
+ */
 export function getPostsByCategory(category: string): BlogPost[] {
   return getAllPosts().filter((post) => post.category === category)
 }
 
+/**
+ * Get all unique categories.
+ * Categories are extracted from post frontmatter.
+ * 
+ * @returns Sorted array of unique category names
+ */
 export function getAllCategories(): string[] {
   const posts = getAllPosts()
   const categories = posts.map((post) => post.category)

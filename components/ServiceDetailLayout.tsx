@@ -1,3 +1,48 @@
+/**
+ * Reusable service detail page layout template.
+ * 
+ * **Purpose:**
+ * Provides consistent structure for all service pages (/services/*).
+ * Each service page imports this and passes service-specific data.
+ * 
+ * **Sections (in order):**
+ * 1. Hero - Icon, title, description, CTA
+ * 2. What's Included - Checklist of features
+ * 3. Our Process - Numbered steps
+ * 4. Who It's For - Target audience list
+ * 5. Pricing Options - Tier cards with links
+ * 6. FAQs - Accordion with questions
+ * 7. Final CTA - Contact prompt
+ * 
+ * **SEO Features:**
+ * - Service schema.org structured data
+ * - FAQ schema.org structured data
+ * 
+ * **Usage:**
+ * ```tsx
+ * // In app/services/seo/page.tsx
+ * import ServiceDetailLayout from '@/components/ServiceDetailLayout'
+ * import { Search } from 'lucide-react'
+ * 
+ * export default function SEOServicePage() {
+ *   return (
+ *     <ServiceDetailLayout
+ *       icon={Search}
+ *       title="SEO Services"
+ *       description="Optimize your search presence..."
+ *       included={['Technical SEO', 'Keyword research', ...]}
+ *       process={[{ title: 'Audit', description: '...' }, ...]}
+ *       whoItsFor={['Small businesses', 'E-commerce stores', ...]}
+ *       pricing={[{ tier: 'Starter', description: '...', href: '/pricing' }]}
+ *       faqs={[{ question: '...', answer: '...' }]}
+ *     />
+ *   )
+ * }
+ * ```
+ * 
+ * @component
+ */
+
 import React from 'react'
 import Link from 'next/link'
 import { Check, LucideIcon } from 'lucide-react'
@@ -7,27 +52,49 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Accordion, { AccordionItem } from '@/components/ui/Accordion'
 
+/**
+ * Process step data structure.
+ */
 export interface ProcessStep {
+  /** Step title */
   title: string
+  /** Step description */
   description: string
 }
 
+/**
+ * Service detail page props.
+ * All fields are required to ensure consistent service pages.
+ */
 export interface ServiceDetailProps {
+  /** Lucide icon component for the service */
   icon: LucideIcon
+  /** Service title (used in h1 and structured data) */
   title: string
+  /** Service description (hero and meta) */
   description: string
+  /** List of features/deliverables included */
   included: string[]
+  /** Numbered process steps */
   process: ProcessStep[]
+  /** Target audience descriptions */
   whoItsFor: string[]
+  /** Pricing tier cards */
   pricing: {
     tier: string
     description: string
     href: string
   }[]
+  /** FAQ items for accordion */
   faqs: AccordionItem[]
+  /** Optional canonical URL for structured data */
   serviceUrl?: string
 }
 
+/**
+ * Service detail page layout component.
+ * Renders all sections with consistent styling.
+ */
 export default function ServiceDetailLayout({
   icon: Icon,
   title,

@@ -1,3 +1,46 @@
+/**
+ * Contact form component with validation and submission handling.
+ * 
+ * **Features:**
+ * - Client-side validation with Zod schema
+ * - Server action submission (no API route needed)
+ * - Rate limiting protection (server-side)
+ * - Success/error state feedback
+ * - Loading state with spinner
+ * - Sentry context for error tracking
+ * 
+ * **Form Fields:**
+ * - Name (required)
+ * - Email (required, validated)
+ * - Company (optional)
+ * - Phone (optional)
+ * - Marketing Spend (dropdown)
+ * - Message (required)
+ * - How did you hear about us (dropdown)
+ * 
+ * **Validation:**
+ * - Mode: onBlur (validates when field loses focus)
+ * - ReValidateMode: onChange (re-validates as user types after first error)
+ * - Error delay: 500ms debounce
+ * 
+ * **Security:**
+ * - All inputs sanitized server-side in lib/actions.ts
+ * - Rate limited per email and IP address
+ * - No sensitive data logged
+ * 
+ * **Usage:**
+ * ```tsx
+ * import ContactForm from '@/components/ContactForm'
+ * 
+ * // In contact page
+ * <ContactForm />
+ * ```
+ * 
+ * @component
+ * @see lib/actions.ts for server-side handling
+ * @see lib/contact-form-schema.ts for validation schema
+ */
+
 'use client'
 
 import React, { useState } from 'react'
@@ -12,6 +55,10 @@ import Button from '@/components/ui/Button'
 import { Loader2 } from 'lucide-react'
 import { setSentryContext, setSentryUser } from '@/lib/sentry-client'
 
+/**
+ * Contact form with full validation and server submission.
+ * Manages its own submission state and error handling.
+ */
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<{
