@@ -1,3 +1,51 @@
+/**
+ * Root layout component for the entire application.
+ * 
+ * **Purpose:**
+ * - Defines the HTML document structure
+ * - Provides global metadata for SEO
+ * - Wraps all pages with Navigation, Footer, and Providers
+ * - Configures fonts, PWA settings, and structured data
+ * 
+ * **Component Hierarchy:**
+ * ```
+ * <html>
+ *   <head>  (PWA meta, structured data)
+ *   <body>
+ *     <SkipToContent />     (accessibility)
+ *     <Navigation />         (sticky header)
+ *     <Providers>            (error boundary, breadcrumbs)
+ *       <main>{children}</main>
+ *     </Providers>
+ *     <Footer />
+ *     <InstallPrompt />     (PWA install)
+ *   </body>
+ * </html>
+ * ```
+ * 
+ * **SEO Configuration:**
+ * - Default title with template for child pages
+ * - OpenGraph and Twitter card metadata
+ * - Organization and WebSite structured data
+ * - Robots directives for search engines
+ * 
+ * **Fonts:**
+ * - Inter: Primary sans-serif (body text)
+ * - IBM Plex Sans: Authority font (headings, emphasis)
+ * 
+ * **PWA:**
+ * - Manifest linked for installability
+ * - Apple touch icons configured
+ * - Theme color set
+ * 
+ * **Dynamic Imports:**
+ * - Providers: Client-side only (ErrorBoundary needs browser)
+ * - InstallPrompt: Client-side only (PWA API)
+ * 
+ * @see app/AGENTS.md for page conventions
+ * @see tailwind.config.ts for theme customization
+ */
+
 import type { Metadata } from 'next'
 import { IBM_Plex_Sans, Inter } from 'next/font/google'
 import dynamic from 'next/dynamic'
@@ -7,9 +55,11 @@ import Footer from '@/components/Footer'
 import SkipToContent from '@/components/SkipToContent'
 import { getSearchIndex } from '@/lib/search'
 
+// Dynamic imports for client-only components
 const Providers = dynamic(() => import('@/app/providers'), { ssr: false })
 const InstallPrompt = dynamic(() => import('@/components/InstallPrompt'), { ssr: false })
 
+// Font configuration with CSS variables
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
 const plexSans = IBM_Plex_Sans({
   subsets: ['latin'],
@@ -18,6 +68,14 @@ const plexSans = IBM_Plex_Sans({
   weight: ['400', '600', '700'],
 })
 
+/**
+ * Global metadata applied to all pages.
+ * Child pages can override with their own metadata export.
+ * 
+ * Title template: "%s | Your Dedicated Marketer"
+ * - Child page title replaces %s
+ * - Example: "SEO Services | Your Dedicated Marketer"
+ */
 export const metadata: Metadata = {
   metadataBase: new URL('https://yourdedicatedmarketer.com'),
   title: {

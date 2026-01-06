@@ -1,5 +1,43 @@
+/**
+ * Search index generation for site-wide search.
+ * 
+ * **Purpose:**
+ * - Combine static pages and blog posts into searchable index
+ * - Provide structured data for SearchDialog component
+ * - Enable client-side filtering by title, description, tags
+ * 
+ * **Architecture:**
+ * - Static pages: Hardcoded in this file (update when adding pages)
+ * - Blog posts: Dynamically loaded from lib/blog.ts
+ * - Generated at: Build time (SSG)
+ * 
+ * **Usage:**
+ * ```typescript
+ * import { getSearchIndex } from '@/lib/search'
+ * 
+ * const items = getSearchIndex()
+ * // Pass to SearchDialog component
+ * ```
+ * 
+ * **When to Update:**
+ * - Add to `staticPages` array when creating new static pages
+ * - Blog posts are automatically included
+ * 
+ * @module lib/search
+ */
+
 import { getAllPosts } from '@/lib/blog'
 
+/**
+ * Search index item structure.
+ * 
+ * @property id - Unique identifier (prefixed with 'page-' or 'post-')
+ * @property title - Display title
+ * @property description - Search snippet / meta description
+ * @property href - URL path
+ * @property type - 'Page' for static pages, 'Blog' for posts
+ * @property tags - Optional keywords for search matching
+ */
 export type SearchItem = {
   id: string
   title: string
@@ -9,6 +47,17 @@ export type SearchItem = {
   tags?: string[]
 }
 
+/**
+ * Static pages registry.
+ * 
+ * **Maintenance:**
+ * When adding a new static page to the site:
+ * 1. Create the page in app/
+ * 2. Add an entry here with appropriate metadata
+ * 3. Update sitemap.ts if needed
+ * 
+ * @internal
+ */
 const staticPages: SearchItem[] = [
   {
     id: 'page-home',
