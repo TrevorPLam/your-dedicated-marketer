@@ -7,6 +7,7 @@ export default tseslint.config(
   {
     ignores: [
         ".next/**", 
+        ".vercel/**",
         "node_modules/**", 
         "coverage/**", 
         "out/**",

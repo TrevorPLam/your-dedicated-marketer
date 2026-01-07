@@ -19,6 +19,11 @@ Last Updated: 2026-01-05
 - `REPO_MAP.md`
 - `CONTEXT_MAP.md`
 
+## Ops & Deployment
+- `docs/ops/DEPLOYMENT.md` (Detailed Guide)
+- `docs/DEPLOYMENT.md` (Cloudflare High-Level)
+- `docs/ops/CODE_AUDIT_SUMMARY.md`
+
 ## Standards & health
 - `DIAMOND_STANDARD.md` (quality targets & roadmap)
 - `GOVERNANCE_HEALTH.md`

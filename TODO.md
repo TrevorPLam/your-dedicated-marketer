@@ -369,3 +369,93 @@ References:
 Dependencies: T-052
 Effort: S
 
+
+### T-066: Create mobile-first smoke test checklist
+Priority: P1
+Type: RELEASE
+Owner: AGENT
+Status: READY
+Context:
+- Need a manual verification script for releases until E2E coverage is 100%
+- Critical flows: Contact Form, Navigation, Mobile Menu, SEO tags
+Acceptance Criteria:
+- [ ] T-066.1: Create `/docs/ops/SMOKE_TEST.md`
+- [ ] T-066.2: Include strict mobile viewport tests (hamburger menu, touch targets)
+- [ ] T-066.3: Include critical user journey steps (Lead Capture)
+- [ ] T-066.4: Include basic SEO check (Title, Meta, OG Image)
+References:
+- /docs/ops/
+Dependencies: None
+Effort: XS
+
+### T-067: Consolidate deployment documentation
+Priority: P3
+Type: DOCS
+Owner: AGENT
+Status: READY
+Context:
+- We have `docs/DEPLOYMENT.md` (template) and `docs/ops/DEPLOYMENT.md` (detailed).
+- Confusing for agents which one to follow.
+Acceptance Criteria:
+- [ ] T-067.1: Merge unique value from `docs/ops/DEPLOYMENT.md` into `docs/DEPLOYMENT.md`
+- [ ] T-067.2: Archive `docs/ops/DEPLOYMENT.md` or make it the source of truth
+- [ ] T-067.3: Update `DOCS_INDEX.md` to point to the single source of truth
+References:
+- /docs/DEPLOYMENT.md
+- /docs/ops/DEPLOYMENT.md
+Dependencies: None
+Effort: S
+
+### T-068: Archive historical roadmaps
+Priority: P3
+Type: DOCS
+Owner: AGENT
+Status: READY
+Context:
+- `docs/product/DEVELOPMENT-ROADMAP.md` contains historical checks.
+- `docs/GAME-PLAN-100.md` is a mix of status and plan.
+- Should move completed/stale planning docs to `docs/ARCHIVE/` to prevent task leakage confusion.
+Acceptance Criteria:
+- [ ] T-068.1: Move `docs/product/DEVELOPMENT-ROADMAP.md` to `docs/ARCHIVE/product/`
+- [ ] T-068.2: Add "ARCHIVED" header to moved files if not present
+References:
+- /docs/product/DEVELOPMENT-ROADMAP.md
+Dependencies: None
+Effort: XS
+
+### T-069: Update Next.js to fix critical vulnerabilities
+Priority: P0
+Type: SECURITY
+Owner: AGENT
+Status: READY
+Context:
+- npm audit reports critical CVEs in next@15.5.2 (RCE, Source Exposure).
+- Must update to >=15.5.9.
+- Constraint: Must stay on Next.js 15.x for Cloudflare Pages compatibility (do not upgrade to 16.x yet).
+Acceptance Criteria:
+- [ ] T-069.1: Update `package.json` to use `next@15.5.9` (or latest 15.x patch)
+- [ ] T-069.2: Run `npm install`
+- [ ] T-069.3: Run `npm audit` to verify criticals are gone
+- [ ] T-069.4: Run `npm run build` to verify Cloudflare compatibility
+References:
+- /package.json
+Dependencies: None
+Effort: S
+
+### T-070: Monitor and fix transitive build-tool vulnerabilities
+Priority: P2
+Type: DEPENDENCY
+Owner: AGENT
+Status: BLOCKED
+Context:
+- npm audit reports High/Moderate issues in `path-to-regexp`, `esbuild`, `undici`.
+- These are pulled in by `@cloudflare/next-on-pages`.
+- Currently on latest adapter version (1.13.16).
+- Need to wait for Cloudflare execution environment updates or adapter updates.
+Acceptance Criteria:
+- [ ] T-070.1: Check for updates to `@cloudflare/next-on-pages`
+- [ ] T-070.2: Attempt `npm update` of transitive deps if possible
+References:
+- /package.json
+Dependencies: None
+Effort: S
