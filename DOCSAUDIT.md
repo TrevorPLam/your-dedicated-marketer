@@ -1,7 +1,7 @@
 # DOCSAUDIT.md — Docs Audit (Findability & Truth)
 
 Document Type: Audit Runbook
-Last Updated: 2026-01-05
+Last Updated: 2026-01-07
 Precedence: `CODEBASECONSTITUTION.md` → `READMEAI.md` → `TODO.md` → this document
 Owner: AGENT
 
@@ -60,5 +60,19 @@ Required outputs:
   - (none)
 - Tasks created/updated:
   - (none)
+- Questions for Trevor:
+  - (none)
+
+### 2026-01-07 — Summary
+- Agent: GitHub Copilot
+- Scope: `docs/`, `docs/ops/`, `docs/product/`, `repo.manifest.yaml`
+- Findings:
+  - ✅ `docs/DOCS_INDEX.md` exists but was missing ops docs.
+  - ⚠️ Duplicate Deployment Docs: `docs/DEPLOYMENT.md` (root/template) vs `docs/ops/DEPLOYMENT.md` (detailed).
+  - ⚠️ Task Leakage in Historical Docs: `docs/product/DEVELOPMENT-ROADMAP.md` has many open checkboxes but is historically "past".
+  - ✅ `repo.manifest.yaml` is accurate.
+- Tasks created/updated:
+  - T-067: Consolidate deployment documentation (P3, DOCS)
+  - T-068: Archive historical roadmaps (P3, DOCS)
 - Questions for Trevor:
   - (none)

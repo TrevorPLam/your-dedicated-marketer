@@ -63,3 +63,17 @@ Required outputs:
   - (none)
 - Questions for Trevor:
   - (none)
+
+### 2026-01-07 — Summary
+- Agent: GitHub Copilot
+- Scope: package.json, npm audit
+- Findings:
+  - 🚨 **CRITICAL VULNERABILITY**: `next@15.5.2` has RCE/Source Exposure. Needs upgrade to `15.5.9+`.
+  - ⚠️ High/Moderate vulnerabilities in `@cloudflare/next-on-pages` transitive tree (`path-to-regexp`, `esbuild`, `undici`).
+  - ✅ Direct dependencies are otherwise minimal and justified.
+  - ✅ Dev dependencies are standard.
+- Tasks created/updated:
+  - T-069: Update Next.js to fix critical vulnerabilities (P0, SECURITY)
+  - T-070: Monitor and fix transitive build-tool vulnerabilities (P2, DEPENDENCY)
+- Questions for Trevor:
+  - (none)
