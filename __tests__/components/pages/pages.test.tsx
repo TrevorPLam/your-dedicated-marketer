@@ -26,7 +26,7 @@ describe('page components', () => {
   it('renders the pricing page tier overview', () => {
     render(<PricingPage />)
 
-    expect(screen.getByRole('heading', { name: /marketing plans built for growth/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /simple, transparent pricing/i })).toBeInTheDocument()
   })
 
   it('renders the blog page listing', () => {
@@ -43,8 +43,9 @@ describe('page components', () => {
     expect(screen.getByRole('heading', { name: /send us a message/i })).toBeInTheDocument()
   })
 
-  it('renders the search page with input', () => {
-    render(<SearchRoute searchParams={{ q: 'seo' }} />)
+  it('renders the search page with input', async () => {
+    const element = await SearchRoute({ searchParams: Promise.resolve({ q: 'seo' }) })
+    render(element)
 
     expect(screen.getByRole('textbox', { name: /search/i })).toBeInTheDocument()
   })

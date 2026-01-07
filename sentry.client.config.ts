@@ -1,3 +1,4 @@
+import type { ErrorEvent, EventHint } from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
 import { sanitizeSentryEvent } from './lib/sentry-sanitize'
 
@@ -56,10 +57,7 @@ Sentry.init({
   ],
 
   // Configure beforeSend to filter or modify events
-  beforeSend(event, hint) {
-    // Filter out specific errors
-    const error = hint.originalException
-
+  beforeSend(event: ErrorEvent, hint: EventHint) {
     // Don't send events in development unless explicitly enabled
     if (process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_SENTRY_DEBUG) {
       return null

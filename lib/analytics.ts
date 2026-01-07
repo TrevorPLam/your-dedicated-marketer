@@ -38,8 +38,15 @@
  * @module lib/analytics
  */
 
-import { isDevelopment, isTest } from './env'
 import { logInfo } from './logger'
+
+function isDevelopment(): boolean {
+  return process.env.NODE_ENV === 'development'
+}
+
+function isTest(): boolean {
+  return process.env.NODE_ENV === 'test'
+}
 
 /**
  * Analytics event structure following GA4 conventions.

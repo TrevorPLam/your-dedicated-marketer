@@ -48,17 +48,14 @@
 
 import type { Metadata } from 'next'
 import { IBM_Plex_Sans, Inter } from 'next/font/google'
-import dynamic from 'next/dynamic'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import SkipToContent from '@/components/SkipToContent'
-import { getBaseUrl } from '@/lib/env'
+import Providers from '@/app/providers'
+import InstallPrompt from '@/components/InstallPrompt'
+import { getPublicBaseUrl } from '@/lib/env.public'
 import { getSearchIndex } from '@/lib/search'
-
-// Dynamic imports for client-only components
-const Providers = dynamic(() => import('@/app/providers'), { ssr: false })
-const InstallPrompt = dynamic(() => import('@/components/InstallPrompt'), { ssr: false })
 
 // Font configuration with CSS variables
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
@@ -69,7 +66,7 @@ const plexSans = IBM_Plex_Sans({
   weight: ['400', '600', '700'],
 })
 
-const siteUrl = getBaseUrl()
+const siteUrl = getPublicBaseUrl()
 const ogImageUrl = new URL('/api/og?title=Your%20Dedicated%20Marketer', siteUrl).toString()
 
 /**

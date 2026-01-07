@@ -1,15 +1,23 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { logInfo, logWarn, logError, sanitizeLogContext } from '@/lib/logger'
 
+// Mock Sentry
+vi.mock('@sentry/nextjs', () => ({
+  captureMessage: vi.fn(),
+  captureException: vi.fn(),
+}))
+
 describe('Logger', () => {
   let consoleInfoSpy: ReturnType<typeof vi.spyOn>
   let consoleWarnSpy: ReturnType<typeof vi.spyOn>
   let consoleErrorSpy: ReturnType<typeof vi.spyOn>
   let originalNodeEnv: string | undefined
+  let originalSentryDSN: string | undefined
 
   beforeEach(() => {
-    // Save original NODE_ENV
+    // Save original env vars
     originalNodeEnv = process.env.NODE_ENV
+    originalSentryDSN = process.env.NEXT_PUBLIC_SENTRY_DSN
 
     // Create console spies
     consoleInfoSpy = vi.spyOn(console, 'info').mockImplementation(() => {})
@@ -18,8 +26,13 @@ describe('Logger', () => {
   })
 
   afterEach(() => {
-    // Restore NODE_ENV
+    // Restore env vars
     process.env.NODE_ENV = originalNodeEnv
+    if (originalSentryDSN === undefined) {
+      delete process.env.NEXT_PUBLIC_SENTRY_DSN
+    } else {
+      process.env.NEXT_PUBLIC_SENTRY_DSN = originalSentryDSN
+    }
 
     // Restore console methods
     consoleInfoSpy.mockRestore()
@@ -112,6 +125,7 @@ describe('Logger', () => {
 
     it('should not log in production', () => {
       process.env.NODE_ENV = 'production'
+      process.env.NEXT_PUBLIC_SENTRY_DSN = 'https://mock@sentry.io/123'
 
       logError('Test error message')
 

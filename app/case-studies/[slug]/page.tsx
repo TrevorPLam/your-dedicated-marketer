@@ -5,7 +5,7 @@ import { ArrowRight, ArrowLeft, TrendingUp, Building2, Clock, CheckCircle2 } fro
 import { getCaseStudyBySlug, caseStudies } from '@/lib/case-studies'
 
 interface Props {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
@@ -15,7 +15,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const study = getCaseStudyBySlug(params.slug)
+  const { slug } = await params
+  const study = getCaseStudyBySlug(slug)
 
   if (!study) {
     return {
@@ -29,8 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function CaseStudyPage({ params }: Props) {
-  const study = getCaseStudyBySlug(params.slug)
+export default async function CaseStudyPage({ params }: Props) {
+  const { slug } = await params
+  const study = getCaseStudyBySlug(slug)
 
   if (!study) {
     notFound()

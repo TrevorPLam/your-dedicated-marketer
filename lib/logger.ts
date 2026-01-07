@@ -5,7 +5,14 @@
  */
 
 import * as Sentry from '@sentry/nextjs'
-import { isDevelopment, isTest } from './env'
+
+function isDevelopment(): boolean {
+  return process.env.NODE_ENV === 'development'
+}
+
+function isTest(): boolean {
+  return process.env.NODE_ENV === 'test'
+}
 
 type LogLevel = 'info' | 'warn' | 'error'
 

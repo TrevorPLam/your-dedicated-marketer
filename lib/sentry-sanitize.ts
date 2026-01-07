@@ -55,6 +55,6 @@ function sanitizeValue(value: JsonValue, key?: string): JsonValue {
   return value
 }
 
-export function sanitizeSentryEvent(event: Event): Event {
-  return sanitizeValue(event as JsonValue) as Event
+export function sanitizeSentryEvent<TEvent extends Event>(event: TEvent): TEvent {
+  return sanitizeValue(event as JsonValue) as TEvent
 }

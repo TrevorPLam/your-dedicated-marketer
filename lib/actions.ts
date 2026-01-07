@@ -88,8 +88,8 @@ function hashIdentifier(value: string): string {
  * 
  * @returns Client IP address or 'unknown' if not available
  */
-function getClientIp(): string {
-  const requestHeaders = headers()
+async function getClientIp(): Promise<string> {
+  const requestHeaders = await headers()
   const forwardedFor =
     requestHeaders.get('x-forwarded-for') ||
     requestHeaders.get('x-vercel-forwarded-for') ||
@@ -301,7 +301,7 @@ export async function submitContactForm(data: ContactFormData) {
   try {
     // Validate the data
     const validatedData = contactFormSchema.parse(data)
-    const clientIp = getClientIp()
+    const clientIp = await getClientIp()
     const hashedIp = hashIdentifier(clientIp)
 
     if (validatedData.website && validatedData.website.length > 0) {

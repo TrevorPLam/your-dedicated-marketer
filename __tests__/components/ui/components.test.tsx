@@ -7,7 +7,7 @@ import Container from '@/components/ui/Container'
 import Input from '@/components/ui/Input'
 import Section from '@/components/ui/Section'
 import Select from '@/components/ui/Select'
-import Skeleton from '@/components/ui/Skeleton'
+import { Skeleton } from '@/components/ui/Skeleton'
 import Textarea from '@/components/ui/Textarea'
 
 describe('UI components', () => {
