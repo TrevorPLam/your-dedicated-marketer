@@ -1,10 +1,10 @@
 import { MetadataRoute } from 'next'
 import { getAllPosts } from '@/lib/blog'
 import { caseStudies } from '@/lib/case-studies'
-import { getBaseUrl } from '@/lib/env'
+import { getPublicBaseUrl } from '@/lib/env.public'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = getBaseUrl()
+  const baseUrl = getPublicBaseUrl()
 
   // Static pages
   const staticPages = [

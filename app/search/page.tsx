@@ -7,12 +7,13 @@ export const metadata: Metadata = {
   description: 'Search blog posts, services, and marketing resources across the site.',
 }
 
-export default function SearchRoute({
+export default async function SearchRoute({
   searchParams,
 }: {
-  searchParams?: { q?: string }
+  searchParams?: Promise<{ q?: string }>
 }) {
-  const query = typeof searchParams?.q === 'string' ? searchParams.q : ''
+  const resolvedSearchParams = await searchParams
+  const query = typeof resolvedSearchParams?.q === 'string' ? resolvedSearchParams.q : ''
   const items = getSearchIndex()
 
   return <SearchPage items={items} initialQuery={query} />

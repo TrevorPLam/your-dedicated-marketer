@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next'
-import { getBaseUrl } from '@/lib/env'
+import { getPublicBaseUrl } from '@/lib/env.public'
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = getBaseUrl()
+  const siteUrl = getPublicBaseUrl()
 
   return {
     rules: {
