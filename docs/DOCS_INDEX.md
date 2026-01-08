@@ -1,6 +1,6 @@
 # docs/DOCS_INDEX.md — Documentation Index
 
-Last Updated: 2026-01-07
+Last Updated: 2026-01-08
 
 ## Read order (agents)
 1) `../CODEBASECONSTITUTION.md`
@@ -23,9 +23,12 @@ Last Updated: 2026-01-07
 - `AI_DEEP_DIVE_FINDINGS.md` (Comprehensive codebase analysis with issues, debt, and enhancements)
 
 ## Ops & Deployment
-- `docs/ops/DEPLOYMENT.md` (Detailed Guide)
-- `docs/DEPLOYMENT.md` (Cloudflare High-Level)
+- `docs/DEPLOYMENT.md` (Cloudflare Pages source of truth)
+- `docs/ops/SMOKE_TEST.md` (Mobile-first release checklist)
 - `docs/ops/CODE_AUDIT_SUMMARY.md`
+
+## Archive
+- `docs/ARCHIVE/ops/DEPLOYMENT.md` (Historical deployment notes)
 
 ## Standards & health
 - `DIAMOND_STANDARD.md` (quality targets & roadmap)

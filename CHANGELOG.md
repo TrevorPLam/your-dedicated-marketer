@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Clarified sanitize utility usage guidance
 - Documented accessibility standards, Lighthouse baselines, and Sentry performance instrumentation
 - Documented Vitest coverage threshold expectations in the testing strategy
+- Consolidated Cloudflare Pages deployment guidance, added mobile smoke test checklist, and archived legacy roadmaps
 
 ### Changed
 - Removed deprecated `api` and `sentry` keys from `next.config.mjs`
