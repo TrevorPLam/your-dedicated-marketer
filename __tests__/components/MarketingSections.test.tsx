@@ -18,9 +18,9 @@ describe('Marketing sections', () => {
   it('renders the value proposition cards', () => {
     render(<ValueProps />)
 
-    expect(screen.getByText(/data-driven strategy/i)).toBeInTheDocument()
-    expect(screen.getByText(/no surprise costs/i)).toBeInTheDocument()
-    expect(screen.getByText(/we execute, not just plan/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3, name: /data-driven strategy/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3, name: /no surprise costs/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3, name: /we execute, not just plan/i })).toBeInTheDocument()
   })
 
   it('renders the services overview section', () => {
