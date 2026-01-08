@@ -1,4 +1,7 @@
-# Deployment Guide
+# ARCHIVED — Deployment Guide
+
+> Archived: 2026-01-08  
+> Superseded by: `docs/DEPLOYMENT.md`
 
 This guide covers deploying Your Dedicated Marketer website to production.
 
@@ -617,8 +620,8 @@ When implementing distributed rate limiting:
 
 **References:**
 - Current implementation: `lib/actions.ts` (in-memory Map)
-- Decision rationale: [DECISIONS.md - ADR-007](../../DECISIONS.md)
-- Task tracking: [TODO.md - T-016](../../TODO.md)
+- Decision rationale: [DECISIONS.md - ADR-007](../../../DECISIONS.md)
+- Task tracking: [TODO.md - T-016](../../../TODO.md)
 
 ---
 
@@ -701,4 +704,4 @@ For deployment issues:
 
 **Last updated:** 2026-01-05  
 **Related Tasks:** T-015 (API Keys), T-016 (Rate Limiting)  
-**See Also:** [SECURITY.md](../../SECURITY.md), [DECISIONS.md](../../DECISIONS.md)
+**See Also:** [SECURITY.md](../../../SECURITY.md), [DECISIONS.md](../../../DECISIONS.md)

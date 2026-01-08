@@ -262,3 +262,79 @@ References:
 - /docs/OBSERVABILITY.md
 Dependencies: T-050
 Effort: M
+
+### T-065: Update deployment docs for Cloudflare Pages + secrets
+Priority: P2
+Type: DOCS
+Owner: AGENT
+Status: DONE
+Completed: 2026-01-08
+Context:
+- `/docs/DEPLOYMENT.md` is currently a template
+- Needs to reflect actual Cloudflare Pages process and required env vars
+Acceptance Criteria:
+- [x] T-065.1: Document Cloudflare Pages build settings (build cmd, output, Node version)
+- [x] T-065.2: Document required env vars (Supabase, HubSpot, Sentry, Upstash)
+- [x] T-065.3: Document rollback procedure
+- [x] T-065.4: Document DNS/domain setup checklist
+References:
+- /docs/DEPLOYMENT.md
+- /env.example
+Dependencies: T-052
+Effort: S
+
+### T-066: Create mobile-first smoke test checklist
+Priority: P1
+Type: RELEASE
+Owner: AGENT
+Status: DONE
+Completed: 2026-01-08
+Context:
+- Need a manual verification script for releases until E2E coverage is 100%
+- Critical flows: Contact Form, Navigation, Mobile Menu, SEO tags
+Acceptance Criteria:
+- [x] T-066.1: Create `/docs/ops/SMOKE_TEST.md`
+- [x] T-066.2: Include strict mobile viewport tests (hamburger menu, touch targets)
+- [x] T-066.3: Include critical user journey steps (Lead Capture)
+- [x] T-066.4: Include basic SEO check (Title, Meta, OG Image)
+References:
+- /docs/ops/
+Dependencies: None
+Effort: XS
+
+### T-067: Consolidate deployment documentation
+Priority: P3
+Type: DOCS
+Owner: AGENT
+Status: DONE
+Completed: 2026-01-08
+Context:
+- We have `docs/DEPLOYMENT.md` (template) and `docs/ops/DEPLOYMENT.md` (detailed).
+- Confusing for agents which one to follow.
+Acceptance Criteria:
+- [x] T-067.1: Merge unique value from `docs/ops/DEPLOYMENT.md` into `docs/DEPLOYMENT.md`
+- [x] T-067.2: Archive `docs/ops/DEPLOYMENT.md` or make it the source of truth
+- [x] T-067.3: Update `DOCS_INDEX.md` to point to the single source of truth
+References:
+- /docs/DEPLOYMENT.md
+- /docs/ops/DEPLOYMENT.md
+Dependencies: None
+Effort: S
+
+### T-068: Archive historical roadmaps
+Priority: P3
+Type: DOCS
+Owner: AGENT
+Status: DONE
+Completed: 2026-01-08
+Context:
+- `docs/product/DEVELOPMENT-ROADMAP.md` contains historical checks.
+- `docs/GAME-PLAN-100.md` is a mix of status and plan.
+- Should move completed/stale planning docs to `docs/ARCHIVE/` to prevent task leakage confusion.
+Acceptance Criteria:
+- [x] T-068.1: Move `docs/product/DEVELOPMENT-ROADMAP.md` to `docs/ARCHIVE/product/`
+- [x] T-068.2: Add "ARCHIVED" header to moved files if not present
+References:
+- /docs/product/DEVELOPMENT-ROADMAP.md
+Dependencies: None
+Effort: XS
