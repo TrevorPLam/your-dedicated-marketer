@@ -1,3 +1,20 @@
+/**
+ * Dynamic OG image generation route.
+ *
+ * **Security:**
+ * - Input validation via Zod schema (max lengths enforced)
+ * - HTML escaping via escapeHtml() to prevent XSS
+ * - Edge runtime for performance and isolation
+ * - Returns 400 for invalid parameters
+ *
+ * **Rate Limiting:**
+ * - Currently no rate limiting (GET endpoint, low abuse risk)
+ * - Consider adding if abuse detected (e.g., 100 req/min per IP)
+ *
+ * **Usage:**
+ * - /api/og?title=Custom%20Title&description=Custom%20Description
+ * - Used by app/layout.tsx for default OG image
+ */
 import { ImageResponse } from 'next/og'
 import { NextRequest } from 'next/server'
 import { z } from 'zod'

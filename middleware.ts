@@ -164,10 +164,17 @@ export function middleware(request: NextRequest) {
       process.env.NODE_ENV === 'development'
         ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'" // Next.js runtime + dev tooling in development
         : "script-src 'self' 'unsafe-inline'", // Avoid unsafe-eval in production
+      // NOTE: When analytics is integrated (T-098), add:
+      // - GA4: 'https://www.googletagmanager.com'
+      // - Plausible: 'https://plausible.io'
       "style-src 'self' 'unsafe-inline'", // Tailwind injects styles at runtime
-      "img-src 'self' data: https:",
+      "img-src 'self' data: https:", // Allow same-origin, data URIs, and HTTPS images
+      // TODO: Tighten to specific domains when external image sources are identified
       "font-src 'self' data:",
       "connect-src 'self'", // Block external data exfiltration by default
+      // NOTE: When analytics is integrated (T-098), add:
+      // - GA4: 'https://www.google-analytics.com' 'https://www.googletagmanager.com'
+      // - Plausible: 'https://plausible.io'
       "frame-ancestors 'none'", // Disallow clickjacking via iframes
     ].join('; ')
   )
