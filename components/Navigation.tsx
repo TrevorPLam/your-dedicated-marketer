@@ -84,12 +84,14 @@
 
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import SearchDialog from '@/components/SearchDialog'
 import type { SearchItem } from '@/lib/search'
+import { cn } from '@/lib/utils'
 
 /**
  * Navigation link configuration.
@@ -119,6 +121,11 @@ interface NavigationProps {
  */
 export default function Navigation({ searchItems }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const activePath = useMemo(() => pathname ?? '/', [pathname])
+
+  const isActiveLink = (href: string) =>
+    activePath === href || (href !== '/' && activePath.startsWith(`${href}/`))
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev)
@@ -150,7 +157,10 @@ export default function Navigation({ searchItems }: NavigationProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-white hover:text-white font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className={cn(
+                  'text-white/80 hover:text-white font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white border-b-2 border-transparent pb-1',
+                  isActiveLink(link.href) && 'text-white border-white'
+                )}
               >
                 {link.label}
               </Link>
@@ -192,7 +202,10 @@ export default function Navigation({ searchItems }: NavigationProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-white hover:text-white font-semibold py-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className={cn(
+                  'block text-white/80 hover:text-white font-semibold py-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-md px-2 -mx-2',
+                  isActiveLink(link.href) && 'text-white bg-white/10'
+                )}
                 onClick={() => setIsMobileMenuOpen(false)}
                 role="menuitem"
               >
