@@ -217,7 +217,7 @@ export default function ContactForm() {
         placeholder="(555) 123-4567"
         required
         error={errors.phone?.message}
-        isValid={touchedFields.phone && !errors.phone}
+        isValid={Boolean(touchedFields.phone && !errors.phone)}
         {...register('phone')}
       />
 
