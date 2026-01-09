@@ -106,9 +106,10 @@ let rateLimiter: RateLimiter | null | false = null
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
 
 /**
- * Salt for IP address hashing to prevent rainbow table attacks.
+ * Salts for hashing to prevent rainbow table attacks.
  */
 const IP_HASH_SALT = 'contact_form_ip'
+const EMAIL_HASH_SALT = 'contact_form_email'
 
 /**
  * Hash an identifier (email or IP) for privacy and storage.
@@ -119,8 +120,12 @@ const IP_HASH_SALT = 'contact_form_ip'
  * @param value - The value to hash (email or IP address)
  * @returns Hex-encoded SHA-256 hash
  */
-function hashIdentifier(value: string): string {
-  return createHash('sha256').update(`${IP_HASH_SALT}:${value}`).digest('hex')
+function hashIdentifier(value: string, salt = IP_HASH_SALT): string {
+  return createHash('sha256').update(`${salt}:${value}`).digest('hex')
+}
+
+function hashEmail(value: string): string {
+  return hashIdentifier(value, EMAIL_HASH_SALT)
 }
 
 /**
@@ -363,7 +368,10 @@ export async function submitContactForm(data: ContactFormData) {
     // Rate limiting check
     const rateLimitPassed = await checkRateLimit(validatedData.email, clientIp)
     if (!rateLimitPassed) {
-      logWarn('Rate limit exceeded for contact form', { email: validatedData.email, ip: hashedIp })
+      logWarn('Rate limit exceeded for contact form', {
+        emailHash: hashEmail(validatedData.email),
+        ip: hashedIp,
+      })
       return {
         success: false,
         message: 'Too many submissions. Please try again later.',
