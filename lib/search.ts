@@ -164,7 +164,7 @@ export function getSearchIndex(): SearchItem[] {
     description: study.description,
     href: `/case-studies/${study.slug}`,
     type: 'Case Study' as const,
-    tags: [study.client, study.industry, ...study.services],
+    tags: [study.client, study.industry, ...study.services].filter(Boolean),
   }))
 
   const posts = getAllPosts().map((post) => ({
