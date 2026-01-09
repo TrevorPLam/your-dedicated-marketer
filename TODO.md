@@ -580,18 +580,19 @@ Effort: M
 Priority: P2
 Type: SECURITY
 Owner: AGENT
-Status: READY
+Status: DONE
 Blockers: None
 Context:
 - Ensure CSP and routes remain tight after analytics and other integrations
 Acceptance Criteria:
-- [ ] T-100.1: Review OG image route and harden/remove if unnecessary
-- [ ] T-100.2: Re-check CSP after analytics integration
-- [ ] T-100.3: Remove overly-broad CSP allowances
+- [x] T-100.1: Review OG image route and harden/remove if unnecessary
+- [x] T-100.2: Re-check CSP after analytics integration
+- [x] T-100.3: Remove overly-broad CSP allowances
 References:
 - /middleware.ts
 - /next.config.mjs
 - /lib/analytics.ts
+- /docs/SECURITY-CSP-ANALYTICS.md
 Dependencies: T-098
 Effort: S
 
@@ -711,13 +712,13 @@ Effort: M
 Priority: P3
 Type: DEPENDENCY
 Owner: AGENT
-Status: READY
+Status: DONE
 Blockers: None
 Context:
 - Keep dependencies healthy and update-ready
 Acceptance Criteria:
-- [ ] T-104.1: Add npm audit to CI pipeline
-- [ ] T-104.2: Document monthly dependency review process
+- [x] T-104.1: Add npm audit to CI pipeline
+- [x] T-104.2: Document monthly dependency review process
 References:
 - /package.json
 - /githubactions/
@@ -729,15 +730,16 @@ Effort: S
 Priority: P3
 Type: QUALITY
 Owner: AGENT
-Status: READY
+Status: DONE
 Blockers: None
 Context:
 - Automate governance checks to reduce drift
 Acceptance Criteria:
-- [ ] T-105.1: Add CI rule to flag TODO comments if policy requires it
-- [ ] T-105.2: Document optional pre-commit hooks for lint/formatting
+- [x] T-105.1: Add CI rule to flag TODO comments if policy requires it
+- [x] T-105.2: Document optional pre-commit hooks for lint/formatting
 References:
 - /githubactions/
 - /docs/CONTRIBUTING.md
+- /scripts/check-todo-comments.mjs
 Dependencies: T-090
 Effort: S
