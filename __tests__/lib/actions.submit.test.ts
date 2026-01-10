@@ -46,6 +46,7 @@ const buildPayload = (email: string) => ({
 
 describe('contact form email pipeline', () => {
   beforeEach(() => {
+    vi.resetModules()
     vi.clearAllMocks()
   })
 
@@ -55,11 +56,13 @@ describe('contact form email pipeline', () => {
 
     expect(response.success).toBe(true)
     expect(sendMock).toHaveBeenCalledTimes(1)
-
-    const [payload] = sendMock.mock.calls[0]
-    expect(payload.to).toBe('contact@example.com')
-    expect(payload.subject).not.toMatch(/[\r\n]/)
-    expect(payload.html).toContain('&lt;script&gt;alert(1)&lt;/script&gt;')
+    expect(sendMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        to: 'contact@example.com',
+        subject: expect.not.stringMatching(/[\r\n]/),
+        html: expect.stringContaining('&lt;script&gt;alert(1)&lt;/script&gt;'),
+      })
+    )
   })
 
   it('returns a safe error response when Resend fails', async () => {

@@ -59,10 +59,7 @@ const buildPayload = (email: string) => ({
 describe('contact form Upstash rate limiting', () => {
   beforeEach(() => {
     vi.resetModules()
-    limitMock.mockReset()
-    logError.mockReset()
-    logInfo.mockReset()
-    logWarn.mockReset()
+    vi.resetAllMocks()
     currentIp = '203.0.113.55'
   })
 
@@ -74,8 +71,8 @@ describe('contact form Upstash rate limiting', () => {
 
     expect(response.success).toBe(true)
     expect(limitMock).toHaveBeenCalledTimes(2)
-    expect(limitMock.mock.calls[0]?.[0]).toBe('email:upstash@example.com')
-    expect(limitMock.mock.calls[1]?.[0]).toMatch(/^ip:/)
+    expect(limitMock).toHaveBeenNthCalledWith(1, 'email:upstash@example.com')
+    expect(limitMock).toHaveBeenNthCalledWith(2, expect.stringMatching(/^ip:/))
     expect(logInfo).toHaveBeenCalledWith('Initialized distributed rate limiting with Upstash Redis')
   })
 
