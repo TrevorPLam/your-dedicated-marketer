@@ -1,86 +1,64 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { Users } from 'lucide-react'
-import Container from '@/components/ui/Container'
-import Section from '@/components/ui/Section'
-import Card from '@/components/ui/Card'
-import Button from '@/components/ui/Button'
+import ServiceDetailLayout from '@/components/ServiceDetailLayout'
 
 export const metadata: Metadata = {
-  title: 'Funnel Build-Out | Your Dedicated Marketer',
-  description: 'Funnel build-out services are coming soon. Get early access to landing page optimization, lead magnets, and conversion tracking.',
+  title: 'Funnels (Website & Conversion) | Your Dedicated Marketer',
+  description: 'Funnel work handled within the Website & Conversion pillar.',
 }
 
-const funnelHighlights = [
+const standardDescription =
+  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
+
+const standardPricing = [
   {
-    title: 'Landing page optimization',
-    description: 'Clarify your offer and remove friction so visitors take the next step.',
+    tier: 'Starter',
+    description: 'Starter engagement for focused priorities.',
+    href: '/pricing#starter',
   },
   {
-    title: 'Lead magnet development',
-    description: 'Create compelling assets that turn visitors into qualified leads.',
+    tier: 'Growth',
+    description: 'Growth engagement for multi-channel coordination.',
+    href: '/pricing#growth',
   },
   {
-    title: 'Conversion tracking',
-    description: 'Instrument the funnel so every step is measurable and improvable.',
+    tier: 'Scale',
+    description: 'Scale engagement for ongoing leadership and execution.',
+    href: '/pricing#scale',
+  },
+]
+
+const standardFaqs = [
+  {
+    question: 'How does this focus area fit into the engagement?',
+    answer: 'Funnel work is handled within the Website & Conversion pillar so it stays aligned with the website and conversion paths.',
+  },
+  {
+    question: 'What happens after we align on priorities?',
+    answer: 'I take responsibility for execution, follow-through, and ongoing adjustments while keeping your team aligned.',
   },
 ]
 
 export default function FunnelBuildOutPage() {
   return (
-    <>
-      <Section className="bg-gradient-to-b from-charcoal to-charcoal/95 text-white">
-        <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="w-16 h-16 bg-teal/20 rounded-lg flex items-center justify-center mx-auto mb-6">
-              <Users className="w-8 h-8 text-teal" />
-            </div>
-            <p className="text-sm uppercase tracking-[0.3em] text-white/60 mb-4">Coming Soon</p>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Funnel Build-Out</h1>
-            <p className="text-xl text-white/80 mb-8">
-              We&apos;re designing a funnel build-out package that aligns your landing pages, offers,
-              and follow-up flows. Be the first to get the new funnel roadmap.
-            </p>
-            <Link href="/contact">
-              <Button variant="primary" size="large">
-                Get Funnel Help
-              </Button>
-            </Link>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="bg-white">
-        <Container>
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-charcoal mb-6 text-center">What to expect</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {funnelHighlights.map((item) => (
-                <Card key={item.title} variant="default">
-                  <h3 className="text-lg font-semibold text-charcoal mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate leading-relaxed">{item.description}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="bg-off-white">
-        <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-charcoal mb-4">Need a better funnel today?</h2>
-            <p className="text-lg text-slate mb-6">
-              We can audit your current funnel and recommend improvements you can act on immediately.
-            </p>
-            <Link href="/contact">
-              <Button variant="secondary" size="large">
-                Schedule a Funnel Audit
-              </Button>
-            </Link>
-          </div>
-        </Container>
-      </Section>
-    </>
+    <ServiceDetailLayout
+      icon={Users}
+      title="Funnels (Website & Conversion)"
+      subtitle="Component within the pillar"
+      description={standardDescription}
+      serviceSlug="funnel"
+      included={[
+        'Conversion path alignment inside the Website & Conversion pillar',
+        'Landing page and offer flow coordination',
+        'Step-by-step handoff between ads, site, and CRM',
+        'Friction checks across key visitor actions',
+        'Ongoing adjustments tied to pillar priorities',
+      ]}
+      whoItsFor={[
+        'When the path from visit to action needs attention within the broader engagement. This becomes important when the handoff between pages, forms, and follow-up is unclear or inconsistent. If you want funnel work handled as part of the Website & Conversion pillar, this focus area fits.',
+      ]}
+      pricing={standardPricing}
+      faqs={standardFaqs}
+    />
   )
 }

@@ -3,8 +3,8 @@ import { BarChart } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
 
 export const metadata: Metadata = {
-  title: 'Reporting (Analytics & Decision Support) | Your Dedicated Marketer',
-  description: 'Reporting handled within the Analytics & Decision Support pillar.',
+  title: 'Analytics & Decision Support | Your Dedicated Marketer',
+  description: 'Analytics and decision support handled within one pillar.',
 }
 
 const standardDescription =
@@ -30,8 +30,8 @@ const standardPricing = [
 
 const standardFaqs = [
   {
-    question: 'How does this focus area fit into the engagement?',
-    answer: 'Reporting is handled within the Analytics & Decision Support pillar so it reflects the broader priorities.',
+    question: 'How does this pillar fit into the engagement?',
+    answer: 'It is handled alongside the other pillars so priorities can shift without losing momentum.',
   },
   {
     question: 'What happens after we align on priorities?',
@@ -39,23 +39,22 @@ const standardFaqs = [
   },
 ]
 
-export default function MarketingReportingPage() {
+export default function AnalyticsDecisionSupportPage() {
   return (
     <ServiceDetailLayout
       icon={BarChart}
-      title="Reporting (Analytics & Decision Support)"
-      subtitle="Component within the pillar"
+      title="Analytics & Decision Support"
+      subtitle="The Scoreboard"
       description={standardDescription}
-      serviceSlug="reporting"
+      serviceSlug="analytics"
       included={[
-        'Performance visibility aligned to Analytics & Decision Support',
-        'Reporting cadence tied to decision needs',
-        'Metric definitions kept consistent across teams',
-        'Context that connects performance to priorities',
-        'Adjustments based on what the data makes clear',
+        'Tracking setup and data integrity',
+        'Performance reporting and visibility',
+        'Attribution modeling',
+        'Making data usable for strategic decisions',
       ]}
       whoItsFor={[
-        'When the team needs clarity without treating reporting as a standalone effort. This becomes important when visibility is inconsistent or decisions rely on partial data. If you want reporting handled as part of the Analytics & Decision Support pillar, this focus area fits.',
+        'When the team is investing time or money into marketing but lacks clarity on what’s actually driving results. This becomes critical when decisions are based on opinions, metrics are inconsistent, or attribution is unclear. If you want confident decisions backed by clean measurement, this pillar matters.',
       ]}
       pricing={standardPricing}
       faqs={standardFaqs}

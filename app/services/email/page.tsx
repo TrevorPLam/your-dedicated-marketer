@@ -3,54 +3,41 @@ import { Mail } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
 
 export const metadata: Metadata = {
-  title: 'Email Marketing Services | Your Dedicated Marketer',
-  description: 'Professional email marketing services including campaign strategy, copywriting, list segmentation, automation setup, and performance tracking for higher conversions.',
+  title: 'Email Communication (CRM & Customer Communication) | Your Dedicated Marketer',
+  description: 'Email communication handled within the CRM & Customer Communication pillar.',
 }
+
+const standardDescription =
+  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
+
+const standardFaqs = [
+  {
+    question: 'How does this focus area fit into the engagement?',
+    answer: 'Email communication is handled within the CRM & Customer Communication pillar so it stays aligned with lifecycle priorities.',
+  },
+  {
+    question: 'What happens after we align on priorities?',
+    answer: 'I take responsibility for execution, follow-through, and ongoing adjustments while keeping your team aligned.',
+  },
+]
 
 export default function EmailMarketingPage() {
   return (
     <ServiceDetailLayout
       icon={Mail}
-      title="Email Marketing"
-      description="Nurture leads and drive conversions with targeted email campaigns. We create strategic email programs that build relationships with your audience and turn subscribers into customers."
+      title="Email Communication (CRM & Customer Communication)"
+      subtitle="Component within the pillar"
+      description={standardDescription}
       serviceSlug="email"
       included={[
-        'Email campaign strategy and planning',
-        'Professional email copywriting',
-        'Email template design and development',
-        'List segmentation and targeting',
-        'A/B testing for optimization',
-        'Automation workflow setup',
-        'Welcome series and nurture sequences',
-        'Performance tracking and analytics',
-        'List health management',
-        'Compliance with email regulations (CAN-SPAM, GDPR)',
-      ]}
-      process={[
-        {
-          title: 'Strategy & Setup',
-          description: 'Define goals, audience segments, and email program structure based on your business.',
-        },
-        {
-          title: 'Campaign Creation',
-          description: 'Write compelling copy, design templates, and set up campaigns in your email platform.',
-        },
-        {
-          title: 'Automation Build',
-          description: 'Create automated sequences for welcome, nurture, and conversion workflows.',
-        },
-        {
-          title: 'Test & Optimize',
-          description: 'Monitor performance, A/B test elements, and continuously improve results.',
-        },
+        'Lifecycle communication aligned to CRM priorities',
+        'Automation and follow-up sequences tied to pipeline stages',
+        'Segmentation that supports retention and repeat engagement',
+        'Message timing aligned to the customer journey',
+        'Performance checks focused on consistency and clarity',
       ]}
       whoItsFor={[
-        'E-commerce businesses wanting to increase repeat purchases',
-        'B2B companies nurturing leads through the sales funnel',
-        'Service providers staying top-of-mind with prospects',
-        'Businesses with email lists not being used effectively',
-        'Companies wanting to automate customer communication',
-        'Organizations looking to increase customer lifetime value',
+        'When customer communication needs structure beyond one-off sends. This becomes important when follow-up and lifecycle touchpoints are inconsistent or manual. If you want email handled as part of the broader CRM pillar instead of a standalone effort, this focus area fits.',
       ]}
       pricing={[
         {
@@ -69,32 +56,7 @@ export default function EmailMarketingPage() {
           href: '/pricing#scale',
         },
       ]}
-      faqs={[
-        {
-          question: 'Which email platform do you work with?',
-          answer: 'We work with all major platforms including Mailchimp, Klaviyo, Constant Contact, HubSpot, ActiveCampaign, and others. If you don\'t have a platform yet, we\'ll help you choose the right one for your needs and budget.',
-        },
-        {
-          question: 'What if I don\'t have an email list?',
-          answer: 'We can help you build one! We\'ll create lead magnets, optimize signup forms, and implement strategies to grow your list organically. Building a quality email list takes time, but it\'s one of the most valuable marketing assets.',
-        },
-        {
-          question: 'How often should I email my list?',
-          answer: 'It depends on your industry and audience. Most businesses benefit from 2-4 emails per month for newsletters, plus automated sequences. We\'ll help find the right frequency that maintains engagement without causing unsubscribes.',
-        },
-        {
-          question: 'Can you help with email deliverability issues?',
-          answer: 'Yes! We follow best practices for deliverability including proper authentication (SPF, DKIM), list hygiene, engagement-based sending, and avoiding spam triggers. Good deliverability is essential for email success.',
-        },
-        {
-          question: 'Do you provide the email content or do I?',
-          answer: 'We write all email copy based on your business, offers, and goals. You\'ll review and approve before sending. If you have specific promotions or announcements, we\'ll transform those into effective email campaigns.',
-        },
-        {
-          question: 'How do you measure email marketing success?',
-          answer: 'We track open rates, click-through rates, conversion rates, list growth, and most importantly - revenue generated from email campaigns. You\'ll receive monthly reports showing these metrics and campaign performance.',
-        },
-      ]}
+      faqs={standardFaqs}
     />
   )
 }

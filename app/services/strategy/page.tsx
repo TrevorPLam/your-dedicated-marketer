@@ -1,86 +1,64 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { TrendingUp } from 'lucide-react'
-import Container from '@/components/ui/Container'
-import Section from '@/components/ui/Section'
-import Card from '@/components/ui/Card'
-import Button from '@/components/ui/Button'
+import ServiceDetailLayout from '@/components/ServiceDetailLayout'
 
 export const metadata: Metadata = {
   title: 'Marketing Strategy | Your Dedicated Marketer',
-  description: 'Marketing strategy services are coming soon. Get early access to quarterly planning, channel prioritization, and growth roadmaps.',
+  description: 'Marketing strategy leadership across priorities, budgets, and success measures.',
 }
 
-const strategyHighlights = [
+const standardDescription =
+  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
+
+const standardPricing = [
   {
-    title: 'Quarterly planning sessions',
-    description: 'Set clear goals, prioritize initiatives, and align marketing with business objectives.',
+    tier: 'Starter',
+    description: 'Starter engagement for focused priorities.',
+    href: '/pricing#starter',
   },
   {
-    title: 'Channel prioritization',
-    description: 'Focus on the channels that will deliver the biggest impact for your budget and timeline.',
+    tier: 'Growth',
+    description: 'Growth engagement for multi-channel coordination.',
+    href: '/pricing#growth',
   },
   {
-    title: 'Competitive positioning',
-    description: 'Clarify your differentiators and translate them into focused messaging.',
+    tier: 'Scale',
+    description: 'Scale engagement for ongoing leadership and execution.',
+    href: '/pricing#scale',
+  },
+]
+
+const standardFaqs = [
+  {
+    question: 'How does this pillar fit into the engagement?',
+    answer: 'It is handled alongside the other pillars so priorities can shift without losing momentum.',
+  },
+  {
+    question: 'What happens after we align on priorities?',
+    answer: 'I take responsibility for execution, follow-through, and ongoing adjustments while keeping your team aligned.',
   },
 ]
 
 export default function MarketingStrategyPage() {
   return (
-    <>
-      <Section className="bg-gradient-to-b from-charcoal to-charcoal/95 text-white">
-        <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="w-16 h-16 bg-teal/20 rounded-lg flex items-center justify-center mx-auto mb-6">
-              <TrendingUp className="w-8 h-8 text-teal" />
-            </div>
-            <p className="text-sm uppercase tracking-[0.3em] text-white/60 mb-4">Coming Soon</p>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Marketing Strategy</h1>
-            <p className="text-xl text-white/80 mb-8">
-              We&apos;re building a dedicated strategy offer to help you plan every quarter with confidence.
-              Get early access and we&apos;ll tailor the first roadmap to your goals.
-            </p>
-            <Link href="/contact">
-              <Button variant="primary" size="large">
-                Get Early Access
-              </Button>
-            </Link>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="bg-white">
-        <Container>
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-charcoal mb-6 text-center">What to expect</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {strategyHighlights.map((item) => (
-                <Card key={item.title} variant="default">
-                  <h3 className="text-lg font-semibold text-charcoal mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate leading-relaxed">{item.description}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="bg-off-white">
-        <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-charcoal mb-4">Want a custom roadmap now?</h2>
-            <p className="text-lg text-slate mb-6">
-              Let&apos;s map out your next 90 days together. We&apos;ll identify quick wins and the highest-leverage initiatives.
-            </p>
-            <Link href="/contact">
-              <Button variant="secondary" size="large">
-                Schedule a Strategy Call
-              </Button>
-            </Link>
-          </div>
-        </Container>
-      </Section>
-    </>
+    <ServiceDetailLayout
+      icon={TrendingUp}
+      title="Marketing Strategy"
+      subtitle="The Brain"
+      description={standardDescription}
+      serviceSlug="strategy"
+      included={[
+        'Translating vision into priorities',
+        'Deciding what matters now vs. later',
+        'Resource allocation and budgeting',
+        'Aligning all work to business goals',
+        'Defining clear KPIs and measures of success',
+      ]}
+      whoItsFor={[
+        'When the business has ideas but no clear priorities — or when marketing effort feels scattered. This becomes critical when budget, time, and attention need structure, and your team needs a clear plan that connects to real business outcomes. If you want execution to stay aligned instead of drifting into random tactics, this pillar matters.',
+      ]}
+      pricing={standardPricing}
+      faqs={standardFaqs}
+    />
   )
 }

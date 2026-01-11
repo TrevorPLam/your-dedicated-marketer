@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { BarChart } from 'lucide-react'
+import { Users } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
 
 export const metadata: Metadata = {
-  title: 'Reporting (Analytics & Decision Support) | Your Dedicated Marketer',
-  description: 'Reporting handled within the Analytics & Decision Support pillar.',
+  title: 'Website & Conversion | Your Dedicated Marketer',
+  description: 'Website, conversion paths, and front-end funnels handled within one pillar.',
 }
 
 const standardDescription =
@@ -30,8 +30,8 @@ const standardPricing = [
 
 const standardFaqs = [
   {
-    question: 'How does this focus area fit into the engagement?',
-    answer: 'Reporting is handled within the Analytics & Decision Support pillar so it reflects the broader priorities.',
+    question: 'How does this pillar fit into the engagement?',
+    answer: 'It is handled alongside the other pillars so priorities can shift without losing momentum.',
   },
   {
     question: 'What happens after we align on priorities?',
@@ -39,23 +39,23 @@ const standardFaqs = [
   },
 ]
 
-export default function MarketingReportingPage() {
+export default function WebsiteConversionPage() {
   return (
     <ServiceDetailLayout
-      icon={BarChart}
-      title="Reporting (Analytics & Decision Support)"
-      subtitle="Component within the pillar"
+      icon={Users}
+      title="Website & Conversion"
+      subtitle="The Storefront"
       description={standardDescription}
-      serviceSlug="reporting"
+      serviceSlug="website"
       included={[
-        'Performance visibility aligned to Analytics & Decision Support',
-        'Reporting cadence tied to decision needs',
-        'Metric definitions kept consistent across teams',
-        'Context that connects performance to priorities',
-        'Adjustments based on what the data makes clear',
+        'Website structure, messaging, and maintenance',
+        'Conversion paths and user experience (UX)',
+        'Front-end funnel mechanics and click flows',
+        'Performance, speed, and technical SEO',
+        'Conversion Rate Optimization (CRO)',
       ]}
       whoItsFor={[
-        'When the team needs clarity without treating reporting as a standalone effort. This becomes important when visibility is inconsistent or decisions rely on partial data. If you want reporting handled as part of the Analytics & Decision Support pillar, this focus area fits.',
+        'When traffic is coming in but leads aren’t — or when the website doesn’t reflect how the business should be positioned. This becomes critical when the site is creating friction: unclear messaging, weak conversion paths, slow performance, or poor mobile experience. If your team needs the website to act like a growth asset instead of a brochure, this pillar matters.',
       ]}
       pricing={standardPricing}
       faqs={standardFaqs}

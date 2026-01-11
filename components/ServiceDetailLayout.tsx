@@ -56,13 +56,6 @@ import { getPublicBaseUrl } from '@/lib/env.public'
 /**
  * Process step data structure.
  */
-export interface ProcessStep {
-  /** Step title */
-  title: string
-  /** Step description */
-  description: string
-}
-
 /**
  * Service detail page props.
  * All fields are required to ensure consistent service pages.
@@ -72,12 +65,12 @@ export interface ServiceDetailProps {
   icon: LucideIcon
   /** Service title (used in h1 and structured data) */
   title: string
+  /** Optional service subtitle */
+  subtitle?: string
   /** Service description (hero and meta) */
   description: string
   /** List of features/deliverables included */
   included: string[]
-  /** Numbered process steps */
-  process: ProcessStep[]
   /** Target audience descriptions */
   whoItsFor: string[]
   /** Pricing tier cards */
@@ -99,9 +92,9 @@ export interface ServiceDetailProps {
 export default function ServiceDetailLayout({
   icon: Icon,
   title,
+  subtitle,
   description,
   included,
-  process,
   whoItsFor,
   pricing,
   faqs,
@@ -169,6 +162,9 @@ export default function ServiceDetailLayout({
             <div className="w-16 h-16 bg-teal/20 rounded-lg flex items-center justify-center mx-auto mb-6">
               <Icon className="w-8 h-8 text-teal" />
             </div>
+            {subtitle ? (
+              <p className="text-sm uppercase tracking-[0.3em] text-white/60 mb-4">{subtitle}</p>
+            ) : null}
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">{title}</h1>
             <p className="text-xl text-white/80 mb-8">{description}</p>
             <Link href="/contact">
@@ -184,7 +180,9 @@ export default function ServiceDetailLayout({
       <Section className="bg-white">
         <Container>
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-charcoal mb-8 text-center">What's Included</h2>
+            <h2 className="text-3xl font-bold text-charcoal mb-8 text-center">
+              What I take responsibility for
+            </h2>
             <div className="grid md:grid-cols-2 gap-4">
               {included.map((item, index) => (
                 <div key={index} className="flex items-start gap-3">
@@ -202,17 +200,20 @@ export default function ServiceDetailLayout({
       {/* Process */}
       <Section className="bg-off-white">
         <Container>
-          <h2 className="text-3xl font-bold text-charcoal mb-12 text-center">Our Process</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {process.map((step, index) => (
-              <Card key={index} variant="default">
-                <div className="w-12 h-12 bg-teal rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-white font-bold text-xl">{index + 1}</span>
-                </div>
-                <h3 className="text-lg font-semibold text-charcoal mb-2">{step.title}</h3>
-                <p className="text-slate text-sm leading-relaxed">{step.description}</p>
-              </Card>
-            ))}
+          <h2 className="text-3xl font-bold text-charcoal mb-8 text-center">
+            How I work with your team
+          </h2>
+          <div className="max-w-3xl mx-auto space-y-4 text-lg text-slate leading-relaxed">
+            <p>We start by aligning on direction and priorities.</p>
+            <p>
+              From there, I take responsibility for execution — keeping work moving forward,
+              adjusting based on results, and staying aligned with your team as things evolve.
+            </p>
+            <p>
+              You’re involved where decisions are needed. I handle the follow-through,
+              coordination, and day-to-day progress so marketing doesn’t stall or become a
+              distraction.
+            </p>
           </div>
         </Container>
       </Section>
@@ -222,7 +223,7 @@ export default function ServiceDetailLayout({
         <Container>
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold text-charcoal mb-8 text-center">
-              Who This Service Is For
+              When this matters most
             </h2>
             <div className="space-y-4">
               {whoItsFor.map((item, index) => (
@@ -285,6 +286,11 @@ export default function ServiceDetailLayout({
                 Schedule Free Consultation
               </Button>
             </Link>
+            <div className="mt-4">
+              <Link href="/contact" className="text-white underline underline-offset-4">
+                Start with a conversation
+              </Link>
+            </div>
           </div>
         </Container>
       </Section>

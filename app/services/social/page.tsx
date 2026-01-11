@@ -3,54 +3,41 @@ import { Share2 } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
 
 export const metadata: Metadata = {
-  title: 'Social Media Management | Your Dedicated Marketer',
-  description: 'Professional social media management services including strategy, content creation, posting, community management, and analytics across all major platforms.',
+  title: 'Social Presence (Content & Brand Presence) | Your Dedicated Marketer',
+  description: 'Social presence handled within the Content & Brand Presence pillar.',
 }
+
+const standardDescription =
+  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
+
+const standardFaqs = [
+  {
+    question: 'How does this focus area fit into the engagement?',
+    answer: 'Social presence is handled within the Content & Brand Presence pillar so it stays aligned with messaging and visibility goals.',
+  },
+  {
+    question: 'What happens after we align on priorities?',
+    answer: 'I take responsibility for execution, follow-through, and ongoing adjustments while keeping your team aligned.',
+  },
+]
 
 export default function SocialMediaPage() {
   return (
     <ServiceDetailLayout
       icon={Share2}
-      title="Social Media Management"
-      description="Build community and brand awareness across social platforms. We handle strategy, content creation, posting, and engagement so you can focus on running your business while maintaining an active social presence."
+      title="Social Presence (Content & Brand Presence)"
+      subtitle="Component within the pillar"
+      description={standardDescription}
       serviceSlug="social"
       included={[
-        'Platform strategy development',
-        'Monthly content calendar creation',
-        'Custom social media content creation',
-        'Post scheduling and publishing',
-        'Community management and engagement',
-        'Comment monitoring and response',
-        'Hashtag research and strategy',
-        'Performance analytics and reporting',
-        'Trend monitoring and recommendations',
-        'Brand voice consistency across platforms',
-      ]}
-      process={[
-        {
-          title: 'Platform Audit',
-          description: 'Analyze current social presence and identify opportunities for growth and engagement.',
-        },
-        {
-          title: 'Strategy Creation',
-          description: 'Develop platform-specific strategies aligned with your business goals and audience.',
-        },
-        {
-          title: 'Content Production',
-          description: 'Create engaging posts, graphics, and captions scheduled throughout the month.',
-        },
-        {
-          title: 'Engage & Optimize',
-          description: 'Monitor engagement, respond to comments, and refine strategy based on performance.',
-        },
+        'Social presence direction aligned to the broader plan',
+        'Platform focus based on where your audience already engages',
+        'Consistency in voice, visuals, and timing',
+        'Content distribution that supports organic visibility',
+        'Engagement patterns monitored to refine priorities',
       ]}
       whoItsFor={[
-        'Local businesses wanting to build community awareness',
-        'B2C brands looking to engage directly with customers',
-        'Service providers building thought leadership',
-        'E-commerce businesses driving traffic to their store',
-        'Companies lacking time to maintain consistent social presence',
-        'Businesses wanting professional, on-brand social content',
+        'When public visibility and consistency on social platforms need focused attention. This becomes important when the brand voice is uneven or the presence is inconsistent across channels. If you want social presence managed as part of the broader pillar work, this focus area fits.',
       ]}
       pricing={[
         {
@@ -69,32 +56,7 @@ export default function SocialMediaPage() {
           href: '/pricing#scale',
         },
       ]}
-      faqs={[
-        {
-          question: 'Which social media platforms do you manage?',
-          answer: 'We manage all major platforms: Facebook, Instagram, LinkedIn, Twitter/X, TikTok, and Pinterest. We recommend focusing on 2-3 platforms where your target audience is most active rather than spreading too thin.',
-        },
-        {
-          question: 'Do I need to provide content or do you create it?',
-          answer: 'We create all content including graphics, captions, and hashtags. Occasionally we may request photos of your products/services or team for authentic content. You\'ll approve the content calendar before we post.',
-        },
-        {
-          question: 'How quickly do you respond to comments and messages?',
-          answer: 'We monitor and respond to comments typically within 24 hours during business days. For direct messages, we can either respond on your behalf (for general inquiries) or forward to you for specific questions requiring your expertise.',
-        },
-        {
-          question: 'Can you run social media ads?',
-          answer: 'Yes! Social media advertising is available as an add-on service. We handle ad creative, targeting, budget management, and optimization. This is separate from organic social media management.',
-        },
-        {
-          question: 'What if I want to post something spontaneous?',
-          answer: 'Absolutely! We\'ll provide you with posting guidelines to maintain brand consistency. You can post anytime, and we\'ll work around your posts in our content calendar. We recommend a collaborative approach.',
-        },
-        {
-          question: 'How do you measure social media success?',
-          answer: 'We track follower growth, engagement rate, reach, clicks, and conversions. Success metrics vary by platform and goals. We focus on meaningful engagement and traffic rather than vanity metrics like follower count alone.',
-        },
-      ]}
+      faqs={standardFaqs}
     />
   )
 }

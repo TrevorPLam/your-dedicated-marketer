@@ -3,54 +3,41 @@ import { Search } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
 
 export const metadata: Metadata = {
-  title: 'SEO Services | Your Dedicated Marketer',
-  description: 'Professional SEO services including technical audits, on-page optimization, keyword research, and local SEO to help your business get found online.',
+  title: 'SEO (Content & Brand Presence) | Your Dedicated Marketer',
+  description: 'SEO support delivered within the Content & Brand Presence and Website & Conversion pillars.',
 }
+
+const standardDescription =
+  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
+
+const standardFaqs = [
+  {
+    question: 'How does this focus area fit into the engagement?',
+    answer: 'SEO is handled within the Content & Brand Presence and Website & Conversion pillars so it stays aligned with the broader plan.',
+  },
+  {
+    question: 'What happens after we align on priorities?',
+    answer: 'I take responsibility for execution, follow-through, and ongoing adjustments while keeping your team aligned.',
+  },
+]
 
 export default function SEOServicesPage() {
   return (
     <ServiceDetailLayout
       icon={Search}
-      title="SEO Services"
-      description="Get found by customers actively searching for your services. Our comprehensive SEO approach combines technical expertise with strategic content optimization to improve your search rankings and drive qualified traffic."
+      title="SEO (Content & Brand Presence)"
+      subtitle="Component within the pillars"
+      description={standardDescription}
       serviceSlug="seo"
       included={[
-        'Comprehensive technical SEO audit',
-        'On-page optimization for all key pages',
-        'Keyword research and competitive analysis',
-        'Meta tag and structured data optimization',
-        'Site structure and internal linking recommendations',
-        'Local SEO setup and optimization',
-        'Google Business Profile optimization',
-        'Monthly ranking reports and insights',
-        'Ongoing SEO monitoring and adjustments',
-        'Search performance analysis',
-      ]}
-      process={[
-        {
-          title: 'Audit & Analysis',
-          description: 'Complete technical SEO audit and competitive keyword research to identify opportunities.',
-        },
-        {
-          title: 'Strategy Development',
-          description: 'Create prioritized roadmap of SEO improvements based on impact and effort.',
-        },
-        {
-          title: 'Implementation',
-          description: 'Execute on-page optimizations, technical fixes, and content recommendations.',
-        },
-        {
-          title: 'Monitor & Refine',
-          description: 'Track rankings, traffic, and conversions. Continuously optimize based on data.',
-        },
+        'Search visibility priorities aligned to the broader plan',
+        'Technical SEO coordination within Website & Conversion',
+        'Organic visibility alignment within Content & Brand Presence',
+        'Search-friendly structure and metadata reviews',
+        'Ongoing monitoring tied to pillar priorities',
       ]}
       whoItsFor={[
-        'Local businesses wanting to rank for "near me" searches',
-        'Service providers looking to attract customers searching for their expertise',
-        'E-commerce businesses wanting to improve product visibility in search',
-        'B2B companies targeting decision-makers researching solutions',
-        'Businesses with existing websites that need optimization',
-        'Companies ready to invest in long-term organic growth',
+        'When search visibility needs focused attention within the broader engagement. This becomes important when the website or content needs stronger alignment to how people discover and evaluate your business. If you want SEO handled as part of the overall plan rather than a standalone effort, this focus area fits.',
       ]}
       pricing={[
         {
@@ -69,32 +56,7 @@ export default function SEOServicesPage() {
           href: '/pricing#scale',
         },
       ]}
-      faqs={[
-        {
-          question: 'How long does it take to see SEO results?',
-          answer: 'Most clients see initial improvements in 3-4 months, with significant gains by 6-12 months. SEO is a long-term investment that builds momentum over time. Quick wins like local SEO and technical fixes can show faster results.',
-        },
-        {
-          question: 'Do you guarantee first page rankings?',
-          answer: 'We don\'t guarantee specific rankings as Google\'s algorithm is constantly changing. However, we focus on proven strategies that improve visibility, drive qualified traffic, and increase conversions - which is what really matters for your business.',
-        },
-        {
-          question: 'What\'s the difference between local and national SEO?',
-          answer: 'Local SEO targets customers in your geographic area through Google Business Profile optimization and local citations. National SEO targets broader keywords across the country. Most small businesses benefit most from local SEO initially.',
-        },
-        {
-          question: 'Will I need to update my website?',
-          answer: 'Some SEO improvements require website updates (titles, meta descriptions, content). We provide clear recommendations and can either implement them directly (if you give us access) or work with your web developer to ensure proper execution.',
-        },
-        {
-          question: 'How do you measure SEO success?',
-          answer: 'We track rankings for target keywords, organic traffic growth, click-through rates, and most importantly - conversions from organic search. You\'ll receive monthly reports showing progress across all these metrics.',
-        },
-        {
-          question: 'What if I\'m already working with another SEO company?',
-          answer: 'We can conduct an audit of your current SEO efforts and provide recommendations. Many clients switch to us after not seeing results elsewhere. We focus on transparent reporting and strategies that actually drive business results.',
-        },
-      ]}
+      faqs={standardFaqs}
     />
   )
 }
