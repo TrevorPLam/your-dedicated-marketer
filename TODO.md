@@ -315,14 +315,15 @@ Effort: XS
 Priority: P2
 Type: QUALITY
 Owner: Trevor
-Status: READY
+Status: DONE
 Blockers: None
+Completed: 2026-01-11
 Context:
 - Confirm no obvious accessibility blockers before scaling
 Acceptance Criteria:
-- [ ] T-102.1: Keyboard-only test (nav, menu, contact form)
-- [ ] T-102.2: Confirm focus visibility and order
-- [ ] T-102.3: Record results in /docs/ACCESSIBILITY.md
+- [x] T-102.1: Keyboard-only test (nav, menu, contact form)
+- [x] T-102.2: Confirm focus visibility and order
+- [x] T-102.3: Record results in /docs/ACCESSIBILITY.md
 References:
 - /docs/ACCESSIBILITY.md
 - /components/Navigation.tsx
