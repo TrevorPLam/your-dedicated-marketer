@@ -61,7 +61,7 @@ export default function Hero() {
               </Link>
             </div>
             <p className="text-sm text-slate mt-4">
-              No contracts · Cancel anytime · Free consultation, no obligation
+              No contracts · Cancel anytime · Free strategy call, no obligation
             </p>
           </div>
 
