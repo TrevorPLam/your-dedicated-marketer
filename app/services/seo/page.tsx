@@ -1,19 +1,18 @@
 import type { Metadata } from 'next'
 import { Search } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
+import { STANDARD_SERVICE_DESCRIPTION, STANDARD_SERVICE_FAQS } from '@/app/services/constants'
 
 export const metadata: Metadata = {
   title: 'SEO (Content & Brand Presence) | Your Dedicated Marketer',
   description: 'SEO support delivered within the Content & Brand Presence and Website & Conversion pillars.',
 }
 
-const standardDescription =
-  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
-
 const standardFaqs = [
   {
     question: 'How does this focus area fit into the engagement?',
-    answer: 'SEO is handled within the Content & Brand Presence and Website & Conversion pillars so it stays aligned with the broader plan.',
+    answer:
+      'SEO is handled within the Content & Brand Presence and Website & Conversion pillars so it stays aligned with the broader plan.',
   },
   {
     question: 'What happens after we align on priorities?',
@@ -27,7 +26,7 @@ export default function SEOServicesPage() {
       icon={Search}
       title="SEO (Content & Brand Presence)"
       subtitle="Component within the pillars"
-      description={standardDescription}
+      description={STANDARD_SERVICE_DESCRIPTION}
       serviceSlug="seo"
       included={[
         'Search visibility priorities aligned to the broader plan',

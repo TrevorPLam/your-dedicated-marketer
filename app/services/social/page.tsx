@@ -1,19 +1,18 @@
 import type { Metadata } from 'next'
 import { Share2 } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
+import { STANDARD_SERVICE_DESCRIPTION, STANDARD_SERVICE_FAQS } from '@/app/services/constants'
 
 export const metadata: Metadata = {
   title: 'Social Presence (Content & Brand Presence) | Your Dedicated Marketer',
   description: 'Social presence handled within the Content & Brand Presence pillar.',
 }
 
-const standardDescription =
-  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
-
 const standardFaqs = [
   {
     question: 'How does this focus area fit into the engagement?',
-    answer: 'Social presence is handled within the Content & Brand Presence pillar so it stays aligned with messaging and visibility goals.',
+    answer:
+      'Social presence is handled within the Content & Brand Presence pillar so it stays aligned with messaging and visibility goals.',
   },
   {
     question: 'What happens after we align on priorities?',
@@ -27,7 +26,7 @@ export default function SocialMediaPage() {
       icon={Share2}
       title="Social Presence (Content & Brand Presence)"
       subtitle="Component within the pillar"
-      description={standardDescription}
+      description={STANDARD_SERVICE_DESCRIPTION}
       serviceSlug="social"
       included={[
         'Social presence direction aligned to the broader plan',

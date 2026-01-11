@@ -1,19 +1,18 @@
 import type { Metadata } from 'next'
 import { Mail } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
+import { STANDARD_SERVICE_DESCRIPTION, STANDARD_SERVICE_FAQS } from '@/app/services/constants'
 
 export const metadata: Metadata = {
   title: 'Email Communication (CRM & Customer Communication) | Your Dedicated Marketer',
   description: 'Email communication handled within the CRM & Customer Communication pillar.',
 }
 
-const standardDescription =
-  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
-
 const standardFaqs = [
   {
     question: 'How does this focus area fit into the engagement?',
-    answer: 'Email communication is handled within the CRM & Customer Communication pillar so it stays aligned with lifecycle priorities.',
+    answer:
+      'Email communication is handled within the CRM & Customer Communication pillar so it stays aligned with lifecycle priorities.',
   },
   {
     question: 'What happens after we align on priorities?',
@@ -27,7 +26,7 @@ export default function EmailMarketingPage() {
       icon={Mail}
       title="Email Communication (CRM & Customer Communication)"
       subtitle="Component within the pillar"
-      description={standardDescription}
+      description={STANDARD_SERVICE_DESCRIPTION}
       serviceSlug="email"
       included={[
         'Lifecycle communication aligned to CRM priorities',

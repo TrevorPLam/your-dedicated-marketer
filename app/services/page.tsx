@@ -96,9 +96,11 @@ export default function ServicesPage() {
               return (
                 <Card key={pillar.title} variant="service">
                   <div className="w-12 h-12 bg-teal/10 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-teal" />
+                    <Icon className="w-6 h-6 text-teal" aria-hidden="true" />
                   </div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-slate mb-3">{pillar.subtitle}</p>
+                  <p className="text-sm uppercase tracking-widest text-slate mb-3">
+                    {pillar.subtitle}
+                  </p>
                   <h3 className="text-2xl font-semibold text-charcoal mb-3">{pillar.title}</h3>
                   <p className="text-slate mb-6 leading-relaxed">{pillar.tagline}</p>
                   <Link
@@ -178,8 +180,10 @@ export default function ServicesPage() {
               </Link>
             </div>
             <div className="mt-4">
-              <Link href="/contact" className="text-teal font-semibold underline underline-offset-4">
-                Start with a conversation
+              <Link href="/contact">
+                <Button variant="text" size="small">
+                  Start with a conversation
+                </Button>
               </Link>
             </div>
           </div>

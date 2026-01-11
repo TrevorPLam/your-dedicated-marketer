@@ -1,25 +1,13 @@
 import type { Metadata } from 'next'
 import { FileText } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
+import { STANDARD_SERVICE_DESCRIPTION, STANDARD_SERVICE_FAQS } from '@/app/services/constants'
 
 export const metadata: Metadata = {
   title: 'Content & Brand Presence | Your Dedicated Marketer',
   description: 'Content, social presence, and organic visibility managed as one pillar.',
 }
 
-const standardDescription =
-  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
-
-const standardFaqs = [
-  {
-    question: 'How does this pillar fit into the engagement?',
-    answer: 'It is handled alongside the other pillars so priorities can shift without losing momentum.',
-  },
-  {
-    question: 'What happens after we align on priorities?',
-    answer: 'I take responsibility for execution, follow-through, and ongoing adjustments while keeping your team aligned.',
-  },
-]
 
 export default function ContentMarketingPage() {
   return (
@@ -27,7 +15,7 @@ export default function ContentMarketingPage() {
       icon={FileText}
       title="Content & Brand Presence"
       subtitle="The Voice"
-      description={standardDescription}
+      description={STANDARD_SERVICE_DESCRIPTION}
       serviceSlug="content"
       included={[
         'Content direction and production',
@@ -56,7 +44,7 @@ export default function ContentMarketingPage() {
           href: '/pricing#scale',
         },
       ]}
-      faqs={standardFaqs}
+      faqs={STANDARD_SERVICE_FAQS}
     />
   )
 }

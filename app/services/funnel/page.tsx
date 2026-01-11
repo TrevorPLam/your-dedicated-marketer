@@ -1,37 +1,22 @@
 import type { Metadata } from 'next'
 import { Users } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
+import {
+  STANDARD_SERVICE_DESCRIPTION,
+  STANDARD_SERVICE_FAQS,
+  STANDARD_SERVICE_PRICING,
+} from '@/app/services/constants'
 
 export const metadata: Metadata = {
   title: 'Funnels (Website & Conversion) | Your Dedicated Marketer',
   description: 'Funnel work handled within the Website & Conversion pillar.',
 }
 
-const standardDescription =
-  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
-
-const standardPricing = [
-  {
-    tier: 'Starter',
-    description: 'Starter engagement for focused priorities.',
-    href: '/pricing#starter',
-  },
-  {
-    tier: 'Growth',
-    description: 'Growth engagement for multi-channel coordination.',
-    href: '/pricing#growth',
-  },
-  {
-    tier: 'Scale',
-    description: 'Scale engagement for ongoing leadership and execution.',
-    href: '/pricing#scale',
-  },
-]
-
 const standardFaqs = [
   {
     question: 'How does this focus area fit into the engagement?',
-    answer: 'Funnel work is handled within the Website & Conversion pillar so it stays aligned with the website and conversion paths.',
+    answer:
+      'Funnel work is handled within the Website & Conversion pillar so it stays aligned with the website and conversion paths.',
   },
   {
     question: 'What happens after we align on priorities?',
@@ -45,7 +30,7 @@ export default function FunnelBuildOutPage() {
       icon={Users}
       title="Funnels (Website & Conversion)"
       subtitle="Component within the pillar"
-      description={standardDescription}
+      description={STANDARD_SERVICE_DESCRIPTION}
       serviceSlug="funnel"
       included={[
         'Conversion path alignment inside the Website & Conversion pillar',
@@ -57,7 +42,7 @@ export default function FunnelBuildOutPage() {
       whoItsFor={[
         'When the path from visit to action needs attention within the broader engagement. This becomes important when the handoff between pages, forms, and follow-up is unclear or inconsistent. If you want funnel work handled as part of the Website & Conversion pillar, this focus area fits.',
       ]}
-      pricing={standardPricing}
+      pricing={STANDARD_SERVICE_PRICING}
       faqs={standardFaqs}
     />
   )

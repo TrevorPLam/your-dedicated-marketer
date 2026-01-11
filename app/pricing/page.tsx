@@ -130,11 +130,11 @@ const faqs = [
   },
   {
     question: 'How do we measure success?',
-    answer: 'Success metrics vary by business but typically include organic traffic growth, lead generation, conversion rates, and ROI. We set specific KPIs during onboarding and track them monthly. You\'ll always know if we\'re delivering results.',
+    answer: 'Success metrics vary by business but typically include organic traffic growth, lead generation, and conversion rates. We set specific KPIs during onboarding and track them monthly. You\'ll always know if we\'re delivering results.',
   },
   {
     question: 'Do you work with businesses in my industry?',
-    answer: 'We work with B2B and B2C businesses across many industries. During our consultation, we\'ll discuss your industry specifics and share relevant experience. We focus on understanding your business rather than cookie-cutter solutions.',
+    answer: 'We work with B2B and B2C businesses across many industries. During our consultation, we\'ll discuss your industry specifics and share relevant experience. We focus on understanding your business rather than cookie-cutter approaches.',
   },
   {
     question: 'What if I need custom services?',
@@ -189,6 +189,7 @@ export default function PricingPage() {
               <Card
                 key={index}
                 variant="default"
+                id={tier.name.toLowerCase()}
                 className={tier.popular ? 'ring-2 ring-teal relative' : ''}
               >
                 {tier.popular && (

@@ -7,9 +7,9 @@
  * 
  * **Sections (in order):**
  * 1. Hero - Icon, title, description, CTA
- * 2. What's Included - Checklist of features
- * 3. Our Process - Numbered steps
- * 4. Who It's For - Target audience list
+ * 2. What I take responsibility for - Checklist of features
+ * 3. How I work with your team - Standard collaboration copy
+ * 4. When this matters most - Target audience list
  * 5. Pricing Options - Tier cards with links
  * 6. FAQs - Accordion with questions
  * 7. Final CTA - Contact prompt
@@ -31,7 +31,6 @@
  *       title="SEO Services"
  *       description="Optimize your search presence..."
  *       included={['Technical SEO', 'Keyword research', ...]}
- *       process={[{ title: 'Audit', description: '...' }, ...]}
  *       whoItsFor={['Small businesses', 'E-commerce stores', ...]}
  *       pricing={[{ tier: 'Starter', description: '...', href: '/pricing' }]}
  *       faqs={[{ question: '...', answer: '...' }]}
@@ -54,9 +53,6 @@ import Accordion, { AccordionItem } from '@/components/ui/Accordion'
 import { getPublicBaseUrl } from '@/lib/env.public'
 
 /**
- * Process step data structure.
- */
-/**
  * Service detail page props.
  * All fields are required to ensure consistent service pages.
  */
@@ -69,6 +65,8 @@ export interface ServiceDetailProps {
   subtitle?: string
   /** Service description (hero and meta) */
   description: string
+  /** Optional extra detail for the collaboration section */
+  processDetails?: string[]
   /** List of features/deliverables included */
   included: string[]
   /** Target audience descriptions */
@@ -94,6 +92,7 @@ export default function ServiceDetailLayout({
   title,
   subtitle,
   description,
+  processDetails,
   included,
   whoItsFor,
   pricing,
@@ -111,6 +110,7 @@ export default function ServiceDetailLayout({
     '@type': 'Service',
     name: title,
     description: description,
+    ...(subtitle ? { alternateName: subtitle } : {}),
     provider: {
       '@type': 'Organization',
       name: 'Your Dedicated Marketer',
@@ -160,10 +160,10 @@ export default function ServiceDetailLayout({
         <Container>
           <div className="max-w-3xl mx-auto text-center">
             <div className="w-16 h-16 bg-teal/20 rounded-lg flex items-center justify-center mx-auto mb-6">
-              <Icon className="w-8 h-8 text-teal" />
+              <Icon className="w-8 h-8 text-teal" aria-hidden="true" />
             </div>
             {subtitle ? (
-              <p className="text-sm uppercase tracking-[0.3em] text-white/60 mb-4">{subtitle}</p>
+              <p className="text-sm uppercase tracking-widest text-white/60 mb-4">{subtitle}</p>
             ) : null}
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">{title}</h1>
             <p className="text-xl text-white/80 mb-8">{description}</p>
@@ -214,6 +214,9 @@ export default function ServiceDetailLayout({
               coordination, and day-to-day progress so marketing doesn’t stall or become a
               distraction.
             </p>
+            {processDetails?.map((detail) => (
+              <p key={detail}>{detail}</p>
+            ))}
           </div>
         </Container>
       </Section>
@@ -276,19 +279,21 @@ export default function ServiceDetailLayout({
         <Container>
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Ready to Get Started?
+              Start with a conversation
             </h2>
             <p className="text-lg text-white/80 mb-8">
-              Schedule a free consultation to discuss how this service can help grow your business.
+              We can align on priorities, ownership, and next steps before anything moves forward.
             </p>
             <Link href="/contact">
               <Button variant="primary" size="large">
-                Schedule Free Consultation
+                Start with a conversation
               </Button>
             </Link>
             <div className="mt-4">
-              <Link href="/contact" className="text-white underline underline-offset-4">
-                Start with a conversation
+              <Link href="/contact">
+                <Button variant="text" size="small" className="text-white hover:text-white/80">
+                  Start with a conversation
+                </Button>
               </Link>
             </div>
           </div>

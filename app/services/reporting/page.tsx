@@ -1,37 +1,22 @@
 import type { Metadata } from 'next'
 import { BarChart } from 'lucide-react'
 import ServiceDetailLayout from '@/components/ServiceDetailLayout'
+import {
+  STANDARD_SERVICE_DESCRIPTION,
+  STANDARD_SERVICE_FAQS,
+  STANDARD_SERVICE_PRICING,
+} from '@/app/services/constants'
 
 export const metadata: Metadata = {
   title: 'Reporting (Analytics & Decision Support) | Your Dedicated Marketer',
   description: 'Reporting handled within the Analytics & Decision Support pillar.',
 }
 
-const standardDescription =
-  'This area represents one part of a broader marketing partnership. You and your team set the direction. I take responsibility for execution, follow-through, and continuous improvement within this pillar.'
-
-const standardPricing = [
-  {
-    tier: 'Starter',
-    description: 'Starter engagement for focused priorities.',
-    href: '/pricing#starter',
-  },
-  {
-    tier: 'Growth',
-    description: 'Growth engagement for multi-channel coordination.',
-    href: '/pricing#growth',
-  },
-  {
-    tier: 'Scale',
-    description: 'Scale engagement for ongoing leadership and execution.',
-    href: '/pricing#scale',
-  },
-]
-
 const standardFaqs = [
   {
     question: 'How does this focus area fit into the engagement?',
-    answer: 'Reporting is handled within the Analytics & Decision Support pillar so it reflects the broader priorities.',
+    answer:
+      'Reporting is handled within the Analytics & Decision Support pillar so it reflects the broader priorities.',
   },
   {
     question: 'What happens after we align on priorities?',
@@ -45,7 +30,7 @@ export default function MarketingReportingPage() {
       icon={BarChart}
       title="Reporting (Analytics & Decision Support)"
       subtitle="Component within the pillar"
-      description={standardDescription}
+      description={STANDARD_SERVICE_DESCRIPTION}
       serviceSlug="reporting"
       included={[
         'Performance visibility aligned to Analytics & Decision Support',
@@ -57,7 +42,7 @@ export default function MarketingReportingPage() {
       whoItsFor={[
         'When the team needs clarity without treating reporting as a standalone effort. This becomes important when visibility is inconsistent or decisions rely on partial data. If you want reporting handled as part of the Analytics & Decision Support pillar, this focus area fits.',
       ]}
-      pricing={standardPricing}
+      pricing={STANDARD_SERVICE_PRICING}
       faqs={standardFaqs}
     />
   )
