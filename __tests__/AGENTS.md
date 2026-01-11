@@ -26,7 +26,6 @@ __tests__/
     ├── actions.rate-limit.test.ts
     ├── analytics.test.ts
     ├── blog.test.ts
-    ├── case-studies.test.ts
     ├── env.test.ts
     ├── logger.test.ts
     └── sanitize.test.ts

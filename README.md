@@ -23,7 +23,7 @@ This repository adheres to a strict "Diamond Standard" of engineering excellence
 ## 🚀 Key Features
 
 *   **Next.js App Router**: Utilizing the latest React Server Components architecture (version 15.5.9, compatible with Cloudflare Pages adapter).
-*   **Content Engine**: MDX-powered blog and case studies with static generation.
+*   **Content Engine**: MDX-powered blog with static generation.
 *   **Client-Side Search**: Zero-latency, pre-indexed search functionality (`lib/search.ts`).
 *   **Performance First**: 
     *   Tailwind CSS for zero-runtime styling.
@@ -122,7 +122,7 @@ See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for detailed deployment instructi
 ├── components/           # React components (Atomic design principles)
 │   ├── ui/               # Reusable base UI components
 │   └── ...               # Feature-specific components
-├── content/              # MDX content sources (Blog, Case Studies)
+├── content/              # MDX content sources (Blog)
 ├── docs/                 # Project documentation and standards
 ├── lib/                  # Utilities, hooks, and core logic
 ├── public/               # Static assets

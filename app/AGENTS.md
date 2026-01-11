@@ -39,18 +39,12 @@ app/
 │   ├── page.tsx        # /blog (listing)
 │   └── [slug]/page.tsx # /blog/:slug (individual posts)
 │
-├── case-studies/
-│   ├── page.tsx        # /case-studies (listing)
-│   └── [slug]/page.tsx # /case-studies/:slug
-│
 ├── services/
 │   ├── page.tsx        # /services (overview)
 │   ├── seo/page.tsx    # /services/seo
 │   ├── content/page.tsx # /services/content
 │   ├── social/page.tsx # /services/social
 │   └── email/page.tsx  # /services/email
-│
-├── feed.xml/route.ts   # RSS feed
 │
 └── api/
     └── og/route.tsx    # OG image generation (Edge)
@@ -67,11 +61,10 @@ Most pages are static with no dynamic segments:
 ```
 
 ### Dynamic Routes
-Two routes use dynamic segments:
+One route uses dynamic segments:
 - `/blog/[slug]` — Blog posts from `content/blog/*.mdx`
-- `/case-studies/[slug]` — Case studies from `lib/case-studies.ts`
 
-Both use `generateStaticParams()` for SSG:
+Uses `generateStaticParams()` for SSG:
 ```typescript
 export async function generateStaticParams() {
   const posts = getAllPosts()
@@ -142,7 +135,7 @@ RootLayout (app/layout.tsx)
 
 ### Data Fetching
 - **NO client-side data fetching** (site is fully static)
-- Data comes from: `lib/blog.ts`, `lib/case-studies.ts`, `lib/search.ts`
+- Data comes from: `lib/blog.ts`, `lib/search.ts`
 - All data is resolved at build time
 
 ---

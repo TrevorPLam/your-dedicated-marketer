@@ -10,8 +10,7 @@
  * 2. ValueProps - Key benefits grid
  * 3. ServicesOverview - Service offerings cards
  * 4. SocialProof - Testimonials (lazy loaded)
- * 5. CaseStudyHighlight - Featured case study (lazy loaded)
- * 6. FinalCTA - Bottom conversion prompt (lazy loaded)
+ * 5. FinalCTA - Bottom conversion prompt (lazy loaded)
  * 
  * **Performance:**
  * - Above-fold components (Hero, ValueProps, ServicesOverview) loaded immediately
@@ -37,11 +36,6 @@ const SocialProof = dynamic(() => import('@/components/SocialProof'), {
   ssr: true,
 })
 
-const CaseStudyHighlight = dynamic(() => import('@/components/CaseStudyHighlight'), {
-  loading: () => <div className="sr-only">Loading case study…</div>,
-  ssr: true,
-})
-
 const FinalCTA = dynamic(() => import('@/components/FinalCTA'), {
   loading: () => <div className="sr-only">Loading final call to action…</div>,
   ssr: true,
@@ -54,7 +48,6 @@ export default function HomePage() {
       <ValueProps />
       <ServicesOverview />
       <SocialProof />
-      <CaseStudyHighlight />
       <FinalCTA />
     </>
   )

@@ -39,7 +39,6 @@
  * **CONSUMERS**:
  * - app/blog/page.tsx — listing page
  * - app/blog/[slug]/page.tsx — individual post
- * - app/feed.xml/route.ts — RSS feed
  * - app/sitemap.ts — sitemap generation
  * - lib/search.ts — search index
  *

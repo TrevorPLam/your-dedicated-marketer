@@ -66,7 +66,6 @@
  */
 
 import { getAllPosts } from '@/lib/blog'
-import { caseStudies } from '@/lib/case-studies'
 
 /**
  * Search index item structure.
@@ -83,7 +82,7 @@ export type SearchItem = {
   title: string
   description: string
   href: string
-  type: 'Page' | 'Blog' | 'Case Study'
+  type: 'Page' | 'Blog'
   tags?: string[]
 }
 
@@ -124,14 +123,6 @@ const staticPages: SearchItem[] = [
     tags: ['pricing', 'packages'],
   },
   {
-    id: 'page-case-studies',
-    title: 'Case Studies',
-    description: 'See how we deliver measurable growth for clients.',
-    href: '/case-studies',
-    type: 'Page',
-    tags: ['results', 'growth'],
-  },
-  {
     id: 'page-blog',
     title: 'Blog',
     description: 'Marketing insights, trends, and strategies from our team.',
@@ -158,15 +149,6 @@ const staticPages: SearchItem[] = [
 ]
 
 export function getSearchIndex(): SearchItem[] {
-  const caseStudyItems = caseStudies.map((study) => ({
-    id: `case-study-${study.slug}`,
-    title: study.title,
-    description: study.description,
-    href: `/case-studies/${study.slug}`,
-    type: 'Case Study' as const,
-    tags: [study.client, study.industry, ...study.services].filter(Boolean),
-  }))
-
   const posts = getAllPosts().map((post) => ({
     id: `post-${post.slug}`,
     title: post.title,
@@ -176,5 +158,5 @@ export function getSearchIndex(): SearchItem[] {
     tags: [post.category, post.author],
   }))
 
-  return [...staticPages, ...caseStudyItems, ...posts]
+  return [...staticPages, ...posts]
 }

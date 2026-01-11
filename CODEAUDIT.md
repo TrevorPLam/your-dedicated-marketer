@@ -42,7 +42,7 @@ Required outputs:
 - Scope: Full repository scan (code files, specs, docs)
 - Findings:
   - No TODO/FIXME/HACK markers found in code
-  - Largest files are reasonable size: pricing page (295 lines), about page (281 lines), case studies detail (247 lines), actions (232 lines)
+  - Largest files are reasonable size: pricing page (295 lines), about page (281 lines), actions (232 lines)
   - No duplicated code patterns identified
   - Critical flows mapped: Contact form with rate limiting, input validation, and sanitization (✅)
   - No auth flows (marketing site by design)

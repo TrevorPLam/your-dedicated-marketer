@@ -14,7 +14,6 @@ export default function Footer() {
 
   const company = [
     { href: '/about', label: 'About' },
-    { href: '/case-studies', label: 'Case Studies' },
     { href: '/blog', label: 'Blog' },
     { href: '/contact', label: 'Contact' },
   ]

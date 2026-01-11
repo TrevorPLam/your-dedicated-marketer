@@ -72,10 +72,6 @@ export default function NotFound() {
               Pricing
             </Link>
             <span className="text-gray-300">•</span>
-            <Link href="/case-studies" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">
-              Case Studies
-            </Link>
-            <span className="text-gray-300">•</span>
             <Link href="/blog" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">
               Blog
             </Link>

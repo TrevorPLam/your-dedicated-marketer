@@ -37,7 +37,6 @@ components/
 | `ServiceDetailLayout.tsx` | Template for service pages | Server |
 | `BlogPostContent.tsx` | Blog post renderer | Server |
 | `Breadcrumbs.tsx` | Navigation breadcrumbs | Client |
-| `CaseStudyHighlight.tsx` | Featured case study | Server |
 | `CTASection.tsx` | Call-to-action blocks | Server |
 | `FinalCTA.tsx` | Bottom-of-page CTA | Server |
 | `SocialProof.tsx` | Testimonials section | Server |

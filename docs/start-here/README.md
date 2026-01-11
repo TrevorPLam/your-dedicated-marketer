@@ -1,12 +1,11 @@
 # Your Dedicated Marketer - Marketing Website
 
-A modern, SEO-optimized marketing website built with Next.js 14, featuring a blog system, case studies, and comprehensive service pages.
+A modern, SEO-optimized marketing website built with Next.js 14, featuring a blog system and comprehensive service pages.
 
 ## ✨ Features
 
 - **Modern Stack**: Next.js 14 with App Router, TypeScript, and Tailwind CSS
 - **Blog System**: MDX-powered blog with syntax highlighting and rich formatting
-- **Case Studies**: Detailed client success stories with metrics and testimonials
 - **Site Search**: Fast client-side search for blog posts and key pages (Cmd/Ctrl + K)
 - **SEO Optimized**: Comprehensive meta tags, structured data, sitemap, and robots.txt
 - **Contact Form**: Functional form with email integration via Resend
