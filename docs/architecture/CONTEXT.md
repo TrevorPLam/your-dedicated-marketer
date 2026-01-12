@@ -29,12 +29,14 @@
 
 ### Infrastructure Tier
 - **Cloudflare Pages**: Free tier for static site hosting
-- **Resend API**: Contact form email delivery
+- **Supabase**: Lead storage (server-only)
+- **HubSpot CRM**: Contact sync (best-effort)
 - **Rationale**: Zero hosting costs while maintaining excellent performance and reliability
 
 ### Data Model Philosophy
-- Static site with no database
-- Contact form submissions sent via email (no storage)
+- Static site with minimal server-side data storage
+- Contact form submissions stored in Supabase (server-only)
+- HubSpot CRM sync for leads (best-effort)
 - Blog content stored as MDX files in repository
 
 ## Development Guidelines
@@ -51,7 +53,7 @@
 
 ## Security and Privacy Model
 - **Forms**: Validation with Zod, rate limiting on contact form
-- **Email**: Resend API for transactional emails
-- **No user data storage**: Contact forms immediately forwarded via email
+- **Lead storage**: Supabase (server-only access)
+- **CRM sync**: HubSpot (best-effort, no user-facing failure)
 - **No cookies**: Static site requires no authentication or session management
 - **HTTPS**: Enforced via Cloudflare

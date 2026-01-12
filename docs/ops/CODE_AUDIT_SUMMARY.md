@@ -195,7 +195,7 @@ Successfully executed complete CODE_AUDIT process as specified in CODE_AUDIT.md.
 1. **T-004:** Document CSRF token support and security headers
 2. **T-007:** Document and plan distributed rate limiting
 3. **T-014:** Decide on next-pwa migration/removal
-4. **T-015:** Set up production API keys (Resend, Sentry)
+4. **T-015:** Set up production API keys (Supabase, HubSpot, Sentry)
 5. **T-016:** Implement persistent rate limiting for production
 
 ### Short-term (P2)

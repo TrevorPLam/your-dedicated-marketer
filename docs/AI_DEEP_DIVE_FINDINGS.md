@@ -102,16 +102,11 @@ This document captures findings from a comprehensive codebase analysis. The repo
 - **Acceptable for now:** Only 3 case studies, infrequent updates
 - **Future:** Consider MDX files if content updates become frequent
 
-### Debt: Email Flow Still in Place (T-053 Pending)
-- **Location:** [lib/actions.ts](lib/actions.ts#L320-L380)
-- **Details:** Resend email flow exists but should be replaced with Supabase+HubSpot per goals
-- **Status:** Blocked on T-054 (Supabase) and T-055 (HubSpot)
-
-### Debt: No Retry Logic for Email Delivery
-- **Location:** [lib/actions.ts](lib/actions.ts#L320)
-- **Details:** If Resend API fails, submission fails. No queue/retry mechanism.
-- **Impact:** Lost leads if Resend has outage
-- **Future consideration:** Queue submissions for retry (lower priority after Supabase migration)
+### Debt: No Retry Logic for HubSpot Sync
+- **Location:** [lib/actions.ts](lib/actions.ts)
+- **Details:** HubSpot sync is best-effort and marks leads as `needs_sync` on failure, but no retry/queue exists.
+- **Impact:** Leads can remain out of sync until manual remediation.
+- **Future consideration:** Add a scheduled retry job or admin backfill tool.
 
 ---
 

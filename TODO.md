@@ -51,8 +51,9 @@ This file is the single source of truth for actionable work. If another document
 Priority: P0
 Type: RELEASE
 Owner: AGENT
-Status: READY
+Status: DONE
 Blockers: None
+Completed: 2026-01-12
 Context:
 - Contact pipeline must match the chosen lead capture path
 - Optional integrations should not crash the site
@@ -135,8 +136,9 @@ Effort: XS
 Priority: P1
 Type: FEATURE
 Owner: AGENT
-Status: READY
+Status: DONE
 Blockers: None
+Completed: 2026-01-12
 Context:
 - Replace email delivery with Supabase lead storage
 - Must preserve current UX contract in `submitContactForm`
@@ -156,8 +158,9 @@ Effort: M
 Priority: P1
 Type: FEATURE
 Owner: AGENT
-Status: READY
+Status: DONE
 Blockers: None (depends on T-080 implementation)
+Completed: 2026-01-12
 Context:
 - Lead submissions should upsert into HubSpot CRM by email
 - HubSpot failures must not break UX; retry should be possible
@@ -175,8 +178,8 @@ Effort: M
 Priority: P1
 Type: FEATURE
 Owner: AGENT
-Status: BLOCKED
-Blockers: Supabase + HubSpot flow required first (T-080, T-081).
+Status: READY
+Blockers: None
 Context:
 - Email sending is no longer part of the contact pipeline
 - New flow needs tests for suspicious handling + HubSpot failure behavior
@@ -329,4 +332,3 @@ References:
 - /components/Navigation.tsx
 Dependencies: None
 Effort: XS
-

@@ -35,13 +35,11 @@
  * | NEXT_PUBLIC_SITE_URL | url | defaults | Base URL for meta tags |
  * | NEXT_PUBLIC_SITE_NAME | string | defaults | Site name for branding |
  * | NEXT_PUBLIC_ANALYTICS_ID | string | optional | GA4/Plausible ID |
- * | RESEND_API_KEY | string | optional | Email delivery (current flow) |
- * | CONTACT_EMAIL | email | defaults | Form submission recipient |
  * | UPSTASH_REDIS_REST_URL | string | optional | Rate limiting |
  * | UPSTASH_REDIS_REST_TOKEN | string | optional | Rate limiting |
- * | SUPABASE_URL | url | optional (future) | Supabase project URL (T-080/T-081) |
- * | SUPABASE_SERVICE_ROLE_KEY | string | optional (future) | Server-only service role key (T-080/T-081) |
- * | HUBSPOT_PRIVATE_APP_TOKEN | string | optional (future) | HubSpot private app token (T-080/T-081) |
+ * | SUPABASE_URL | url | required | Supabase project URL |
+ * | SUPABASE_SERVICE_ROLE_KEY | string | required | Server-only service role key |
+ * | HUBSPOT_PRIVATE_APP_TOKEN | string | required | HubSpot private app token |
  *
  * **KNOWN ISSUES**:
  * - [ ] No runtime validation for env changes (restart required)
@@ -65,7 +63,7 @@
  * import { validatedEnv } from './env'
  *
  * // Type-safe access with autocomplete
- * const apiKey = validatedEnv.RESEND_API_KEY // string | undefined
+ * const supabaseUrl = validatedEnv.SUPABASE_URL // string (required)
  * const siteUrl = validatedEnv.NEXT_PUBLIC_SITE_URL // string (required)
  * ```
  *
@@ -129,22 +127,6 @@ const envSchema = z.object({
   NEXT_PUBLIC_ANALYTICS_ID: z.string().optional(),
 
   /**
-   * Resend API key for transactional emails (optional).
-   * If not set, contact form logs instead of sending emails (development mode).
-   * 
-   * @optional
-   * @see {@link https://resend.com/docs/api-reference/authentication Resend API}
-   */
-  RESEND_API_KEY: z.string().optional(),
-
-  /**
-   * Email address to receive contact form submissions.
-   * 
-   * @default 'contact@yourdedicatedmarketer.com'
-   */
-  CONTACT_EMAIL: z.string().email().default('contact@yourdedicatedmarketer.com'),
-
-  /**
    * Node environment (development, production, test).
    * 
    * @default 'development'
@@ -169,32 +151,24 @@ const envSchema = z.object({
   UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
   /**
-   * Supabase project URL (optional, future).
+   * Supabase project URL (required).
    * Used for server-side lead storage.
-   * Currently optional until T-080/T-081 implementation.
    * 
-   * @optional
    * @example 'https://xyzcompany.supabase.co'
    */
-  SUPABASE_URL: z.string().trim().url().optional(),
+  SUPABASE_URL: z.string().trim().url(),
 
   /**
-   * Supabase service role key (optional, future, server-only).
+   * Supabase service role key (required, server-only).
    * Grants elevated access; never expose to the client.
-   * Currently optional until T-080/T-081 implementation.
-   * 
-   * @optional
    */
-  SUPABASE_SERVICE_ROLE_KEY: z.string().trim().min(1).optional(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().trim().min(1),
 
   /**
-   * HubSpot private app token (optional, future, server-only).
+   * HubSpot private app token (required, server-only).
    * Used for CRM sync.
-   * Currently optional until T-080/T-081 implementation.
-   * 
-   * @optional
    */
-  HUBSPOT_PRIVATE_APP_TOKEN: z.string().trim().min(1).optional(),
+  HUBSPOT_PRIVATE_APP_TOKEN: z.string().trim().min(1),
 })
 
 /**
@@ -215,7 +189,7 @@ const envSchema = z.object({
  * ```
  * ❌ Invalid environment variables: {
  *   NEXT_PUBLIC_SITE_URL: ['Invalid URL'],
- *   CONTACT_EMAIL: ['Invalid email']
+ *   SUPABASE_URL: ['Invalid url']
  * }
  * ```
  */
@@ -223,8 +197,6 @@ const env = envSchema.safeParse({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_SITE_NAME: process.env.NEXT_PUBLIC_SITE_NAME,
   NEXT_PUBLIC_ANALYTICS_ID: process.env.NEXT_PUBLIC_ANALYTICS_ID,
-  RESEND_API_KEY: process.env.RESEND_API_KEY,
-  CONTACT_EMAIL: process.env.CONTACT_EMAIL,
   NODE_ENV: process.env.NODE_ENV,
   UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
   UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
@@ -253,12 +225,8 @@ if (!env.success) {
  * // Required variables (always string)
  * const siteUrl = validatedEnv.NEXT_PUBLIC_SITE_URL
  * 
- * // Optional variables (string | undefined)
- * if (validatedEnv.RESEND_API_KEY) {
- *   // Send email
- * } else {
- *   // Log to console (development mode)
- * }
+ * // Required variables (always string)
+ * const hubspotToken = validatedEnv.HUBSPOT_PRIVATE_APP_TOKEN
  * ```
  */
 export const validatedEnv = env.data

@@ -3,6 +3,9 @@ import { submitContactForm } from '@/lib/actions'
 import { logError, logWarn } from '@/lib/logger'
 
 let currentIp = '203.0.113.1'
+const fetchMock = vi.hoisted(() => vi.fn())
+
+vi.stubGlobal('fetch', fetchMock)
 
 vi.mock('next/headers', () => ({
   headers: () => ({
@@ -33,6 +36,38 @@ describe('contact form rate limiting', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     currentIp = '203.0.113.1'
+    let leadCounter = 0
+    fetchMock.mockImplementation(async (input: RequestInfo) => {
+      const url = typeof input === 'string' ? input : input.toString()
+      const supabaseRestUrl = `${process.env.SUPABASE_URL}/rest/v1/leads`
+
+      if (url === supabaseRestUrl) {
+        leadCounter += 1
+        return {
+          ok: true,
+          status: 201,
+          json: async () => [{ id: `lead-${leadCounter}` }],
+        }
+      }
+
+      if (url.startsWith(`${supabaseRestUrl}?id=eq.`)) {
+        return { ok: true, status: 200, json: async () => [] }
+      }
+
+      if (url.endsWith('/crm/v3/objects/contacts/search')) {
+        return { ok: true, status: 200, json: async () => ({ total: 0, results: [] }) }
+      }
+
+      if (url.endsWith('/crm/v3/objects/contacts')) {
+        return { ok: true, status: 200, json: async () => ({ id: 'hubspot-123' }) }
+      }
+
+      if (url.includes('/crm/v3/objects/contacts/')) {
+        return { ok: true, status: 200, json: async () => ({ id: 'hubspot-123' }) }
+      }
+
+      return { ok: false, status: 404, json: async () => ({ message: 'not found' }) }
+    })
   })
 
   it('enforces email limits even when the IP changes', async () => {

@@ -34,10 +34,6 @@ These variables MUST be configured in Cloudflare Pages for the site to function 
 
 These variables have defaults or graceful fallbacks. Set them if you want to override defaults.
 
-### Email (Legacy - not used in v1)
-- [ ] `RESEND_API_KEY` = *(omit - email sending not part of v1)*
-- [ ] `CONTACT_EMAIL` = *(defaults to contact@yourdedicatedmarketer.com)*
-
 ### Error Tracking (Optional)
 - [ ] `NEXT_PUBLIC_SENTRY_DSN` = `https://[your-dsn]@sentry.io/[project]` (optional)
 - [ ] `SENTRY_AUTH_TOKEN` = *(only for source maps upload)*
@@ -113,4 +109,3 @@ Before marking this task complete:
 - Future env vars (not needed for v1) are marked as optional or omitted
 - See [env.example](/env.example) for detailed descriptions of each variable
 - See [DEPLOYMENT.md](DEPLOYMENT.md) for full deployment procedures
-
