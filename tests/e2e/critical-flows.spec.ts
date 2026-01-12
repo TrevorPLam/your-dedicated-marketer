@@ -6,15 +6,35 @@ async function submitContactForm(
     name,
     email,
     message,
+    phone,
+    company,
+    marketingSpend,
+    hearAboutUs,
   }: {
     name: string
     email: string
     message: string
+    phone?: string
+    company?: string
+    marketingSpend?: string
+    hearAboutUs?: string
   }
 ) {
   await page.getByLabel('Name').fill(name)
   await page.getByLabel('Email').fill(email)
+  if (company) {
+    await page.getByLabel('Company').fill(company)
+  }
+  if (phone) {
+    await page.getByLabel('Phone').fill(phone)
+  }
+  if (marketingSpend) {
+    await page.getByLabel('Current Monthly Marketing Spend').selectOption(marketingSpend)
+  }
   await page.getByLabel('Message').fill(message)
+  if (hearAboutUs) {
+    await page.getByLabel('How did you hear about us?').selectOption(hearAboutUs)
+  }
   await page.getByRole('button', { name: /send message/i }).click()
 }
 
@@ -70,6 +90,24 @@ test('contact form submission success', async ({ page }) => {
     name: 'Jamie Test',
     email: `jamie.${Date.now()}@example.com`,
     message: 'Looking for marketing strategy support for Q2 growth.',
+    phone: '555-120-9988',
+  })
+
+  await expect(page.getByRole('alert')).toContainText(/thank you for your message/i)
+})
+
+test('contact form submission with optional fields', async ({ page }) => {
+  await page.setExtraHTTPHeaders({ 'x-forwarded-for': '203.0.113.12' })
+  await page.goto('/contact')
+
+  await submitContactForm(page, {
+    name: 'Casey Optional',
+    email: `casey.${Date.now()}@example.com`,
+    message: 'Interested in support for a multi-channel campaign.',
+    phone: '555-321-7777',
+    company: 'Optional Fields LLC',
+    marketingSpend: '1k-5k',
+    hearAboutUs: 'referral',
   })
 
   await expect(page.getByRole('alert')).toContainText(/thank you for your message/i)
