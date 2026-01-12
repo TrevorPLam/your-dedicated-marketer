@@ -121,7 +121,7 @@ If you discover a security vulnerability:
 - **Validation**: Zod
 - **Styling**: Tailwind CSS, clsx
 - **Content**: MDX, gray-matter
-- **Infrastructure**: Sentry, Upstash, Resend
+- **Infrastructure**: Sentry, Upstash, Supabase, HubSpot
 
 ### Dev Dependencies
 - **Build Tools**: TypeScript, ESLint, Prettier

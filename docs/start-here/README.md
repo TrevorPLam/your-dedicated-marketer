@@ -8,7 +8,7 @@ A modern, SEO-optimized marketing website built with Next.js 14, featuring a blo
 - **Blog System**: MDX-powered blog with syntax highlighting and rich formatting
 - **Site Search**: Fast client-side search for blog posts and key pages (Cmd/Ctrl + K)
 - **SEO Optimized**: Comprehensive meta tags, structured data, sitemap, and robots.txt
-- **Contact Form**: Functional form with email integration via Resend
+- **Contact Form**: Functional form with Supabase storage + HubSpot CRM sync
 - **Responsive Design**: Mobile-first, fully responsive across all devices
 - **Performance**: Static site generation for optimal load times
 - **Type Safe**: Full TypeScript coverage for reliability
@@ -59,9 +59,10 @@ A modern, SEO-optimized marketing website built with Next.js 14, featuring a blo
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
    NEXT_PUBLIC_SITE_NAME=Your Dedicated Marketer
 
-   # Email Service (Resend)
-   RESEND_API_KEY=your_resend_api_key_here
-   CONTACT_EMAIL=contact@yourdedicatedmarketer.com
+   # Lead Capture (Supabase + HubSpot)
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+   HUBSPOT_PRIVATE_APP_TOKEN=your_hubspot_private_app_token
 
    # Optional Analytics
    NEXT_PUBLIC_ANALYTICS_ID=
@@ -72,7 +73,7 @@ A modern, SEO-optimized marketing website built with Next.js 14, featuring a blo
 
 ### Environment setup checklist
 - Run `nvm use` in the repository root to adopt the Node.js 20.x version specified in `.nvmrc`.
-- Copy `env.example` to `.env.local` and fill in required values for `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SITE_NAME`, `RESEND_API_KEY`, and `CONTACT_EMAIL`.
+- Copy `env.example` to `.env.local` and fill in required values for `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SITE_NAME`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `HUBSPOT_PRIVATE_APP_TOKEN`.
 - Confirm optional analytics settings (`NEXT_PUBLIC_ANALYTICS_ID`) or leave blank during development.
 - Restart the dev server after editing `.env.local` to ensure changes load.
 
@@ -161,17 +162,16 @@ A modern, SEO-optimized marketing website built with Next.js 14, featuring a blo
 
 ## 🔧 Configuration
 
-### Email Integration (Resend)
+### Lead Capture (Supabase + HubSpot)
 
-1. Sign up at [resend.com](https://resend.com)
-2. Get your API key from the dashboard
+1. Create a Supabase project and grab the project URL + service role key.
+2. Create a HubSpot private app token with `crm.objects.contacts.read` and `crm.objects.contacts.write`.
 3. Add to `.env.local`:
    ```env
-   RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
-   CONTACT_EMAIL=your-email@domain.com
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+   HUBSPOT_PRIVATE_APP_TOKEN=your_hubspot_private_app_token
    ```
-
-4. For production, verify your domain in Resend and update the `from` address in `lib/actions.ts`
 
 ### SEO Configuration
 
@@ -335,10 +335,10 @@ Current Lighthouse scores (target):
 - Check frontmatter syntax in blog posts
 - Ensure all required fields are present
 
-**Contact form not sending emails**:
-- Verify `RESEND_API_KEY` is set correctly
-- Check Resend dashboard for error logs
-- Ensure sending domain is verified (production)
+**Contact form not saving leads**:
+- Verify `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set correctly
+- Confirm the `leads` table exists in Supabase
+- Check server logs for HubSpot sync warnings
 
 ## 📄 License
 
@@ -360,7 +360,6 @@ For support, email contact@yourdedicatedmarketer.com or visit our [contact page]
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [MDX Documentation](https://mdxjs.com/)
-- [Resend API Documentation](https://resend.com/docs)
 - [Cloudflare Pages Documentation](https://developers.cloudflare.com/pages/)
 
 ---

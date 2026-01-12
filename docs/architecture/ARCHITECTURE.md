@@ -6,7 +6,7 @@
 > **See Also:** [CODEBASE-ANALYSIS.md](./CODEBASE-ANALYSIS.md), [DOCS_INDEX.md](../DOCS_INDEX.md)
 
 ## System Overview
-Your Dedicated Marketer is a static marketing website built with Next.js 14 and deployed to Cloudflare Pages. All pages are pre-rendered at build time for maximum performance. Contact form submissions are sent via Resend API.
+Your Dedicated Marketer is a static marketing website built with Next.js 14 and deployed to Cloudflare Pages. All pages are pre-rendered at build time for maximum performance. Contact form submissions are stored in Supabase and synced to HubSpot CRM.
 
 ## Infrastructure
 **Deployment Model**: Static Site Generation (SSG)  
@@ -28,7 +28,7 @@ Your Dedicated Marketer is a static marketing website built with Next.js 14 and 
 ### Contact Form
 - **Purpose**: Lead capture and client inquiries
 - **Technology**: React Hook Form with Zod validation, server action
-- **Dependencies**: Resend API for email delivery
+- **Dependencies**: Supabase (lead storage), HubSpot CRM (sync)
 
 ## Data Flow
 ```
@@ -40,9 +40,9 @@ Contact Form Submission
     ↓
 Next.js Server Action
     ↓
-Resend API
+Supabase (leads table)
     ↓
-Email to YD Marketer inbox
+HubSpot CRM (best-effort sync)
 ```
 
 ## Key Design Patterns

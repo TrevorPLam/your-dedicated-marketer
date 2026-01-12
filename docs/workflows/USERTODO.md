@@ -52,8 +52,9 @@ The `.env.local` file has been created with development defaults.
 **For production**, you need to add your API keys:
 ```env
 NEXT_PUBLIC_SITE_URL=https://yourdedicatedmarketer.com
-RESEND_API_KEY=re_your_actual_api_key
-CONTACT_EMAIL=your@email.com
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+HUBSPOT_PRIVATE_APP_TOKEN=your_hubspot_private_app_token
 NEXT_PUBLIC_SENTRY_DSN=https://your-sentry-dsn
 ```
 
@@ -115,15 +116,12 @@ pnpm add @serwist/next
    SENTRY_AUTH_TOKEN=sntrys_xxx  # For source maps upload
    ```
 
-### 7. Set Up Resend Email
-1. Create account at https://resend.com
-2. Verify your domain or use test domain
-3. Create API key
-4. Add to `.env.local`:
-   ```env
-   RESEND_API_KEY=re_xxx
-   CONTACT_EMAIL=your@email.com
-   ```
+### 7. Confirm Supabase + HubSpot Lead Capture
+1. Verify Supabase project URL + service role key are set in `.env.local`
+2. Verify HubSpot private app token is set in `.env.local`
+3. Submit a test contact form and confirm:
+   - Lead saved in Supabase
+   - HubSpot contact created or updated
 
 ---
 
@@ -294,7 +292,8 @@ ANALYZE=true pnpm build  # Bundle analysis
 
 | Service | Purpose | URL |
 |---------|---------|-----|
-| Resend | Email delivery | https://resend.com |
+| Supabase | Lead storage (database) | https://supabase.com |
+| HubSpot | CRM sync | https://hubspot.com |
 | Sentry | Error tracking | https://sentry.io |
 | Upstash | Redis rate limiting | https://upstash.com |
 | Vercel | Hosting (optional) | https://vercel.com |

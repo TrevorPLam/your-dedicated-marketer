@@ -33,8 +33,9 @@ npm install --legacy-peer-deps
 ```bash
 cp env.example .env.local
 # Edit .env.local with required values:
-# - RESEND_API_KEY: Get from Resend dashboard
-# - CONTACT_EMAIL: Email address to receive contact form submissions
+# - SUPABASE_URL: Supabase project URL
+# - SUPABASE_SERVICE_ROLE_KEY: Supabase service role key
+# - HUBSPOT_PRIVATE_APP_TOKEN: HubSpot private app token
 ```
 
 ### 5. Start Development Server
@@ -58,8 +59,8 @@ npm run dev
 **Problem**: Build fails with TypeScript errors  
 **Solution**: Run `npm run type-check` to see full error details
 
-**Problem**: Contact form doesn't send emails  
-**Solution**: Verify RESEND_API_KEY is set correctly in .env
+**Problem**: Contact form doesn't save leads  
+**Solution**: Verify SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, and HUBSPOT_PRIVATE_APP_TOKEN are set correctly in .env
 
 **Problem**: `npm install` returns 403 or registry access errors
 **Solution**:

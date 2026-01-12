@@ -73,16 +73,15 @@ The codebase is **well-structured and production-ready** with solid fundamentals
 #### Critical Issues 🔴
 
 **1. Console Logs in Production Code**
-- **File**: `lib/actions.ts:46-47, 52`
+- **File**: `lib/actions.ts` (historical)
 - **Risk**: Information disclosure, performance impact
 - **Impact**: High
 ```typescript
-// lib/actions.ts
-console.warn('RESEND_API_KEY not set - email not sent')
-console.log('Contact form submission:', validatedData)
-console.error('Contact form error:', error)
+// lib/actions.ts (resolved)
+logWarn('Rate limit exceeded for contact form', { emailHash, ip })
+logError('Contact form submission error', error)
 ```
-**Recommendation**: Replace with proper logging service (Sentry, LogRocket, etc.)
+**Recommendation**: ✅ Resolved by routing errors through `lib/logger.ts`
 
 **2. Potential XSS Vulnerability**
 - **File**: `lib/actions.ts:41`

@@ -1,5 +1,5 @@
 /**
- * Server actions for contact form submission with rate limiting and email delivery.
+ * Server actions for contact form submission with rate limiting and lead capture.
  *
  * @module lib/actions
  *
@@ -8,19 +8,17 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * **FILE PURPOSE**: Core server action for contact form. Single entry point for
- * all form submissions. Handles validation → rate-limiting → persistence/email.
+ * all form submissions. Handles validation → rate-limiting → persistence/sync.
  *
  * **ARCHITECTURE PATTERN**: Server Action (Next.js 14+ pattern)
  * - Called directly from ContactForm.tsx via `submitContactForm(data)`
  * - Runs server-side only (no API route needed)
  * - Returns { success, message, errors? } response object
  *
- * **CURRENT STATE**: Email-based. Tracked in TODO: T-080, T-081, T-082
- * - RESEND_API_KEY present → sends email
- * - RESEND_API_KEY absent → logs only (dev mode)
+ * **CURRENT STATE**: Supabase + HubSpot lead pipeline (v1).
  *
  * **KEY DEPENDENCIES**:
- * - `./sanitize.ts` — XSS prevention (escapeHtml, sanitizeEmailSubject)
+ * - `./sanitize.ts` — XSS prevention (escapeHtml, sanitizeEmail, sanitizeName)
  * - `./env.ts` — Server-only env validation (validatedEnv)
  * - `./contact-form-schema.ts` — Zod schema (contactFormSchema)
  * - `@upstash/ratelimit` — Distributed rate limiting (optional)
@@ -32,34 +30,30 @@
  * - Falls back to in-memory Map when Upstash not configured
  *
  * **AI ITERATION HINTS**:
- * 1. To add Supabase: Insert between rate-limit check and email send (line ~320)
- * 2. To add HubSpot: After Supabase insert, wrap in try/catch for best-effort
- * 3. Schema changes: Update contact-form-schema.ts first, then this file
- * 4. New fields: Add to safeName/safeEmail pattern (sanitize ALL inputs)
- * 5. Testing: See __tests__/lib/actions.rate-limit.test.ts for mocking pattern
+ * 1. Schema changes: Update contact-form-schema.ts first, then this file
+ * 2. New fields: Add to sanitized payload before storage and sync
+ * 3. Testing: See __tests__/lib/actions.rate-limit.test.ts for mocking pattern
  *
  * **SECURITY CHECKLIST** (verify after any changes):
  * - [ ] All user inputs pass through escapeHtml() before HTML context
- * - [ ] Email subject uses sanitizeEmailSubject()
+ * - [ ] CRM payload uses sanitizeName() / sanitizeEmail()
  * - [ ] No raw IP addresses logged (use hashedIp)
  * - [ ] Errors return generic messages (no internal details)
  *
  * **KNOWN ISSUES / TECH DEBT**:
- * - [ ] T-080/T-081/T-082: Email flow to be replaced with Supabase+HubSpot
  * - [ ] In-memory rate limiter not suitable for multi-instance production
- * - [ ] No retry logic for email delivery failures
+ * - [ ] No retry logic for HubSpot sync failures
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * **Features:**
  * - Distributed rate limiting via Upstash Redis (production) or in-memory fallback (development)
- * - Input sanitization to prevent XSS and email header injection attacks
+ * - Input sanitization to prevent XSS and injection attacks
  * - IP address hashing for privacy (SHA-256)
- * - Email delivery via Resend API with graceful fallback
+ * - Lead storage in Supabase and CRM sync to HubSpot
  *
  * **Security:**
  * - All user inputs sanitized with escapeHtml() before use
- * - Email subjects sanitized to prevent header injection
  * - IP addresses hashed before storage (never logged in plain text)
  * - Rate limits enforced per email address AND per IP address
  * - Payload size limited by middleware (1MB max)
@@ -75,7 +69,7 @@ import { createHash } from 'crypto'
 import { headers } from 'next/headers'
 import { z } from 'zod'
 import { logError, logWarn, logInfo } from './logger'
-import { escapeHtml, sanitizeEmailSubject, textToHtmlParagraphs } from './sanitize'
+import { escapeHtml, sanitizeEmail, sanitizeName } from './sanitize'
 import { validatedEnv } from './env'
 import { contactFormSchema, type ContactFormData } from '@/lib/contact-form-schema'
 
@@ -126,6 +120,131 @@ function hashIdentifier(value: string, salt = IP_HASH_SALT): string {
 
 function hashEmail(value: string): string {
   return hashIdentifier(value, EMAIL_HASH_SALT)
+}
+
+const HUBSPOT_API_BASE_URL = 'https://api.hubapi.com'
+
+type SupabaseLeadRow = {
+  id: string
+}
+
+type HubSpotSearchResponse = {
+  total: number
+  results: Array<{ id: string }>
+}
+
+type HubSpotContactResponse = {
+  id: string
+}
+
+function getSupabaseRestUrl() {
+  return `${validatedEnv.SUPABASE_URL}/rest/v1/leads`
+}
+
+function getSupabaseHeaders() {
+  return {
+    apikey: validatedEnv.SUPABASE_SERVICE_ROLE_KEY,
+    Authorization: `Bearer ${validatedEnv.SUPABASE_SERVICE_ROLE_KEY}`,
+    'Content-Type': 'application/json',
+  }
+}
+
+function splitName(fullName: string) {
+  const parts = fullName.trim().split(/\s+/).filter(Boolean)
+  const firstName = parts.shift() || fullName
+  const lastName = parts.join(' ')
+
+  return {
+    firstName,
+    lastName: lastName || undefined,
+  }
+}
+
+async function insertLead(payload: Record<string, unknown>): Promise<SupabaseLeadRow> {
+  const response = await fetch(getSupabaseRestUrl(), {
+    method: 'POST',
+    headers: {
+      ...getSupabaseHeaders(),
+      Prefer: 'return=representation',
+    },
+    body: JSON.stringify([payload]),
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Supabase insert failed with status ${response.status}: ${errorText}`)
+  }
+
+  const data = (await response.json()) as SupabaseLeadRow[]
+  if (!Array.isArray(data) || data.length === 0 || !data[0]?.id) {
+    throw new Error('Supabase insert returned no lead ID')
+  }
+
+  return data[0]
+}
+
+async function updateLead(leadId: string, updates: Record<string, unknown>) {
+  const response = await fetch(`${getSupabaseRestUrl()}?id=eq.${leadId}`, {
+    method: 'PATCH',
+    headers: getSupabaseHeaders(),
+    body: JSON.stringify(updates),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Supabase update failed with status ${response.status}`)
+  }
+}
+
+async function upsertHubSpotContact(properties: Record<string, string>) {
+  const searchResponse = await fetch(`${HUBSPOT_API_BASE_URL}/crm/v3/objects/contacts/search`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${validatedEnv.HUBSPOT_PRIVATE_APP_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      filterGroups: [
+        {
+          filters: [
+            {
+              propertyName: 'email',
+              operator: 'EQ',
+              value: properties.email,
+            },
+          ],
+        },
+      ],
+      properties: ['email'],
+      limit: 1,
+    }),
+  })
+
+  if (!searchResponse.ok) {
+    throw new Error(`HubSpot search failed with status ${searchResponse.status}`)
+  }
+
+  const searchData = (await searchResponse.json()) as HubSpotSearchResponse
+  const existingId = searchData.results[0]?.id
+  const url = existingId
+    ? `${HUBSPOT_API_BASE_URL}/crm/v3/objects/contacts/${existingId}`
+    : `${HUBSPOT_API_BASE_URL}/crm/v3/objects/contacts`;
+  const method = existingId ? 'PATCH' : 'POST';
+
+  const contactResponse = await fetch(url, {
+    method,
+    headers: {
+      Authorization: `Bearer ${validatedEnv.HUBSPOT_PRIVATE_APP_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ properties }),
+  });
+
+  if (!contactResponse.ok) {
+    const errorText = await contactResponse.text();
+    throw new Error(`HubSpot upsert failed with status ${contactResponse.status}: ${errorText}`)
+  }
+
+  return (await contactResponse.json()) as HubSpotContactResponse
 }
 
 /**
@@ -291,14 +410,15 @@ async function checkRateLimit(email: string, clientIp: string): Promise<boolean>
 }
 
 /**
- * Submit contact form with validation, rate limiting, sanitization, and email delivery.
+ * Submit contact form with validation, rate limiting, sanitization, and lead capture.
  * 
  * **Flow:**
  * 1. Validate input with Zod schema (contactFormSchema)
  * 2. Check rate limits (email + IP)
- * 3. Sanitize all inputs to prevent XSS
- * 4. Send email via Resend API (if configured)
- * 5. Log result to Sentry (errors) and logger (info/warn)
+ * 3. Sanitize inputs for storage and CRM sync
+ * 4. Insert lead into Supabase (required)
+ * 5. Attempt HubSpot sync (best-effort)
+ * 6. Log result to Sentry (errors) and logger (info/warn)
  * 
  * **Rate Limiting:**
  * - 3 requests per hour per email address
@@ -308,16 +428,13 @@ async function checkRateLimit(email: string, clientIp: string): Promise<boolean>
  * 
  * **Security:**
  * - All inputs sanitized with escapeHtml() to prevent XSS
- * - Email subject sanitized to prevent header injection
  * - IP addresses hashed before storage (SHA-256 with salt)
  * - Payload size limited by middleware (1MB max)
- * - No user data stored (immediately forwarded via email)
+ * - Contact data stored in Supabase (server-only access)
  * 
- * **Email Delivery:**
- * - Sends via Resend API if RESEND_API_KEY configured
- * - Falls back to logging in development (no email sent)
- * - HTML email with inline styles for broad client compatibility
- * - Errors logged to Sentry in production
+ * **Lead Capture:**
+ * - Supabase insert is required (fails if not configured)
+ * - HubSpot sync is best-effort (failures marked for retry)
  * 
  * **Error Handling:**
  * - Validation errors (Zod): Returns field-specific error messages
@@ -365,82 +482,73 @@ export async function submitContactForm(data: ContactFormData) {
     const clientIp = await getClientIp()
     const hashedIp = hashIdentifier(clientIp)
 
+    const safeEmail = sanitizeEmail(validatedData.email)
+    const safeName = sanitizeName(validatedData.name)
+    const safePhone = validatedData.phone ? escapeHtml(validatedData.phone) : ''
+    const safeMessage = escapeHtml(validatedData.message)
+
     // Rate limiting check
-    const rateLimitPassed = await checkRateLimit(validatedData.email, clientIp)
-    if (!rateLimitPassed) {
+    const rateLimitPassed = await checkRateLimit(safeEmail, clientIp)
+    const isSuspicious = !rateLimitPassed
+
+    const lead = await insertLead({
+      name: safeName,
+      email: safeEmail,
+      phone: safePhone,
+      message: safeMessage,
+      is_suspicious: isSuspicious,
+      suspicion_reason: isSuspicious ? 'rate_limit' : null,
+      hubspot_sync_status: 'pending',
+    })
+
+    if (isSuspicious) {
       logWarn('Rate limit exceeded for contact form', {
-        emailHash: hashEmail(validatedData.email),
+        emailHash: hashEmail(safeEmail),
         ip: hashedIp,
       })
+    }
+
+    const { firstName, lastName } = splitName(safeName)
+    const hubspotProperties: Record<string, string> = {
+      email: safeEmail,
+      firstname: firstName,
+    }
+
+    if (lastName) {
+      hubspotProperties.lastname = lastName
+    }
+
+    if (safePhone) {
+      hubspotProperties.phone = safePhone
+    }
+
+    const syncAttemptedAt = new Date().toISOString()
+
+    try {
+      const contact = await upsertHubSpotContact(hubspotProperties)
+      await updateLead(lead.id, {
+        hubspot_contact_id: contact.id,
+        hubspot_sync_status: 'synced',
+        hubspot_last_sync_attempt: syncAttemptedAt,
+      })
+      logInfo('HubSpot contact synced', { leadId: lead.id, emailHash: hashEmail(safeEmail) })
+    } catch (syncError) {
+      logError('HubSpot sync failed', syncError)
+      try {
+        await updateLead(lead.id, {
+          hubspot_sync_status: 'needs_sync',
+          hubspot_last_sync_attempt: syncAttemptedAt,
+        })
+      } catch (updateError) {
+        logError('Failed to update HubSpot sync status', updateError)
+      }
+    }
+
+    if (!rateLimitPassed) {
       return {
         success: false,
         message: 'Too many submissions. Please try again later.',
       }
-    }
-
-    // Send email via Resend API
-    if (validatedEnv.RESEND_API_KEY) {
-      const { Resend } = await import('resend')
-      const resend = new Resend(validatedEnv.RESEND_API_KEY)
-
-      // Sanitize all inputs to prevent XSS and injection
-      const safeName = escapeHtml(validatedData.name)
-      const safeEmail = escapeHtml(validatedData.email)
-      const safeCompany = validatedData.company ? escapeHtml(validatedData.company) : null
-      const safePhone = validatedData.phone ? escapeHtml(validatedData.phone) : null
-      const safeMarketingSpend = validatedData.marketingSpend
-        ? escapeHtml(validatedData.marketingSpend)
-        : null
-      const safeHearAboutUs = validatedData.hearAboutUs
-        ? escapeHtml(validatedData.hearAboutUs)
-        : null
-      const safeMessage = textToHtmlParagraphs(validatedData.message)
-
-      // Sanitize subject to prevent email header injection
-      const safeSubject = sanitizeEmailSubject(
-        `New Contact Form Submission from ${validatedData.name}`
-      )
-
-      await resend.emails.send({
-        from: 'onboarding@resend.dev', // Use Resend's test domain or your verified domain
-        to: validatedEnv.CONTACT_EMAIL,
-        subject: safeSubject,
-        html: `
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <style>
-              body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-              h2 { color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px; }
-              .field { margin: 15px 0; }
-              .field strong { color: #555; }
-              .message { background: #f9fafb; padding: 15px; border-left: 4px solid #2563eb; margin-top: 20px; }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <h2>New Contact Form Submission</h2>
-              <div class="field"><strong>Name:</strong> ${safeName}</div>
-              <div class="field"><strong>Email:</strong> ${safeEmail}</div>
-              ${safeCompany ? `<div class="field"><strong>Company:</strong> ${safeCompany}</div>` : ''}
-              ${safePhone ? `<div class="field"><strong>Phone:</strong> ${safePhone}</div>` : ''}
-              ${safeMarketingSpend ? `<div class="field"><strong>Marketing Spend:</strong> ${safeMarketingSpend}</div>` : ''}
-              ${safeHearAboutUs ? `<div class="field"><strong>How they heard about us:</strong> ${safeHearAboutUs}</div>` : ''}
-              <div class="message">
-                <strong>Message:</strong>
-                ${safeMessage}
-              </div>
-            </div>
-          </body>
-          </html>
-        `,
-      })
-
-      logInfo('Contact form submitted successfully', { email: validatedData.email })
-    } else {
-      logWarn('RESEND_API_KEY not set - email not sent in development mode')
     }
 
     return { success: true, message: "Thank you for your message! We'll be in touch soon." }

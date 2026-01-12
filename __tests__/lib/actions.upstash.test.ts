@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const limitMock = vi.hoisted(() => vi.fn())
+const fetchMock = vi.hoisted(() => vi.fn())
 const logError = vi.hoisted(() => vi.fn())
 const logInfo = vi.hoisted(() => vi.fn())
 const logWarn = vi.hoisted(() => vi.fn())
@@ -29,8 +30,9 @@ vi.mock('@upstash/redis', () => ({
 
 vi.mock('@/lib/env', () => ({
   validatedEnv: {
-    RESEND_API_KEY: '',
-    CONTACT_EMAIL: 'contact@example.com',
+    SUPABASE_URL: 'https://supabase.example',
+    SUPABASE_SERVICE_ROLE_KEY: 'supabase-key',
+    HUBSPOT_PRIVATE_APP_TOKEN: 'hubspot-token',
     UPSTASH_REDIS_REST_URL: 'https://upstash.example',
     UPSTASH_REDIS_REST_TOKEN: 'token',
   },
@@ -48,6 +50,8 @@ vi.mock('next/headers', () => ({
   }),
 }))
 
+vi.stubGlobal('fetch', fetchMock)
+
 const buildPayload = (email: string) => ({
   name: 'Upstash User',
   email,
@@ -61,6 +65,38 @@ describe('contact form Upstash rate limiting', () => {
     vi.resetModules()
     vi.resetAllMocks()
     currentIp = '203.0.113.55'
+    let leadCounter = 0
+    fetchMock.mockImplementation(async (input: RequestInfo) => {
+      const url = typeof input === 'string' ? input : input.toString()
+      const supabaseRestUrl = 'https://supabase.example/rest/v1/leads'
+
+      if (url === supabaseRestUrl) {
+        leadCounter += 1
+        return {
+          ok: true,
+          status: 201,
+          json: async () => [{ id: `lead-${leadCounter}` }],
+        }
+      }
+
+      if (url.startsWith(`${supabaseRestUrl}?id=eq.`)) {
+        return { ok: true, status: 200, json: async () => [] }
+      }
+
+      if (url.endsWith('/crm/v3/objects/contacts/search')) {
+        return { ok: true, status: 200, json: async () => ({ total: 0, results: [] }) }
+      }
+
+      if (url.endsWith('/crm/v3/objects/contacts')) {
+        return { ok: true, status: 200, json: async () => ({ id: 'hubspot-123' }) }
+      }
+
+      if (url.includes('/crm/v3/objects/contacts/')) {
+        return { ok: true, status: 200, json: async () => ({ id: 'hubspot-123' }) }
+      }
+
+      return { ok: false, status: 404, json: async () => ({ message: 'not found' }) }
+    })
   })
 
   it('uses Upstash limiter when credentials are present', async () => {

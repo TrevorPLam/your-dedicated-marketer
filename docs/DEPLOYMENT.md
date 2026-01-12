@@ -37,8 +37,6 @@ All secrets must be configured in Cloudflare Pages → Settings → Environment 
 ### Server-only (secrets)
 | Variable | Required | Description |
 | --- | --- | --- |
-| `RESEND_API_KEY` | ⚪ | Resend API key for email delivery. If not set, contact form logs to console and returns success. |
-| `CONTACT_EMAIL` | ⚪ | Destination for contact form submissions. Defaults to `contact@yourdedicatedmarketer.com` if not set. |
 | `UPSTASH_REDIS_REST_URL` | ⚪ | Distributed rate limiting (recommended for production). Falls back to in-memory if not set. Must be set together with `UPSTASH_REDIS_REST_TOKEN`. |
 | `UPSTASH_REDIS_REST_TOKEN` | ⚪ | Distributed rate limiting (recommended for production). Must be set together with `UPSTASH_REDIS_REST_URL`. |
 | `NODE_ENV` | ⚪ | Node environment (`development`, `production`, `test`). Defaults to `development` if not set. Usually set automatically by deployment platform. |
@@ -47,14 +45,20 @@ All secrets must be configured in Cloudflare Pages → Settings → Environment 
 | `SENTRY_PROJECT` | ⚪ | Sentry project slug (for source maps/releases only). **Note:** Not validated in `lib/env.ts`. |
 | `SENTRY_ENVIRONMENT` | ⚪ | Sentry environment label. **Note:** Not validated in `lib/env.ts` (used by Sentry config files). |
 
-### Lead capture pipeline (future - T-080/T-081)
-These are currently optional and will become required when the Supabase + HubSpot pipeline is implemented:
+### Lead capture pipeline (v1 required)
+These are required for the v1 contact pipeline (Supabase storage + HubSpot CRM sync):
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `SUPABASE_URL` | 🔮 Future | Supabase project URL. Currently optional. |
-| `SUPABASE_SERVICE_ROLE_KEY` | 🔮 Future | Server-only service role key. Currently optional. |
-| `HUBSPOT_PRIVATE_APP_TOKEN` | 🔮 Future | HubSpot private app token. Currently optional. |
+| `SUPABASE_URL` | ✅ | Supabase project URL (server-only). |
+| `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Supabase service role key (server-only). |
+| `HUBSPOT_PRIVATE_APP_TOKEN` | ✅ | HubSpot private app token (server-only). |
+
+### Contact pipeline behavior
+- Contact submissions are always written to Supabase first (required).
+- Rate-limited submissions are still stored, flagged with `is_suspicious` and `suspicion_reason = "rate_limit"`.
+- HubSpot sync is best-effort: failures do **not** block a user-facing success response.
+- HubSpot failures are recorded in Supabase with `hubspot_sync_status = "needs_sync"` and a timestamp.
 
 ## Pre-deploy checklist
 - [ ] Confirm `npm run build` completes locally.
